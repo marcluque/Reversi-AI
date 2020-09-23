@@ -6,10 +6,13 @@ The AI communicates with a game master that is a [server](https://github.com/Dat
 The communication is done according to the protocol defined below.
 
 ## Rules
-
-### Protocol
+The tweaked version of Reversi comprises several rules that make the game more difficult.
+These rules are defined in the following.
+Afterwards, the protocol for the communication of client and server is explained.
 
 ### Game
+
+### Protocol
 
 ## Algorithms
 The following algorithms are implemented in the Reversi-AI with the help of the book [Artificial Intelligence: A Modern Approach](http://aima.cs.berkeley.edu/).
