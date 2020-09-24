@@ -33,8 +33,14 @@ The depth for the search is increased with each iteration, such that each iterat
 This also means that every iteration the search has to start from the root of the tree.
 
 ### Move Sorting
+The best case for Alpha-Beta search is the case where the best move is explored first.
+All other moves with worse scores may then be pruned.
+This can be achieved by sorting the nodes that will be explored.
 
 ### Aspiration Windows
+When using Iterative Deepening, the search space may be reduced by using so-called aspiration windows for the alpha and beta values.
+The values are usually retrieved from the previous iteration of the search.
+However, when picking a too narrow window, the best move might be missed.
 
 ## Heuristics
 
