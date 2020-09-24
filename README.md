@@ -1,5 +1,5 @@
 # Reversi-AI
-This piece of software implements an artificial intelligence that is based on informed search minimax algorithms and their extensions.
+This piece of software implements an artificial intelligence that is based on informed search MiniMax algorithms and their extensions.
 The game played is Reversi. However, this version of Reversi is tweaked to be harder and actually not playable for humans anymore.
 This poses a greater challenge for an AI. The exact rules of the tweaked Reversi game are explained below.
 The AI communicates with a game master that is a [server](https://github.com/DataSecs/Reversi-Server).
