@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class BuildMove {
 
-    public static void executeBuildMove(int x, int y, char player, Map map, List<Coordinate> capturableStones) {
+    public static void executeBuildMove(Map map, int x, int y, char player, List<Coordinate> capturableStones) {
         int playerId = Character.getNumericValue(player);
 
         if (MapUtil.isOccupied(map.getGameField()[y][x])) {

@@ -6,17 +6,20 @@ import de.datasecs.reversi.util.Transition;
 
 public abstract class BombMove {
 
-    private static boolean executeBombMoveRecursive(Map map, int x, int y, int depth, int[][] visited) {
+    private static void executeBombMoveRecursive(Map map, int x, int y, int depth) {
         int startX = x;
         int startY = y;
-        if (!MapUtil.isCoordinateInMap(x, y)
-                || visited[y][x] == 1
-                || MapUtil.isTileHole(map.getGameField()[y][x])
-                || depth > Map.getBombRadius()) {
-            return false;
+
+        if (!MapUtil.isCoordinateInMap(x, y) || MapUtil.isTileHole(map.getGameField()[y][x])) {
+            return;
+        } else if (depth == Map.getBombRadius()) {
+            map.getGameField()[y][x] = '$';
+            return;
         }
 
         for (int i = 0; i < 8; ++i) {
+            x = startX;
+            y = startY;
             Transition transitionEnd = Map.getTransitions().get(new Transition(x, y, i));
 
             if (transitionEnd != null) {
@@ -27,27 +30,25 @@ public abstract class BombMove {
                 y += Move.CORNERS[i][1];
             }
 
-            if (!executeBombMoveRecursive(map, x, y, depth + 1, visited)) {
-                return false;
+            if (MapUtil.isCoordinateInMap(x, y)) {
+                executeBombMoveRecursive(map, x, y, depth + 1);
             }
-
-            visited[y][x] = 1;
-            map.getGameField()[y][x] = '-';
-            x = startX;
-            y = startY;
         }
 
-        return true;
+        x = startX;
+        y = startY;
+        map.getGameField()[y][x] = '$';
     }
 
     public static void executeBombMove(Map map, int x, int y) {
-        int[][] visited = new int[Map.getMapHeight()][Map.getMapWidth()];
+        executeBombMoveRecursive(map, x, y, 0);
+
         for (int i = 0; i < Map.getMapHeight(); i++) {
             for (int j = 0; j < Map.getMapWidth(); j++) {
-                visited[i][j] = 0;
+                if (map.getGameField()[i][j] == '$') {
+                    map.getGameField()[i][j] = '-';
+                }
             }
         }
-
-        executeBombMoveRecursive(map, x, y, 0, visited);
     }
 }

@@ -22,6 +22,7 @@ public class BombTest {
         // reset map.getGameField()
 
         map = MapLoader.generateStringFromMapFile("simpleCaptureMap.txt");
+        Map.setBombRadius(2);
         char[][] expected2 = {
                 {'-', '-', '-', '-', '-', '1'},
                 {'-', '-', '-', '-', '-', '0'},
@@ -36,7 +37,7 @@ public class BombTest {
     @Test
     void testBombEffectBombRadiusMap() {
         Map map = MapLoader.generateStringFromMapFile("bombs/bombRadiusMap.txt");
-
+        Map.setBombRadius(1);
         char[][] expected = {
                 {'-', '-', '-', '-', '-', '-','-', '-', '-', '-', '-'},
                 {'-', '-', '-', '-', '-', '-','-', '-', '-', '-', '-'},
@@ -56,6 +57,7 @@ public class BombTest {
         // reset map.getGameField()
 
         map = MapLoader.generateStringFromMapFile("bombs/bombRadiusMap.txt");
+        Map.setBombRadius(2);
         char[][] expected2 = {
                 {'-', '-', '-', '-', '-', '-','-', '-', '-', '-', '-'},
                 {'-', '-', '-', '-', '-', '-','-', '-', '-', '-', '-'},
@@ -75,6 +77,7 @@ public class BombTest {
         // reset map.getGameField()
 
         map = MapLoader.generateStringFromMapFile("bombs/bombRadiusMap.txt");
+        Map.setBombRadius(3);
         char[][] expected3 = {
                 {'-', '-', '-', '-', '-', '-','-', '-', '-', '-', '-'},
                 {'-', '-', '-', '-', '-', '-','-', '-', '-', '-', '-'},
@@ -95,6 +98,7 @@ public class BombTest {
     @Test
     void testBombEffectBombWithHolesMap() {
         Map map = MapLoader.generateStringFromMapFile("bombs/bombEffectWithHoles.txt");
+        Map.setBombRadius(2);
         char[][] expected = {
                 {'1', '-', '-'},
                 {'-', '-', '-'},
@@ -106,6 +110,7 @@ public class BombTest {
         // reset map.getGameField()
 
         map = MapLoader.generateStringFromMapFile("bombs/bombEffectWithHoles.txt");
+        Map.setBombRadius(2);
         char[][] expected2 = {
                 {'-', '-', '-'},
                 {'-', '-', '-'},
@@ -117,6 +122,7 @@ public class BombTest {
         // reset map.getGameField()
 
         map = MapLoader.generateStringFromMapFile("bombs/bombEffectWithHoles.txt");
+        Map.setBombRadius(1);
         char[][] expected3 = {
                 {'-', '-', '1'},
                 {'-', '-', '2'},
@@ -128,6 +134,7 @@ public class BombTest {
         // reset map.getGameField()
 
         map = MapLoader.generateStringFromMapFile("bombs/bombEffectWithHoles.txt");
+        Map.setBombRadius(2);
         char[][] expected4 = {
                 {'-', '-', '-'},
                 {'-', '-', '-'},
@@ -140,6 +147,7 @@ public class BombTest {
     @Test // transition map.getGameField()
     void testBombEffectMap4() {
         Map map = MapLoader.generateStringFromMapFile("bombs/bombTestMap.txt");
+        Map.setBombRadius(1);
         char[][] expected = {
                 {'0', '-', '-', '-'},
                 {'0', '-', '-', '-'},
@@ -152,6 +160,7 @@ public class BombTest {
         // reset map.getGameField()
 
         map = MapLoader.generateStringFromMapFile("bombs/bombTestMap.txt");
+        Map.setBombRadius(2);
         char[][] expected2 = {
                 {'-', '-', '-', '-'},
                 {'-', '-', '-', '-'},
@@ -165,6 +174,7 @@ public class BombTest {
     @Test
     void testBombEffectNestedTransitions() {
         Map map = MapLoader.generateStringFromMapFile("bombs/bombEffectNestedTransitions.txt");
+        Map.setBombRadius(2);
         char[][] expected = {
                 {'-', '-', '-', '0', '0', '0'},
                 {'-', '-', '-', '0', '0', '0'},
@@ -179,6 +189,7 @@ public class BombTest {
         // reset map.getGameField()
 
         map = MapLoader.generateStringFromMapFile("bombs/bombEffectNestedTransitions.txt");
+        Map.setBombRadius(2);
         char[][] expected2 = {
                 {'-', '0', '0', '0', '0', '0'},
                 {'0', '0', '0', '0', '0', '0'},
@@ -194,6 +205,7 @@ public class BombTest {
     @Test
     void testBombEffectNestedTransitionsWithHoles() {
         Map map = MapLoader.generateStringFromMapFile("bombs/bombEffectNestedTransitionsWithHoles.txt");
+        Map.setBombRadius(2);
         char[][] expected = {
                 {'-', '-', '0', '0', '0', '0'},
                 {'-', '-', '0', '0', '0', '0'},
@@ -208,6 +220,7 @@ public class BombTest {
         // reset map.getGameField()
 
         map = MapLoader.generateStringFromMapFile("bombs/bombEffectNestedTransitionsWithHoles.txt");
+        Map.setBombRadius(3);
         char[][] expected2 = {
                 {'-', '-', '0', '0', '0', '0'},
                 {'-', '-', '0', '0', '0', '0'},
@@ -226,7 +239,7 @@ public class BombTest {
                 System.out.print(actualMap[i][j] + " ");
             }
 
-            System.out.print(" | ");
+            System.out.print(" |  ");
 
             for (int j = 0; j < actualMap[0].length; j++) {
                 System.out.print(expectedMap[i][j] + " ");
@@ -234,6 +247,8 @@ public class BombTest {
 
             System.out.print("\n");
         }
+
+        System.out.println();
 
         for (int i = 0; i < actualMap.length; i++) {
             for (int j = 0; j < actualMap[0].length; j++) {

@@ -48,7 +48,7 @@ public abstract class Move {
             // Iterate over all directions from start stone
             for (int direction = 0; direction < 8; direction++) {
                 // Walk along direction starting from (x,y)
-                result |= walkPath(x, y, direction, map, player, capturableTiles);
+                result |= walkPath(map, x, y, direction, player, capturableTiles);
 
                 if (returnEarly & result) {
                     return true;
@@ -63,7 +63,7 @@ public abstract class Move {
         }
     }
 
-    private static boolean walkPath(int startX, int startY, int direction, Map map, char player,
+    private static boolean walkPath(Map map, int startX, int startY, int direction, char player,
                                     List<Coordinate> capturableTiles) {
         int x = startX;
         int y = startY;
@@ -97,11 +97,11 @@ public abstract class Move {
                 && (startX != x || startY != y);
     }
 
-    public static void executeMove(int x, int y, char player, Map map, List<Coordinate> capturableStones, int phase) {
+    public static void executeMove(Map map, int x, int y, char player, List<Coordinate> capturableStones, int phase) {
         if (phase == 1) {
-            BuildMove.executeBuildMove(x, y, player, map, capturableStones);
+            BuildMove.executeBuildMove(map, x, y, player, capturableStones);
         } else {
-            //BombMove.executeBombMove(x, y, player, map);
+            BombMove.executeBombMove(map, x, y);
         }
     }
 }
