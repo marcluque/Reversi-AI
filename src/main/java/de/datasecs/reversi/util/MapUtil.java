@@ -45,13 +45,79 @@ public class MapUtil {
         return type == 'c' || type == 'b' || type == 'i';
     }
 
+    public static boolean isTileFree(char type) { return type == '0'; }
+
+    public static boolean isDifferentPlayerStone(Map map, int x, int y, int player) {
+        return MapUtil.isOccupied(map.getGameField()[y][x]) && map.getGameField()[y][x] != player;
+    }
+
+
+    public static int playerToInt(char player) {
+        return player - '0';
+    }
+
+    public static boolean isTileCapturableAndInMap(int x, int y, char type) {
+        return isCoordinateInMap(x, y) && !isTileHole(type);
+    }
+
+    public static Transition[] isTileCorner(Map map, int x, int y) {
+        if (!isTileCapturableAndInMap(x, y, map.getGameField()[y][x])) {
+            return null;
+        }
+
+        // Check every pair of neighbours around current tile (i,j)
+        Transition transition;
+        Coordinate neighbour;
+        Coordinate oppositeNeighbour;
+        // Maximum amount of neighbours is 4
+        Transition[] neighbours = new Transition[4];
+        int neighbourCounter = 0;
+
+        // k in [0,3] because opposite neighbours are also checked
+        for (int k = 0; k < 4; k++) {
+            // Checks whether a path via a transition can be enclosed
+            // Check the potential neighbour in direction k
+            transition = Map.getTransitions().get(new Transition(x, y, k));
+            neighbour = (transition != null)
+                    ? new Coordinate(transition.getX(), transition.getY())
+                    : new Coordinate(x + Move.CORNERS[k][0], y + Move.CORNERS[k][1]);
+
+            // Check the potential opposite neighbour in direction k + 4
+            transition = Map.getTransitions().get(new Transition(x, y, k + 4));
+            oppositeNeighbour = (transition != null)
+                    ? new Coordinate(transition.getX(), transition.getY())
+                    : new Coordinate(x + Move.CORNERS[k + 4][0], y + Move.CORNERS[k + 4][1]);
+
+            // Returns null if there is a pair of neighbours around the tile (x,y) in opposite directions
+            boolean neighbourPresent = MapUtil.isTileCapturableAndInMap(
+                    neighbour.getX(),
+                    neighbour.getY(),
+                    map.getGameField()[neighbour.getY()][neighbour.getX()]);
+            boolean oppositeNeighbourPresent = MapUtil.isTileCapturableAndInMap(
+                    oppositeNeighbour.getX(),
+                    oppositeNeighbour.getY(),
+                    map.getGameField()[oppositeNeighbour.getY()][oppositeNeighbour.getX()]);
+            if (neighbourPresent && oppositeNeighbourPresent) {
+                return null;
+            } else if (neighbourPresent) {
+                neighbours[neighbourCounter++] = new Transition(neighbour.getX(), neighbour.getY(), k);
+            } else if (oppositeNeighbourPresent) {
+                neighbours[neighbourCounter++] = new Transition(oppositeNeighbour.getX(), oppositeNeighbour.getY(), k + 4);
+            }
+        }
+
+        // Returns the neighbours when no such pair is found
+        return neighbours;
+    }
+
+
     public static void search(Map map, char player, boolean override, int phase, Predicate<Map> consumer) {
         for (int i = 0; i < map.getGameField().length; i++) {
             for (int j = 0; j < map.getGameField()[0].length; j++) {
                 List<Coordinate> capturableStones = new LinkedList<>();
                 if (Move.isMoveValidImpl(map, j, i, player, false, override, capturableStones, phase)) {
                     Map mapClone = new Map(map);
-                    Move.executeMove(j, i, player, mapClone, capturableStones, phase);
+                    Move.executeMove(mapClone, j, i, player, capturableStones, phase);
 
                     if (consumer.test(mapClone)) {
                         return;
@@ -67,7 +133,7 @@ public class MapUtil {
                 List<Coordinate> capturableStones = new LinkedList<>();
                 if (Move.isMoveValidImpl(map, j, i, player, false, override, capturableStones, phase)) {
                     Map mapClone = new Map(map);
-                    Move.executeMove(j, i, player, mapClone, capturableStones, phase);
+                    Move.executeMove(mapClone, j, i, player, capturableStones, phase);
 
                     if (consumer.test(mapClone, new Coordinate(j, i))) {
                         return;

@@ -10,7 +10,7 @@ import java.util.List;
 public abstract class Move {
 
     // x, y, r; means first is the x-coord, then y-coord and then the direction
-    protected static final int[][] CORNERS = {{0, -1}, {1, -1}, {1, 0},
+    public static final int[][] CORNERS = {{0, -1}, {1, -1}, {1, 0},
             {1, 1}, {0, 1}, {-1, 1}, {-1, 0}, {-1, -1}};
 
     private Move() {}

@@ -1,15 +1,20 @@
 package de.datasecs.reversi.map;
 
+import de.datasecs.reversi.util.Coordinate;
 import de.datasecs.reversi.util.Transition;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Map {
 
     private char[][] gameField;
 
     protected static java.util.Map<Transition, Transition> transitions = new HashMap<>();
+
+    private static Set<Coordinate> corners = new HashSet<>();
 
     private static int mapHeight;
 
@@ -49,6 +54,10 @@ public class Map {
 
     public static java.util.Map<Transition, Transition> getTransitions() {
         return transitions;
+    }
+
+    public static Set<Coordinate> getCorners() {
+        return corners;
     }
 
     public static int getMapHeight() {
