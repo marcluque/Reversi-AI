@@ -1,16 +1,17 @@
 # Reversi-AI
-This piece of software implements an artificial intelligence that is based on informed search MiniMax algorithms and their extensions.
-The game played is Reversi. However, this version of Reversi is tweaked to be harder and actually not playable for humans anymore.
-This poses a greater challenge for an AI. The exact rules of the tweaked Reversi game are explained below.
+This piece of software implements artificial intelligence that is based on informed search MiniMax algorithms and their extensions.
+The game played is Reversi. However, this version of Reversi is tweaked to be harder and not playable for humans anymore.
+This poses a greater challenge for AI. The exact rules of the tweaked Reversi game are explained below.
 The AI communicates with a game master that is a [server](https://github.com/DataSecs/Reversi-Server).
 The communication is done according to the protocol defined below.
 
 ## Rules
 The tweaked version of Reversi comprises several rules that make the game more difficult.
 These rules are defined in the following.
-Afterwards, the protocol for the communication of client and server is explained.
+Afterward, the protocol for the communication of the client and server is explained.
 
 ### Game
+
 
 ### Protocol
 
@@ -19,7 +20,7 @@ The following algorithms are implemented in the Reversi-AI with the help of the 
 
 ### MiniMax
 An algorithm that performs an informed search.
-The search tries to find a path or move in a state space that minimizes the loosing chances for itself and maximizes them for the opponent.
+The search tries to find a path or move in a state space that minimizes the losing chances for itself and maximizes them for the opponent.
 It is important to note that this algorithm explores the whole state space.
 
 ### Alpha-Beta
@@ -29,7 +30,7 @@ If at some point it is already clear that an explored path is more promising tha
 ### Iterative Deepening
 Iterative Deepening is a technique that may be applied regardless of the type of informed search.
 It is best described by thinking of an iterative exploration of the state space.
-The depth for the search is increased with each iteration, such that each iteration increase the search depth by 1.
+The depth for the search is increased with each iteration, such that each iteration increases the search depth by 1.
 This also means that every iteration the search has to start from the root of the tree.
 
 ### Move Sorting
@@ -45,9 +46,9 @@ However, when picking a too narrow window, the best move might be missed.
 ## Heuristics
 
 ## Server
-This client is used to play Reversi with the [server](https://github.com/DataSecs/Reversi-Server) as game master.
-The client communicates with the server by using the above mentioned protocol.
-The game is played according to above defined rules.
+This client is used to play Reversi with the [server](https://github.com/DataSecs/Reversi-Server) as a game master.
+The client communicates with the server by using the above-mentioned protocol.
+The game is played according to the above-defined rules.
 
 ## Running it
 
