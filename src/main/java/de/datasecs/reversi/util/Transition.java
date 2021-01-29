@@ -60,5 +60,4 @@ public class Transition {
     public Transition clone() {
         return new Transition(x, y, direction);
     }
-
 }

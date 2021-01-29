@@ -63,6 +63,10 @@ public abstract class Move {
         }
     }
 
+    public static boolean isBuildingMoveValid(Map map, int x, int y, char player, boolean allowOverrideStones, List<Coordinate> capturableTiles) {
+        return isMoveValidImpl(map, x, y, player, true, allowOverrideStones, capturableTiles, 1);
+    }
+
     private static boolean walkPath(Map map, int startX, int startY, int direction, char player,
                                     List<Coordinate> capturableTiles) {
         int x = startX;

@@ -33,7 +33,7 @@ It is best described by thinking of an iterative exploration of the state space.
 The depth for the search is increased with each iteration, such that each iteration increases the search depth by 1.
 This also means that every iteration the search has to start from the root of the tree.
 
-### Move Sorting
+### Move Ordering
 The best case for Alpha-Beta search is the case where the best move is explored first.
 All other moves with worse scores may then be pruned.
 This can be achieved by sorting the nodes that will be explored.
