@@ -1,14 +1,15 @@
-package de.datasecs.reversi.network;
+package de.marcluque.reversi.network;
 
-import de.datasecs.reversi.ai.evaluation.rules.Rules;
-import de.datasecs.reversi.ai.search.AbstractSearch;
-import de.datasecs.reversi.ai.search.IterativeDeepening;
-import de.datasecs.reversi.ai.search.strategies.brs.BestReplySearch;
-import de.datasecs.reversi.map.Map;
-import de.datasecs.reversi.map.MapLoader;
-import de.datasecs.reversi.moves.AbstractMove;
-import de.datasecs.reversi.util.Coordinate;
-import de.datasecs.reversi.util.Move;
+import de.marcluque.reversi.ai.evaluation.Evaluation;
+import de.marcluque.reversi.ai.evaluation.rules.Rules;
+import de.marcluque.reversi.ai.search.AbstractSearch;
+import de.marcluque.reversi.ai.search.IterativeDeepening;
+import de.marcluque.reversi.ai.search.strategies.brs.BestReplySearch;
+import de.marcluque.reversi.map.Map;
+import de.marcluque.reversi.map.MapLoader;
+import de.marcluque.reversi.moves.AbstractMove;
+import de.marcluque.reversi.util.Coordinate;
+import de.marcluque.reversi.util.Move;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -36,14 +37,12 @@ public class Client {
 
     private static final long TIME_BUFFER = 200;
 
-    private int phase;
-
     private DataOutputStream outputStream;
 
     public Client(String hostname, int port) {
         this.hostname = hostname;
         this.port = port;
-        phase = 1;
+        Map.setPhase(1);
     }
 
     public void start() {
@@ -89,6 +88,8 @@ public class Client {
                     case 2 -> {
                         map = MapLoader.generateMapFromString(new String(byteBuffer.array()));
                         System.out.println("MAP:\n" + new String(byteBuffer.array()));
+
+                        Evaluation.initHeuristics(map);
                     }
 
                     // Assigns player number
@@ -121,8 +122,8 @@ public class Client {
 
                         List<Coordinate> capturableTiles = new ArrayList<>();
                         if (AbstractMove.isMoveValidImpl(map, x, y, receivedPlayer, false,
-                                Rules.OVERRIDE_STONES, capturableTiles, phase)) {
-                            AbstractMove.executeMove(map, x, y, receivedPlayer, capturableTiles, phase);
+                                Rules.OVERRIDE_STONES, capturableTiles)) {
+                            AbstractMove.executeMove(map, x, y, receivedPlayer, capturableTiles);
                         } else {
                             System.err.println("OPPONENT MOVE: (" + x + "," + y + ") with special " + specialField
                                     + " by player " + receivedPlayer + " wasn't valid!");
@@ -154,7 +155,7 @@ public class Client {
 
                     // Announces first phase has ended
                     case 8 -> {
-                        phase = 2;
+                        Map.setPhase(2);
                         System.out.println("PHASE 2 BEGINS");
                     }
 
@@ -177,17 +178,28 @@ public class Client {
     }
 
     private Move sendMoveResponse() {
-        Move move;
+        ////////////////////////
+        //    RULE UPDATES    //
+        ////////////////////////
+        Rules.updateOverrideStoneRule(map);
+
+        ////////////////////////
+        //     SEARCH MOVE    //
+        ////////////////////////
+        Move responseMove;
         if (timeLimit == 0) {
-            move = IterativeDeepening.iterativeDeepeningDepthLimit(depthLimit, (totalStates) -> {
-                return BestReplySearch.search(map, depthLimit, Rules.OVERRIDE_STONES, phase, totalStates);
+            responseMove = IterativeDeepening.iterativeDeepeningDepthLimit(depthLimit, (totalStates) -> {
+                return BestReplySearch.search(map, depthLimit, Rules.OVERRIDE_STONES, totalStates);
             });
         } else {
-            move = IterativeDeepening.iterativeDeepeningTimeLimit((totalStates) -> {
-                return BestReplySearch.search(map, depthLimit, Rules.OVERRIDE_STONES, phase, totalStates);
+            responseMove = IterativeDeepening.iterativeDeepeningTimeLimit((totalStates) -> {
+                return BestReplySearch.search(map, depthLimit, Rules.OVERRIDE_STONES, totalStates);
             });
         }
 
+        ////////////////////////
+        //    SEND RESPONSE   //
+        ////////////////////////
         try {
             // Write type of message (1 Byte)
             outputStream.writeByte(5);
@@ -196,18 +208,18 @@ public class Client {
             outputStream.writeInt(5);
 
             // Send 2 Bytes for x-coord
-            outputStream.writeShort(move.getX());
+            outputStream.writeShort(responseMove.getX());
             // Send 2 Bytes for y-coord
-            outputStream.writeShort(move.getY());
+            outputStream.writeShort(responseMove.getY());
             // Send 1 Byte for special tile
-            outputStream.writeByte(move.getSpecialTile());
+            outputStream.writeByte(responseMove.getSpecialTile());
 
             outputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return move;
+        return responseMove;
     }
 
     public static long getLeftTime() {
