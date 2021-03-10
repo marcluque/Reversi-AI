@@ -1,29 +1,29 @@
-package de.datasecs.reversi.ai.search.strategies.brs;
+package de.marcluque.reversi.ai.search.strategies.brs;
 
-import de.datasecs.reversi.ai.evaluation.Evaluation;
-import de.datasecs.reversi.ai.search.AbstractSearch;
-import de.datasecs.reversi.map.Map;
-import de.datasecs.reversi.moves.AbstractMove;
-import de.datasecs.reversi.util.Coordinate;
-import de.datasecs.reversi.util.Move;
+import de.marcluque.reversi.ai.evaluation.Evaluation;
+import de.marcluque.reversi.ai.search.AbstractSearch;
+import de.marcluque.reversi.map.Map;
+import de.marcluque.reversi.moves.AbstractMove;
+import de.marcluque.reversi.util.Coordinate;
+import de.marcluque.reversi.util.Move;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BestReplySearch extends AbstractSearch {
 
-    public static Move search(Map map, int depth, boolean allowOverride, int phase, int[] totalStates) {
+    public static Move search(Map map, int depth, boolean allowOverride, int[] totalStates) {
         Move bestMove = null;
         double maxValue = Double.MIN_VALUE;
         for (int y = 0; y < Map.getMapHeight(); y++) {
             for (int x = 0; x < Map.getMapWidth(); x++) {
                 List<Coordinate> capturableTiles = new ArrayList<>();
-                if (AbstractMove.isMoveValidImpl(map, x, y, MAX, false, allowOverride, capturableTiles,
-                        phase)) {
+                if (AbstractMove.isMoveValidImpl(map, x, y, MAX, false, allowOverride, capturableTiles
+                )) {
                     Map mapClone = new Map(map);
-                    Move currentMove = AbstractMove.executeMove(mapClone, x, y, MAX, capturableTiles, phase);
+                    Move currentMove = AbstractMove.executeMove(mapClone, x, y, MAX, capturableTiles);
 
-                    double value = BRS(map, Double.MIN_VALUE, Double.MAX_VALUE, depth, MAX, allowOverride, phase,
+                    double value = BRS(map, Double.MIN_VALUE, Double.MAX_VALUE, depth, MAX, allowOverride,
                             totalStates);
                     if (value > maxValue) {
                         maxValue = value;
@@ -39,18 +39,18 @@ public class BestReplySearch extends AbstractSearch {
     }
 
     private static double BRS(Map map, double alpha, double beta, int depth, char turn, boolean allowOverride,
-                              int phase, int[] totalStates) {
+                              int[] totalStates) {
         if (depth <= 0) {
-            Evaluation.utility(map, turn);
+            return Evaluation.utility(map);
         }
 
         double maxAlpha = alpha;
         if (turn == MAX) {
-            maxAlpha = Math.max(maxAlpha, BRSDoMoves(map, alpha, beta, depth, MAX, allowOverride, phase, totalStates));
+            maxAlpha = Math.max(maxAlpha, BRSDoMoves(map, alpha, beta, depth, MAX, allowOverride, totalStates));
             return maxAlpha;
         } else {
             for (char opponent : OPPONENTS) {
-                maxAlpha = Math.max(maxAlpha, BRSDoMoves(map, alpha, beta, depth, opponent, allowOverride, phase,
+                maxAlpha = Math.max(maxAlpha, BRSDoMoves(map, alpha, beta, depth, opponent, allowOverride,
                         totalStates));
                 return maxAlpha;
             }
@@ -60,16 +60,16 @@ public class BestReplySearch extends AbstractSearch {
     }
 
     private static double BRSDoMoves(Map map, double alpha, double beta, int depth, char turn, boolean allowOverride,
-                                     int phase, int[] totalStates) {
+                                     int[] totalStates) {
         for (int y = 0; y < Map.getMapHeight(); y++) {
             for (int x = 0; x < Map.getMapWidth(); x++) {
                 List<Coordinate> capturableTiles = new ArrayList<>();
-                if (AbstractMove.isMoveValidImpl(map, x, y, turn, false, allowOverride, capturableTiles,
-                        phase)) {
+                if (AbstractMove.isMoveValidImpl(map, x, y, turn, false, allowOverride, capturableTiles
+                )) {
                     Map mapClone = new Map(map);
-                    AbstractMove.executeMove(mapClone, x, y, turn, capturableTiles, phase);
+                    AbstractMove.executeMove(mapClone, x, y, turn, capturableTiles);
                     double value = -BRS(mapClone, -beta, -alpha, depth - 1,
-                            (turn == MAX) ? OPPONENT : MAX, allowOverride, phase, totalStates);
+                            (turn == MAX) ? OPPONENT : MAX, allowOverride, totalStates);
 
                     if (value >= beta) {
                         return value;

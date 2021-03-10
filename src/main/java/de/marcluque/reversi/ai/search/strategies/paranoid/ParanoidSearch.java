@@ -1,4 +1,4 @@
-package de.datasecs.reversi.ai.search.strategies.paranoid;
+package de.marcluque.reversi.ai.search.strategies.paranoid;
 
 public class ParanoidSearch {
 

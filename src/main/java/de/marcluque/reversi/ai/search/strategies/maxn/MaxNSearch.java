@@ -1,4 +1,4 @@
-package de.datasecs.reversi.ai.search.strategies.maxn;
+package de.marcluque.reversi.ai.search.strategies.maxn;
 
 public class MaxNSearch {
 

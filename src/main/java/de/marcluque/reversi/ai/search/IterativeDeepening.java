@@ -1,14 +1,11 @@
-package de.datasecs.reversi.ai.search;
+package de.marcluque.reversi.ai.search;
 
-import de.datasecs.reversi.network.Client;
-import de.datasecs.reversi.util.Move;
-import de.datasecs.reversi.util.StatisticsUtil;
+import de.marcluque.reversi.network.Client;
+import de.marcluque.reversi.util.Move;
+import de.marcluque.reversi.util.StatisticsUtil;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 @SuppressWarnings("DuplicatedCode")
 public class IterativeDeepening {
@@ -42,12 +39,19 @@ public class IterativeDeepening {
             statesPerDepth.add(currentDepth, totalStates[0]);
             int leafStates = statesPerDepth.get(currentDepth) - statesPerDepth.get(currentDepth - 1);
 
-            // Calculate branching factor
-            double branching = (totalStates[0] - 1) / (double) (totalStates[0] - leafStates);
+            // Calculate mean branching factor
+            double meanBranchingFactor = (totalStates[0] - 1) / (double) (totalStates[0] - leafStates);
+
+            // Average branching factor at currentDepth - 1
+            double averageBranchingForDepth = 0;
+            if (currentDepth >= 2) {
+                averageBranchingForDepth = leafStates
+                        - (statesPerDepth.get(currentDepth - 1) - statesPerDepth.get(currentDepth - 2));
+            }
 
             // Print statistics
             StatisticsUtil.printStatistics(currentDepth, chosenMove, totalStates[0],
-                    leafStates, branching, totalTimeForDepth, totalTime);
+                    leafStates, averageBranchingForDepth, meanBranchingFactor, totalTimeForDepth, totalTime);
 
             currentDepth++;
         }
@@ -64,7 +68,7 @@ public class IterativeDeepening {
         // At depth 0 we have only the root state
         statesPerDepth.add(0, 1);
 
-        long totalTimeForDepth;
+        long totalTimeUntilDepth;
         long totalTime = 0;
         Move chosenMove = null;
         List<Double> branchings = new ArrayList<>();
@@ -73,27 +77,36 @@ public class IterativeDeepening {
             // Do search
             long start = System.nanoTime();
             chosenMove = searchStrategy.apply(totalStates);
-            totalTimeForDepth = System.nanoTime() - start;
-            totalTime += totalTimeForDepth;
+            totalTimeUntilDepth = System.nanoTime() - start;
+            totalTime += totalTimeUntilDepth;
 
             // Count states
             statesPerDepth.add(currentDepth, totalStates[0]);
             int leafStates = statesPerDepth.get(currentDepth) - statesPerDepth.get(currentDepth - 1);
 
-            // Calculate branching factor
-            branchings.add(currentDepth, (totalStates[0] - 1) / (double) (totalStates[0] - leafStates));
-            // Calculate aver branching factor
+            // Calculate mean branching factor
+            double meanBranchingFactor = (totalStates[0] - 1) / (double) (totalStates[0] - leafStates);
+
+            // Average branching factor at currentDepth - 1
+            double averageBranchingForDepth = 0;
+            if (currentDepth >= 2) {
+                averageBranchingForDepth = leafStates
+                        - (statesPerDepth.get(currentDepth - 1) - statesPerDepth.get(currentDepth - 2));
+            }
+            branchings.add(currentDepth - 1, averageBranchingForDepth);
+
+            // Calculate average branching factor for whole tree
             double averageBranching = branchings.stream().mapToDouble(d -> d).sum() / (double) currentDepth;
 
             // Make time estimation for next iteration
-            double estimatedTime = averageBranching
-                    * leafStates
-                    * (totalTime / (double) totalStates[0]);
+            double estimatedTime = averageBranching * leafStates * (totalTime / (double) totalStates[0]);
+            // TODO: IS THIS CORRECT?
+            estimatedTime += totalTime;
 
             // Print statistics
             StatisticsUtil.printStatisticsWithEstimation(currentDepth, chosenMove, totalStates[0],
-                    leafStates, branchings.get(currentDepth), totalTime, Client.getLeftTime(), estimatedTime,
-                    totalTimeForDepth, averageBranching);
+                    leafStates, meanBranchingFactor, totalTime, Client.getLeftTime(), estimatedTime,
+                    totalTimeUntilDepth, branchings.get(currentDepth - 1), averageBranching);
 
             // Check whether enough time is left for next iteration
             if (Client.getLeftTime() <= estimatedTime) {

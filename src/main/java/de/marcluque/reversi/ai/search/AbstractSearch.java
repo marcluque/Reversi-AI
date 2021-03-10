@@ -1,4 +1,4 @@
-package de.datasecs.reversi.ai.search;
+package de.marcluque.reversi.ai.search;
 
 public abstract class AbstractSearch {
 
