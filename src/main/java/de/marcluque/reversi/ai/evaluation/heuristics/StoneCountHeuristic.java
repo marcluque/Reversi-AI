@@ -1,10 +1,15 @@
-package de.datasecs.reversi.ai.evaluation.heuristics;
+package de.marcluque.reversi.ai.evaluation.heuristics;
 
-import de.datasecs.reversi.map.Map;
-import de.datasecs.reversi.util.MapUtil;
+import de.marcluque.reversi.ai.search.AbstractSearch;
+import de.marcluque.reversi.map.Map;
+import de.marcluque.reversi.util.MapUtil;
 
-public class StoneCountHeuristic implements Heuristic {
-    
+public class StoneCountHeuristic extends AbstractHeuristic implements Heuristic {
+
+    public StoneCountHeuristic(double weight) {
+        super.weight = weight;
+    }
+
     @Override
     public void initHeuristic(Map map) {
         int numberOfHoles = 0;
@@ -20,7 +25,8 @@ public class StoneCountHeuristic implements Heuristic {
     }
 
     @Override
-    public double executeHeuristic(Map map, char player) {
-        return map.getNumberOfStones()[MapUtil.playerToInt(player)] / (double) (Map.getMapHeight() * Map.getMapWidth() - Map.getNumberOfHoles());
+    public double executeHeuristic(Map map) {
+        return map.getNumberOfStones()[MapUtil.playerToInt(AbstractSearch.MAX)]
+                / (double) ((Map.getMapHeight() * Map.getMapWidth()) - Map.getNumberOfHoles());
     }
 }

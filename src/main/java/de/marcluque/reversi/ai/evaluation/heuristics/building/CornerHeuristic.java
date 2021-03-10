@@ -1,11 +1,17 @@
-package de.datasecs.reversi.ai.evaluation.heuristics.building;
+package de.marcluque.reversi.ai.evaluation.heuristics.building;
 
-import de.datasecs.reversi.ai.evaluation.heuristics.Heuristic;
-import de.datasecs.reversi.map.Map;
-import de.datasecs.reversi.util.Coordinate;
-import de.datasecs.reversi.util.MapUtil;
+import de.marcluque.reversi.ai.evaluation.heuristics.AbstractHeuristic;
+import de.marcluque.reversi.ai.evaluation.heuristics.Heuristic;
+import de.marcluque.reversi.ai.search.AbstractSearch;
+import de.marcluque.reversi.map.Map;
+import de.marcluque.reversi.util.Coordinate;
+import de.marcluque.reversi.util.MapUtil;
 
-public class CornerHeuristic implements Heuristic {
+public class CornerHeuristic extends AbstractHeuristic implements Heuristic {
+
+    public CornerHeuristic(double weight) {
+        super.weight = weight;
+    }
 
     @Override
     public void initHeuristic(Map map) {
@@ -19,10 +25,10 @@ public class CornerHeuristic implements Heuristic {
     }
 
     @Override
-    public double executeHeuristic(Map map, char player) {
+    public double executeHeuristic(Map map) {
         return Map.getCorners()
                 .stream()
-                .filter(corner -> map.getGameField()[corner.getY()][corner.getX()] == player)
+                .filter(corner -> map.getGameField()[corner.getY()][corner.getX()] == AbstractSearch.MAX)
                 .count() / (double) Map.getCorners().size();
     }
 }

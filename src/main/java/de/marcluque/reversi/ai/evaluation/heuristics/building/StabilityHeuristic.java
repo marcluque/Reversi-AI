@@ -1,13 +1,19 @@
-package de.datasecs.reversi.ai.evaluation.heuristics.building;
+package de.marcluque.reversi.ai.evaluation.heuristics.building;
 
-import de.datasecs.reversi.ai.evaluation.heuristics.Heuristic;
-import de.datasecs.reversi.map.Map;
-import de.datasecs.reversi.moves.AbstractMove;
-import de.datasecs.reversi.util.Coordinate;
-import de.datasecs.reversi.util.MapUtil;
-import de.datasecs.reversi.util.Transition;
+import de.marcluque.reversi.ai.evaluation.heuristics.AbstractHeuristic;
+import de.marcluque.reversi.ai.evaluation.heuristics.Heuristic;
+import de.marcluque.reversi.ai.search.AbstractSearch;
+import de.marcluque.reversi.map.Map;
+import de.marcluque.reversi.moves.AbstractMove;
+import de.marcluque.reversi.util.Coordinate;
+import de.marcluque.reversi.util.MapUtil;
+import de.marcluque.reversi.util.Transition;
 
-public class StabilityHeuristic implements Heuristic {
+public class StabilityHeuristic extends AbstractHeuristic implements Heuristic {
+
+    public StabilityHeuristic(double weight) {
+        super.weight = weight;
+    }
 
     @Override
     public void initHeuristic(Map map) {
@@ -15,12 +21,12 @@ public class StabilityHeuristic implements Heuristic {
     }
 
     @Override
-    public double executeHeuristic(Map map, char player) {
+    public double executeHeuristic(Map map) {
         int threatCounter = 0;
 
         for (int y = 0; y < Map.getMapHeight(); y++) {
             for (int x = 0; x < Map.getMapWidth(); x++) {
-                if (map.getGameField()[y][x] == player) {
+                if (map.getGameField()[y][x] == AbstractSearch.MAX) {
                     Transition transition;
                     Coordinate neighbour;
                     Coordinate oppositeNeighbour;
@@ -41,10 +47,16 @@ public class StabilityHeuristic implements Heuristic {
 
                         boolean threatInMap = MapUtil.isCoordinateInMap(neighbour.getX(), neighbour.getY())
                                 && MapUtil.isCoordinateInMap(oppositeNeighbour.getX(), oppositeNeighbour.getY());
-                        boolean neighbourIsThreat = MapUtil.isTileFree(map.getGameField()[neighbour.getY()][neighbour.getX()])
-                                && MapUtil.isDifferentPlayerStone(map, oppositeNeighbour.getX(), oppositeNeighbour.getY(), player);
-                        boolean oppositeNeighbourIsThreat = MapUtil.isTileFree(map.getGameField()[oppositeNeighbour.getY()][oppositeNeighbour.getX()])
-                                && MapUtil.isDifferentPlayerStone(map, neighbour.getX(), neighbour.getY(), player);
+
+                        boolean neighbourIsThreat = MapUtil.isTileFree(
+                                map.getGameField()[neighbour.getY()][neighbour.getX()])
+                                && MapUtil.isDifferentPlayerStone(map, oppositeNeighbour.getX(),
+                                                                oppositeNeighbour.getY(), AbstractSearch.MAX);
+
+                        boolean oppositeNeighbourIsThreat = MapUtil.isTileFree(
+                                map.getGameField()[oppositeNeighbour.getY()][oppositeNeighbour.getX()])
+                                && MapUtil.isDifferentPlayerStone(map, neighbour.getX(), neighbour.getY(),
+                                                                AbstractSearch.MAX);
 
                         // Threat is found
                         if (threatInMap && (neighbourIsThreat || oppositeNeighbourIsThreat)) {

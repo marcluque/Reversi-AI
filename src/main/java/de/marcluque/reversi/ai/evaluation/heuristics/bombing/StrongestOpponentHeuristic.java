@@ -1,9 +1,14 @@
-package de.datasecs.reversi.ai.evaluation.heuristics.bombing;
+package de.marcluque.reversi.ai.evaluation.heuristics.bombing;
 
-import de.datasecs.reversi.ai.evaluation.heuristics.Heuristic;
-import de.datasecs.reversi.map.Map;
+import de.marcluque.reversi.ai.evaluation.heuristics.AbstractHeuristic;
+import de.marcluque.reversi.ai.evaluation.heuristics.Heuristic;
+import de.marcluque.reversi.map.Map;
 
-public class StrongestOpponentHeuristic implements Heuristic {
+public class StrongestOpponentHeuristic extends AbstractHeuristic implements Heuristic {
+
+    public StrongestOpponentHeuristic(double weight) {
+        super.weight = weight;
+    }
 
     @Override
     public void initHeuristic(Map map) {
@@ -11,7 +16,7 @@ public class StrongestOpponentHeuristic implements Heuristic {
     }
 
     @Override
-    public double executeHeuristic(Map map, char player) {
+    public double executeHeuristic(Map map) {
         // Determine strongest opponent
         int strongestOpponent = -1;
         int max = Integer.MIN_VALUE;
