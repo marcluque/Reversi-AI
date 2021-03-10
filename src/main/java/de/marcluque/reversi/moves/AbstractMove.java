@@ -1,10 +1,10 @@
-package de.datasecs.reversi.moves;
+package de.marcluque.reversi.moves;
 
-import de.datasecs.reversi.map.Map;
-import de.datasecs.reversi.util.Coordinate;
-import de.datasecs.reversi.util.MapUtil;
-import de.datasecs.reversi.util.Move;
-import de.datasecs.reversi.util.Transition;
+import de.marcluque.reversi.map.Map;
+import de.marcluque.reversi.util.Coordinate;
+import de.marcluque.reversi.util.MapUtil;
+import de.marcluque.reversi.util.Move;
+import de.marcluque.reversi.util.Transition;
 
 import java.util.List;
 
@@ -15,19 +15,19 @@ public abstract class AbstractMove {
 
     private AbstractMove() {}
 
-    public static boolean isMoveValid(Map map, int x, int y, char player, List<Coordinate> capturableTiles, int phase) {
-        return isMoveValidImpl(map, x, y, player, false, true, capturableTiles, phase);
+    public static boolean isMoveValid(Map map, int x, int y, char player, List<Coordinate> capturableTiles) {
+        return isMoveValidImpl(map, x, y, player, false, true, capturableTiles);
     }
 
     public static boolean isMoveValidImpl(Map map, int x, int y, char player, boolean returnEarly,
-                                          boolean allowOverrideStones, List<Coordinate> capturableTiles, int phase) {
+                                          boolean allowOverrideStones, List<Coordinate> capturableTiles) {
         // Holes are not allowed, neither for building nor for bomb phase
         if (MapUtil.isTileHole(map.getGameField()[y][x])) {
             return false;
         }
 
         // Building phase
-        if (phase == 1) {
+        if (Map.getPhase() == 1) {
             // Tile may be occupied by player or expansion stone -> override stones must be allowed and available for player
             if (MapUtil.isOccupied(map.getGameField()[y][x])
                     && (!allowOverrideStones || map.getOverrideStones()[Character.getNumericValue(player)] == 0)) {
@@ -56,7 +56,7 @@ public abstract class AbstractMove {
     }
 
     public static boolean isBuildingMoveValid(Map map, int x, int y, char player, boolean allowOverrideStones, List<Coordinate> capturableTiles) {
-        return isMoveValidImpl(map, x, y, player, true, allowOverrideStones, capturableTiles, 1);
+        return isMoveValidImpl(map, x, y, player, true, allowOverrideStones, capturableTiles);
     }
 
     private static boolean walkPath(Map map, int startX, int startY, int direction, char player,
@@ -93,8 +93,8 @@ public abstract class AbstractMove {
                 && (startX != x || startY != y);
     }
 
-    public static Move executeMove(Map map, int x, int y, char player, List<Coordinate> capturableStones, int phase) {
-        if (phase == 1) {
+    public static Move executeMove(Map map, int x, int y, char player, List<Coordinate> capturableStones) {
+        if (Map.getPhase() == 1) {
             return BuildMove.executeBuildMove(map, x, y, player, capturableStones);
         } else {
             return BombMove.executeBombMove(map, x, y);

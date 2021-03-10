@@ -1,9 +1,9 @@
-package de.datasecs.reversi.moves;
+package de.marcluque.reversi.moves;
 
-import de.datasecs.reversi.map.Map;
-import de.datasecs.reversi.util.Coordinate;
-import de.datasecs.reversi.util.MapUtil;
-import de.datasecs.reversi.util.Move;
+import de.marcluque.reversi.map.Map;
+import de.marcluque.reversi.util.Coordinate;
+import de.marcluque.reversi.util.MapUtil;
+import de.marcluque.reversi.util.Move;
 
 import java.util.List;
 
