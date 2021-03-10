@@ -1,7 +1,7 @@
-package de.datasecs.reversi.util;
+package de.marcluque.reversi.util;
 
-import de.datasecs.reversi.map.Map;
-import de.datasecs.reversi.moves.AbstractMove;
+import de.marcluque.reversi.map.Map;
+import de.marcluque.reversi.moves.AbstractMove;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -115,9 +115,9 @@ public class MapUtil {
         for (int i = 0; i < map.getGameField().length; i++) {
             for (int j = 0; j < map.getGameField()[0].length; j++) {
                 List<Coordinate> capturableStones = new LinkedList<>();
-                if (AbstractMove.isMoveValidImpl(map, j, i, player, false, override, capturableStones, phase)) {
+                if (AbstractMove.isMoveValidImpl(map, j, i, player, false, override, capturableStones)) {
                     Map mapClone = new Map(map);
-                    AbstractMove.executeMove(mapClone, j, i, player, capturableStones, phase);
+                    AbstractMove.executeMove(mapClone, j, i, player, capturableStones);
 
                     if (consumer.test(mapClone)) {
                         return;
@@ -131,9 +131,9 @@ public class MapUtil {
         for (int i = 0; i < map.getGameField().length; i++) {
             for (int j = 0; j < map.getGameField()[0].length; j++) {
                 List<Coordinate> capturableStones = new LinkedList<>();
-                if (AbstractMove.isMoveValidImpl(map, j, i, player, false, override, capturableStones, phase)) {
+                if (AbstractMove.isMoveValidImpl(map, j, i, player, false, override, capturableStones)) {
                     Map mapClone = new Map(map);
-                    AbstractMove.executeMove(mapClone, j, i, player, capturableStones, phase);
+                    AbstractMove.executeMove(mapClone, j, i, player, capturableStones);
 
                     if (consumer.test(mapClone, new Coordinate(j, i))) {
                         return;

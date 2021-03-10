@@ -1,4 +1,4 @@
-package de.datasecs.reversi.util;
+package de.marcluque.reversi.util;
 
 public class Coordinate {
 

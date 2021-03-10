@@ -1,6 +1,6 @@
-package de.datasecs.reversi.util;
+package de.marcluque.reversi.util;
 
-import de.datasecs.reversi.map.Map;
+import de.marcluque.reversi.map.Map;
 
 import java.util.Objects;
 

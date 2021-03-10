@@ -1,6 +1,6 @@
-import de.datasecs.reversi.map.Map;
-import de.datasecs.reversi.map.MapLoader;
-import de.datasecs.reversi.moves.BombMove;
+import de.marcluque.reversi.map.Map;
+import de.marcluque.reversi.map.MapLoader;
+import de.marcluque.reversi.moves.BombMove;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

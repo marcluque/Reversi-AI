@@ -1,7 +1,7 @@
-package de.datasecs.reversi.map;
+package de.marcluque.reversi.map;
 
-import de.datasecs.reversi.util.MapUtil;
-import de.datasecs.reversi.util.Transition;
+import de.marcluque.reversi.util.MapUtil;
+import de.marcluque.reversi.util.Transition;
 
 import java.io.BufferedReader;
 import java.io.IOException;

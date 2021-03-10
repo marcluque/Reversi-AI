@@ -1,7 +1,7 @@
-package de.datasecs.reversi.map;
+package de.marcluque.reversi.map;
 
-import de.datasecs.reversi.util.Coordinate;
-import de.datasecs.reversi.util.Transition;
+import de.marcluque.reversi.util.Coordinate;
+import de.marcluque.reversi.util.Transition;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,6 +25,8 @@ public class Map {
     private static int numberOfPlayers;
 
     private static int bombRadius;
+
+    private static int phase;
 
     private final int[] overrideStones;
 
@@ -80,6 +82,10 @@ public class Map {
         return bombRadius;
     }
 
+    public static int getPhase() {
+        return phase;
+    }
+
     public int[] getOverrideStones() {
         return overrideStones;
     }
@@ -110,5 +116,9 @@ public class Map {
 
     public static void setBombRadius(int bombRadius) {
         Map.bombRadius = bombRadius;
+    }
+
+    public static void setPhase(int phase) {
+        Map.phase = phase;
     }
 }
