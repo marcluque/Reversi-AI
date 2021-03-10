@@ -12,21 +12,25 @@ import java.util.List;
 
 public class BestReplySearch extends AbstractSearch {
 
-    public static Move search(Map map, int depth, boolean allowOverride, int phase) {
+    public static Move search(Map map, int depth, boolean allowOverride, int phase, int[] totalStates) {
         Move bestMove = null;
         double maxValue = Double.MIN_VALUE;
         for (int y = 0; y < Map.getMapHeight(); y++) {
             for (int x = 0; x < Map.getMapWidth(); x++) {
                 List<Coordinate> capturableTiles = new ArrayList<>();
-                if (AbstractMove.isMoveValidImpl(map, x, y, MAX, false, allowOverride, capturableTiles, phase)) {
+                if (AbstractMove.isMoveValidImpl(map, x, y, MAX, false, allowOverride, capturableTiles,
+                        phase)) {
                     Map mapClone = new Map(map);
                     Move currentMove = AbstractMove.executeMove(mapClone, x, y, MAX, capturableTiles, phase);
 
-                    double value = BRS(map, Double.MIN_VALUE, Double.MAX_VALUE, depth, MAX, allowOverride, phase);
+                    double value = BRS(map, Double.MIN_VALUE, Double.MAX_VALUE, depth, MAX, allowOverride, phase,
+                            totalStates);
                     if (value > maxValue) {
                         maxValue = value;
                         bestMove = currentMove;
                     }
+
+                    totalStates[0]++;
                 }
             }
         }
@@ -34,18 +38,20 @@ public class BestReplySearch extends AbstractSearch {
         return bestMove;
     }
 
-    private static double BRS(Map map, double alpha, double beta, int depth, char turn, boolean allowOverride, int phase) {
+    private static double BRS(Map map, double alpha, double beta, int depth, char turn, boolean allowOverride,
+                              int phase, int[] totalStates) {
         if (depth <= 0) {
             Evaluation.utility(map, turn);
         }
 
         double maxAlpha = alpha;
         if (turn == MAX) {
-            maxAlpha = Math.max(maxAlpha, BRSDoMoves(map, alpha, beta, depth, MAX, allowOverride, phase));
+            maxAlpha = Math.max(maxAlpha, BRSDoMoves(map, alpha, beta, depth, MAX, allowOverride, phase, totalStates));
             return maxAlpha;
         } else {
             for (char opponent : OPPONENTS) {
-                maxAlpha = Math.max(maxAlpha, BRSDoMoves(map, alpha, beta, depth, opponent, allowOverride, phase));
+                maxAlpha = Math.max(maxAlpha, BRSDoMoves(map, alpha, beta, depth, opponent, allowOverride, phase,
+                        totalStates));
                 return maxAlpha;
             }
         }
@@ -53,20 +59,25 @@ public class BestReplySearch extends AbstractSearch {
         return maxAlpha;
     }
 
-    private static double BRSDoMoves(Map map, double alpha, double beta, int depth, char turn, boolean allowOverride, int phase) {
+    private static double BRSDoMoves(Map map, double alpha, double beta, int depth, char turn, boolean allowOverride,
+                                     int phase, int[] totalStates) {
         for (int y = 0; y < Map.getMapHeight(); y++) {
             for (int x = 0; x < Map.getMapWidth(); x++) {
                 List<Coordinate> capturableTiles = new ArrayList<>();
-                if (AbstractMove.isMoveValidImpl(map, x, y, turn, false, allowOverride, capturableTiles, phase)) {
+                if (AbstractMove.isMoveValidImpl(map, x, y, turn, false, allowOverride, capturableTiles,
+                        phase)) {
                     Map mapClone = new Map(map);
                     AbstractMove.executeMove(mapClone, x, y, turn, capturableTiles, phase);
-                    double value = -BRS(mapClone, -beta, -alpha, depth - 1, (turn == MAX) ? OPPONENT : MAX, allowOverride, phase);
+                    double value = -BRS(mapClone, -beta, -alpha, depth - 1,
+                            (turn == MAX) ? OPPONENT : MAX, allowOverride, phase, totalStates);
 
                     if (value >= beta) {
                         return value;
                     }
 
                     alpha = Math.max(alpha, value);
+
+                    totalStates[0]++;
                 }
             }
         }

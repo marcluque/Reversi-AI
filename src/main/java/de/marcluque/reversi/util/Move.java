@@ -6,11 +6,11 @@ import java.util.Objects;
 
 public class Move {
 
-    private int x;
+    private final int x;
 
-    private int y;
+    private final int y;
 
-    private int specialTile;
+    private final int specialTile;
 
     public Move(int x, int y, int specialTile) {
         this.x = x;
@@ -39,12 +39,12 @@ public class Move {
     public String toString() {
         if (specialTile != 0) {
             if (1 <= specialTile && specialTile <= Map.getNumberOfPlayers()) {
-                return "(" + x + ", " + y + ") choice: Player " + specialTile;
+                return String.format("(%d, %d) choice: Player %d", x, y, specialTile);
             } else {
-                return "(" + x + ", " + y + ") choice: " + (specialTile == 20 ? "bomb" : "override");
+                return String.format("(%d, %d) choice: %s", x, y, specialTile == 20 ? "bomb" : "override");
             }
         }
 
-        return "(" + x + ", " + y + ")";
+        return String.format("(%d, %d)", x, y);
     }
 }

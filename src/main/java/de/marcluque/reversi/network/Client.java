@@ -1,9 +1,13 @@
 package de.datasecs.reversi.network;
 
+import de.datasecs.reversi.ai.evaluation.rules.Rules;
 import de.datasecs.reversi.ai.search.AbstractSearch;
 import de.datasecs.reversi.ai.search.IterativeDeepening;
+import de.datasecs.reversi.ai.search.strategies.brs.BestReplySearch;
 import de.datasecs.reversi.map.Map;
 import de.datasecs.reversi.map.MapLoader;
+import de.datasecs.reversi.moves.AbstractMove;
+import de.datasecs.reversi.util.Coordinate;
 import de.datasecs.reversi.util.Move;
 
 import java.io.DataInputStream;
@@ -11,18 +15,26 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Client {
 
-    private String hostname;
+    private final String hostname;
 
-    private int port;
+    private final int port;
 
     private Socket clientSocket;
 
     private Map map;
+
+    private int depthLimit;
+
+    private static long timeLimit;
+
+    private static long startTime;
+
+    private static final long TIME_BUFFER = 200;
 
     private int phase;
 
@@ -82,24 +94,42 @@ public class Client {
                     // Assigns player number
                     case 3 -> {
                         AbstractSearch.MAX = (char) ('0' + byteBuffer.get());
-                        System.out.println("We are player " + AbstractSearch.MAX);
+                        System.out.println("WE ARE PLAYER: " + AbstractSearch.MAX);
                     }
 
                     // Requests move from player
                     case 4 -> {
+                        // Time limit is in milliseconds
+                        timeLimit = byteBuffer.getInt();
+                        // timeLimit == 0 -> no time limit
+                        if (timeLimit != 0) {
+                            startTime = System.currentTimeMillis() + TIME_BUFFER;
+                        }
+                        depthLimit = byteBuffer.get();
+
                         Move move = sendMoveResponse();
-                        System.out.printf("OUR MOVE: (%d,%d) with special %d%n", move.getX(), move.getY(), move.getSpecialTile());
+                        System.out.printf("OUR MOVE: (%d,%d) with special %d%n", move.getX(), move.getY(),
+                                move.getSpecialTile());
                     }
 
                     // Announces move of other player
                     case 6 -> {
-                        //handleMoveOfOtherPlayer(byteBuffer);
                         int x = byteBuffer.getShort();
                         int y = byteBuffer.getShort();
                         int specialField = byteBuffer.get();
                         char receivedPlayer = (char) ('0' + byteBuffer.get());
 
-                        System.out.println("OPPONENT MOVE: (" + x + "," + y + ") with special " + specialField + " by player " + receivedPlayer);
+                        List<Coordinate> capturableTiles = new ArrayList<>();
+                        if (AbstractMove.isMoveValidImpl(map, x, y, receivedPlayer, false,
+                                Rules.OVERRIDE_STONES, capturableTiles, phase)) {
+                            AbstractMove.executeMove(map, x, y, receivedPlayer, capturableTiles, phase);
+                        } else {
+                            System.err.println("OPPONENT MOVE: (" + x + "," + y + ") with special " + specialField
+                                    + " by player " + receivedPlayer + " wasn't valid!");
+                        }
+
+                        System.out.println("OPPONENT MOVE: (" + x + "," + y + ") with special " + specialField
+                                + " by player " + receivedPlayer);
                     }
 
                     // Disqualification of a player
@@ -117,7 +147,8 @@ public class Client {
                                 }
                             }
 
-                            System.arraycopy(newOpponents, 0, AbstractSearch.OPPONENTS, 0, newOpponents.length);
+                            System.arraycopy(newOpponents, 0, AbstractSearch.OPPONENTS, 0,
+                                    newOpponents.length);
                         }
                     }
 
@@ -146,7 +177,16 @@ public class Client {
     }
 
     private Move sendMoveResponse() {
-        Move move = IterativeDeepening.iterativeDeepeningDepthLimit(5, );
+        Move move;
+        if (timeLimit == 0) {
+            move = IterativeDeepening.iterativeDeepeningDepthLimit(depthLimit, (totalStates) -> {
+                return BestReplySearch.search(map, depthLimit, Rules.OVERRIDE_STONES, phase, totalStates);
+            });
+        } else {
+            move = IterativeDeepening.iterativeDeepeningTimeLimit((totalStates) -> {
+                return BestReplySearch.search(map, depthLimit, Rules.OVERRIDE_STONES, phase, totalStates);
+            });
+        }
 
         try {
             // Write type of message (1 Byte)
@@ -168,5 +208,9 @@ public class Client {
         }
 
         return move;
+    }
+
+    public static long getLeftTime() {
+        return timeLimit - (startTime - System.currentTimeMillis());
     }
 }
