@@ -31,20 +31,6 @@ public class Move {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        Move move = (Move) o;
-        return x == move.x && y == move.y && specialTile == move.specialTile;
-    }
-
-    @Override
     public int hashCode() {
         return Objects.hash(x, y, specialTile);
     }
@@ -60,10 +46,5 @@ public class Move {
         }
 
         return "(" + x + ", " + y + ")";
-    }
-
-    @Override
-    public Move clone() {
-        return new Move(x, y, specialTile);
     }
 }

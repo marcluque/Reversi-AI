@@ -10,11 +10,11 @@ import java.util.Set;
 
 public class Map {
 
-    private char[][] gameField;
+    private final char[][] gameField;
 
     protected static java.util.Map<Transition, Transition> transitions = new HashMap<>();
 
-    private static Set<Coordinate> corners = new HashSet<>();
+    private static final Set<Coordinate> corners = new HashSet<>();
 
     private static int mapHeight;
 
@@ -26,11 +26,11 @@ public class Map {
 
     private static int bombRadius;
 
-    private int[] overrideStones;
+    private final int[] overrideStones;
 
-    private int[] numberOfStones;
+    private final int[] numberOfStones;
 
-    private int[] bombs;
+    private final int[] bombs;
 
     // Public constructor
     public Map(char[][] gameField, int[] overrideStones, int[] numberOfStones, int[] bombs) {
@@ -110,9 +110,5 @@ public class Map {
 
     public static void setBombRadius(int bombRadius) {
         Map.bombRadius = bombRadius;
-    }
-
-    public void setGameField(char[][] gameField) {
-        this.gameField = gameField;
     }
 }

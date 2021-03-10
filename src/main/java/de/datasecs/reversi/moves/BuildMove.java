@@ -3,12 +3,13 @@ package de.datasecs.reversi.moves;
 import de.datasecs.reversi.map.Map;
 import de.datasecs.reversi.util.Coordinate;
 import de.datasecs.reversi.util.MapUtil;
+import de.datasecs.reversi.util.Move;
 
 import java.util.List;
 
 public abstract class BuildMove {
 
-    public static void executeBuildMove(Map map, int x, int y, char player, List<Coordinate> capturableStones) {
+    public static Move executeBuildMove(Map map, int x, int y, char player, List<Coordinate> capturableStones) {
         int playerId = Character.getNumericValue(player);
 
         if (MapUtil.isOccupied(map.getGameField()[y][x])) {
@@ -31,8 +32,9 @@ public abstract class BuildMove {
         });
 
         // Check whether field is a special field
+        int specialTile = -1;
         switch (map.getGameField()[y][x]) {
-            case 'c':
+            case 'c' -> {
                 map.getGameField()[y][x] = player;
 
                 // HEURISTIC: Determine player with most stones for choice
@@ -45,7 +47,9 @@ public abstract class BuildMove {
                     }
                 }
 
-                // Switch stones of the players in numberOfStones array
+                specialTile = playerWithMostStones;
+
+                // Switch stones of the player in numberOfStones array
                 int temp = map.getNumberOfStones()[playerWithMostStones];
                 map.getNumberOfStones()[playerWithMostStones] = map.getNumberOfStones()[playerId];
                 map.getNumberOfStones()[playerId] = temp;
@@ -62,8 +66,8 @@ public abstract class BuildMove {
                     }
                 }
 
-                break;
-            case 'i':
+            }
+            case 'i' -> {
                 map.getGameField()[y][x] = player;
 
                 // Switches the stones of the players
@@ -82,17 +86,21 @@ public abstract class BuildMove {
                         }
                     }
                 }
-                break;
-            case 'b':
+            }
+            case 'b' -> {
                 map.getGameField()[y][x] = player;
 
                 // HEURISTIC: If 2 players and map smaller than 17x17, player picks bomb, else override
                 if (Map.getNumberOfPlayers() == 2 && Map.getMapWidth() * Map.getMapHeight() <= 300) {
                     map.getBombs()[playerId]++;
+                    specialTile = 20;
                 } else {
                     map.getOverrideStones()[playerId]++;
+                    specialTile = 21;
                 }
-                break;
+            }
         }
+
+        return new Move(x, y, specialTile);
     }
 }

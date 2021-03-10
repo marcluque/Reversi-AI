@@ -28,10 +28,6 @@ public class Transition {
         return direction;
     }
 
-    public void setDirection(int direction) {
-        this.direction = direction;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -54,10 +50,5 @@ public class Transition {
     @Override
     public String toString() {
         return "(" + x +", " + y + ", " + direction + ')';
-    }
-
-    @Override
-    public Transition clone() {
-        return new Transition(x, y, direction);
     }
 }

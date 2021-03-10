@@ -1,7 +1,7 @@
 package de.datasecs.reversi.util;
 
 import de.datasecs.reversi.map.Map;
-import de.datasecs.reversi.moves.Move;
+import de.datasecs.reversi.moves.AbstractMove;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -80,13 +80,13 @@ public class MapUtil {
             transition = Map.getTransitions().get(new Transition(x, y, k));
             neighbour = (transition != null)
                     ? new Coordinate(transition.getX(), transition.getY())
-                    : new Coordinate(x + Move.CORNERS[k][0], y + Move.CORNERS[k][1]);
+                    : new Coordinate(x + AbstractMove.CORNERS[k][0], y + AbstractMove.CORNERS[k][1]);
 
             // Check the potential opposite neighbour in direction k + 4
             transition = Map.getTransitions().get(new Transition(x, y, k + 4));
             oppositeNeighbour = (transition != null)
                     ? new Coordinate(transition.getX(), transition.getY())
-                    : new Coordinate(x + Move.CORNERS[k + 4][0], y + Move.CORNERS[k + 4][1]);
+                    : new Coordinate(x + AbstractMove.CORNERS[k + 4][0], y + AbstractMove.CORNERS[k + 4][1]);
 
             // Returns null if there is a pair of neighbours around the tile (x,y) in opposite directions
             boolean neighbourPresent = MapUtil.isTileCapturableAndInMap(
@@ -115,9 +115,9 @@ public class MapUtil {
         for (int i = 0; i < map.getGameField().length; i++) {
             for (int j = 0; j < map.getGameField()[0].length; j++) {
                 List<Coordinate> capturableStones = new LinkedList<>();
-                if (Move.isMoveValidImpl(map, j, i, player, false, override, capturableStones, phase)) {
+                if (AbstractMove.isMoveValidImpl(map, j, i, player, false, override, capturableStones, phase)) {
                     Map mapClone = new Map(map);
-                    Move.executeMove(mapClone, j, i, player, capturableStones, phase);
+                    AbstractMove.executeMove(mapClone, j, i, player, capturableStones, phase);
 
                     if (consumer.test(mapClone)) {
                         return;
@@ -131,9 +131,9 @@ public class MapUtil {
         for (int i = 0; i < map.getGameField().length; i++) {
             for (int j = 0; j < map.getGameField()[0].length; j++) {
                 List<Coordinate> capturableStones = new LinkedList<>();
-                if (Move.isMoveValidImpl(map, j, i, player, false, override, capturableStones, phase)) {
+                if (AbstractMove.isMoveValidImpl(map, j, i, player, false, override, capturableStones, phase)) {
                     Map mapClone = new Map(map);
-                    Move.executeMove(mapClone, j, i, player, capturableStones, phase);
+                    AbstractMove.executeMove(mapClone, j, i, player, capturableStones, phase);
 
                     if (consumer.test(mapClone, new Coordinate(j, i))) {
                         return;

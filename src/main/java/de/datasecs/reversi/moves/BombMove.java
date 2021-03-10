@@ -2,6 +2,7 @@ package de.datasecs.reversi.moves;
 
 import de.datasecs.reversi.map.Map;
 import de.datasecs.reversi.util.MapUtil;
+import de.datasecs.reversi.util.Move;
 import de.datasecs.reversi.util.Transition;
 
 public abstract class BombMove {
@@ -26,8 +27,8 @@ public abstract class BombMove {
                 x = transitionEnd.getX();
                 y = transitionEnd.getY();
             } else {
-                x += Move.CORNERS[i][0];
-                y += Move.CORNERS[i][1];
+                x += AbstractMove.CORNERS[i][0];
+                y += AbstractMove.CORNERS[i][1];
             }
 
             if (MapUtil.isCoordinateInMap(x, y)) {
@@ -40,7 +41,7 @@ public abstract class BombMove {
         map.getGameField()[y][x] = '$';
     }
 
-    public static void executeBombMove(Map map, int x, int y) {
+    public static Move executeBombMove(Map map, int x, int y) {
         executeBombMoveRecursive(map, x, y, 0);
 
         for (int i = 0; i < Map.getMapHeight(); i++) {
@@ -50,5 +51,7 @@ public abstract class BombMove {
                 }
             }
         }
+
+        return new Move(x, y, -1);
     }
 }

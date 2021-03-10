@@ -1,19 +1,19 @@
 package de.datasecs.reversi.moves;
 
-import de.datasecs.reversi.ai.evaluation.rules.Rules;
 import de.datasecs.reversi.map.Map;
 import de.datasecs.reversi.util.Coordinate;
 import de.datasecs.reversi.util.MapUtil;
+import de.datasecs.reversi.util.Move;
 import de.datasecs.reversi.util.Transition;
 
 import java.util.List;
 
-public abstract class Move {
+public abstract class AbstractMove {
 
     public static final int[][] CORNERS = {{0, -1}, {1, -1}, {1, 0},
             {1, 1}, {0, 1}, {-1, 1}, {-1, 0}, {-1, -1}};
 
-    private Move() {}
+    private AbstractMove() {}
 
     public static boolean isMoveValid(Map map, int x, int y, char player, List<Coordinate> capturableTiles, int phase) {
         return isMoveValidImpl(map, x, y, player, false, true, capturableTiles, phase);
@@ -93,11 +93,11 @@ public abstract class Move {
                 && (startX != x || startY != y);
     }
 
-    public static void executeMove(Map map, int x, int y, char player, List<Coordinate> capturableStones, int phase) {
+    public static Move executeMove(Map map, int x, int y, char player, List<Coordinate> capturableStones, int phase) {
         if (phase == 1) {
-            BuildMove.executeBuildMove(map, x, y, player, capturableStones);
+            return BuildMove.executeBuildMove(map, x, y, player, capturableStones);
         } else {
-            BombMove.executeBombMove(map, x, y);
+            return BombMove.executeBombMove(map, x, y);
         }
     }
 }

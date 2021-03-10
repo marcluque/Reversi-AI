@@ -15,7 +15,7 @@ public class IterativeDeepening {
         return iterativeDeepeningDepthLimit(depthLimit, e -> searchStrategy.get());
     }
 
-    public static Move iterativeDeepeningDepthLimit(int depthLimit, Function<Double, AbstractMap.SimpleEntry<Move, Double>> searchStrategy) {
+    public static Move iterativeDeepeningDepthLimit(int depthLimit, Supplier<Move> searchStrategy) {
         int currentDepth = 1;
         int leafStates = 1;
         int totalStates = 2;
@@ -27,7 +27,6 @@ public class IterativeDeepening {
             long start = System.nanoTime();
             var entry = searchStrategy.apply(lastValue);
             chosenMove = entry.getKey();
-            lastValue = entry.getValue();
             long totalTime = System.nanoTime() - start;
 
             // Calculate average branching factor

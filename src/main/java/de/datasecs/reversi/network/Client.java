@@ -1,66 +1,43 @@
 package de.datasecs.reversi.network;
 
+import de.datasecs.reversi.ai.search.AbstractSearch;
+import de.datasecs.reversi.ai.search.IterativeDeepening;
 import de.datasecs.reversi.map.Map;
 import de.datasecs.reversi.map.MapLoader;
-import de.datasecs.reversi.moves.Move;
-import de.datasecs.reversi.util.Coordinate;
+import de.datasecs.reversi.util.Move;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.ByteBuffer;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Timer;
+import java.nio.CharBuffer;
+import java.util.Arrays;
 
-/**
- * Created by Marc Luque on 16.04.2019.
- */
 public class Client {
 
     private String hostname;
 
     private int port;
 
-    private boolean useAlphaBeta;
-
-    private boolean useSorting;
-
-    private boolean useAspiration;
-
-    private String csvHeader;
-
     private Socket clientSocket;
 
-    private DataOutputStream outputStream;
-
-    private static int moveCount;
-
-    private long timeForPrepareMap;
-
-    private Timer timer;
-
-    private int timerPuffer;
-
-    private boolean allowOverrideStones;
-
     private Map map;
+
+    private int phase;
+
+    private DataOutputStream outputStream;
 
     public Client(String hostname, int port) {
         this.hostname = hostname;
         this.port = port;
-        timer = new Timer();
-        timerPuffer = 350;
-        allowOverrideStones = false;
+        phase = 1;
     }
 
     public void start() {
         // Handshake with server
         try {
             clientSocket = new Socket(hostname, port);
-
-            // Create output stream and attach to socket
             outputStream = new DataOutputStream(clientSocket.getOutputStream());
 
             // Prepare message (6 Bytes)
@@ -68,7 +45,7 @@ public class Client {
             outputStream.writeByte(1);
             // Write length (4 Bytes)
             outputStream.writeInt(1);
-            // Write group number (1 Byte = length)
+            // Write group number (1 Byte)
             outputStream.writeByte(1);
 
             outputStream.flush();
@@ -86,106 +63,90 @@ public class Client {
         int type;
         int length;
 
-        int player = 2;
-
-        // Create input stream and attach to socket
         try (DataInputStream inputStream = new DataInputStream(clientSocket.getInputStream())) {
             while (true) {
-                // Reads 8-bit Integer = Byte
                 type = inputStream.readUnsignedByte();
                 System.out.println("TYPE: " + type);
-                // Read length (4 Byte Integer)
                 length = inputStream.readInt();
                 System.out.println("LENGTH: " + length);
-                // Read in bytes (length many)
                 byteBuffer = ByteBuffer.wrap(inputStream.readNBytes(length));
 
+                // Message types
                 switch (type) {
-                    // Sends map (as String)
-                    case 2:
-                        //System.out.println("MAP:\n" + new String(byteBuffer.array()));
+                    // Sends map
+                    case 2 -> {
                         map = MapLoader.generateMapFromString(new String(byteBuffer.array()));
-                        break;
-                    // Assigns player number
-                    case 3:
-                        player = byteBuffer.get();
-                        System.out.println("PLAYER: " + player);
+                        System.out.println("MAP:\n" + new String(byteBuffer.array()));
+                    }
 
-                        // Overhead for AI and data to store
-                        long startPrepareMap = System.nanoTime();
-                        //prepareMapData();
-                        timeForPrepareMap = (System.nanoTime() - startPrepareMap) / 1000000;
-                        break;
+                    // Assigns player number
+                    case 3 -> {
+                        AbstractSearch.MAX = (char) ('0' + byteBuffer.get());
+                        System.out.println("We are player " + AbstractSearch.MAX);
+                    }
+
                     // Requests move from player
-                    case 4:
-                        moveCount++;
-                        sendMoveResponse((char) (player + '0'));
-                        break;
+                    case 4 -> {
+                        Move move = sendMoveResponse();
+                        System.out.printf("OUR MOVE: (%d,%d) with special %d%n", move.getX(), move.getY(), move.getSpecialTile());
+                    }
+
                     // Announces move of other player
-                    case 6:
+                    case 6 -> {
                         //handleMoveOfOtherPlayer(byteBuffer);
-                        System.out.println("MOVE ANNOUCEMENT");
                         int x = byteBuffer.getShort();
                         int y = byteBuffer.getShort();
                         int specialField = byteBuffer.get();
                         char receivedPlayer = (char) ('0' + byteBuffer.get());
 
-                        System.out.println("MOVE: (" + x + "," + y + ") with special " + specialField + " by player " + receivedPlayer);
-                        break;
-                    // Disqualification of a certain player
-                    case 7:
+                        System.out.println("OPPONENT MOVE: (" + x + "," + y + ") with special " + specialField + " by player " + receivedPlayer);
+                    }
+
+                    // Disqualification of a player
+                    case 7 -> {
                         int disqualifiedPlayer = byteBuffer.get();
-//                        if (disqualifiedPlayer == gameMap.getPlayer()) {
-//                            System.err.println("Client has been disqualified!");
-//                        } else {
-//                            System.out.printf("Player %d has been disqualified!%n", disqualifiedPlayer);
-//                        }
-                        break;
+                        if (disqualifiedPlayer == AbstractSearch.MAX) {
+                            System.err.println("Client has been disqualified!");
+                        } else {
+                            System.out.printf("Player %d has been disqualified!%n", disqualifiedPlayer);
+                            char[] newOpponents = new char[AbstractSearch.OPPONENTS.length - 1];
+                            int counter = 0;
+                            for (char opponent : AbstractSearch.OPPONENTS) {
+                                if (opponent != disqualifiedPlayer) {
+                                    newOpponents[counter++] = opponent;
+                                }
+                            }
+
+                            System.arraycopy(newOpponents, 0, AbstractSearch.OPPONENTS, 0, newOpponents.length);
+                        }
+                    }
+
                     // Announces first phase has ended
-                    case 8:
-                        //gameMap.setPhase(2);
-                        //prepareBombMapData();
+                    case 8 -> {
+                        phase = 2;
                         System.out.println("PHASE 2 BEGINS");
-                        break;
+                    }
+
                     // Second phase has ended (game ends)
-                    case 9:
-                        // Close socket and leave infinite loop
-                        System.out.println("Game ended!");
-                        timer.cancel();
+                    case 9 -> {
+                        System.out.println("GAME OVER");
                         clientSocket.close();
                         return;
-                    default:
-                        System.err.println("Couldn't parse message type: " + type);
+                    }
+
+                    default -> System.err.println("Couldn't parse message type: " + type);
                 }
 
                 byteBuffer.clear();
-                System.out.println("MESSAGE STOP");
             }
         } catch (IOException e) {
             System.err.println("Server failed while running!");
-            timer.cancel();
             e.printStackTrace();
         }
     }
 
-    private void sendMoveResponse(char player) {
-        int x = 0;
-        int y = 0;
-        int specialTile = 0;
-
-//        List<Coordinate> tiles = new LinkedList<>();
-//        for (int i = 0; i < map.getGameField().length; i++) {
-//            for (int j = 0; j < map.getGameField()[0].length; j++) {
-//                if (Move.isMoveValid(map, i, j, player, tiles, 1)) {
-//                    x = i;
-//                    y = j;
-//                    specialTile = 0;
-//                }
-//            }
-//        }
-
-        x = 50;
-        y = 8;
+    private Move sendMoveResponse() {
+        Move move = IterativeDeepening.iterativeDeepeningDepthLimit(5, );
 
         try {
             // Write type of message (1 Byte)
@@ -195,15 +156,17 @@ public class Client {
             outputStream.writeInt(5);
 
             // Send 2 Bytes for x-coord
-            outputStream.writeShort(x);
+            outputStream.writeShort(move.getX());
             // Send 2 Bytes for y-coord
-            outputStream.writeShort(y);
+            outputStream.writeShort(move.getY());
             // Send 1 Byte for special tile
-            outputStream.writeByte(specialTile);
+            outputStream.writeByte(move.getSpecialTile());
 
             outputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return move;
     }
 }

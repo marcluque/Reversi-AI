@@ -48,7 +48,7 @@ public class MapLoader {
             for (int j = 0; j < line.length; j++) {
                 map[i][j] = line[j];
 
-                /* NUMBER OF STONES OF PLAYER */
+                /* NUMBER OF STONES PER PLAYER */
                 if (MapUtil.isPlayerTile(map[i][j])) {
                     numberOfStones[Character.getNumericValue(map[i][j])]++;
                 }
@@ -69,14 +69,8 @@ public class MapLoader {
         return new Map(map, overrideStones, numberOfStones, bombs);
     }
 
-    /**
-     * Reads in valid playing fields and represents them using this class.
-     * The data structure main.java.map (2D-Array and Graph) is supposed to represent the actual playing tiles.
-     *
-     * @param mapName specifies the name of the map that has to be located in res/maps
-     */
-    public static Map generateStringFromMapFile(String mapName) {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("/home/datasecs/Programming/Java/Reversi-stuff/" + mapName))))) {
+    public static Map generateStringFromMapFile(String absoluteMapPath) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(absoluteMapPath))))) {
             return generateMapFromString(br.lines().collect(Collectors.joining("\n")));
         } catch (IOException e) {
             System.err.println("Couldn't read file.");
