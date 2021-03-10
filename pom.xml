@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
+    <groupId>de.marcluque</groupId>
     <artifactId>Reversi-Ai</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -16,7 +16,6 @@
             <version>5.6.2</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -27,7 +26,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <release>11</release>
+                    <release>14</release>
+                    <source>14</source>
+                    <target>14</target>
                 </configuration>
             </plugin>
 
@@ -48,11 +49,13 @@
 
             <!-- Assembly -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.2.0</version>
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>EvaluatorMain</mainClass>
+                            <mainClass>ReversiMain</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
