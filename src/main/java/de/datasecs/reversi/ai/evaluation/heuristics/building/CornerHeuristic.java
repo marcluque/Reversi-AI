@@ -19,7 +19,7 @@ public class CornerHeuristic implements Heuristic {
     }
 
     @Override
-    public double executeHeuristic(Map map, char player, boolean allowOverrideStones) {
+    public double executeHeuristic(Map map, char player) {
         return Map.getCorners()
                 .stream()
                 .filter(corner -> map.getGameField()[corner.getY()][corner.getX()] == player)

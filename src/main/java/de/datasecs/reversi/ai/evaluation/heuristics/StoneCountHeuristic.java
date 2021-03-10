@@ -20,7 +20,7 @@ public class StoneCountHeuristic implements Heuristic {
     }
 
     @Override
-    public double executeHeuristic(Map map, char player, boolean allowOverrideStones) {
+    public double executeHeuristic(Map map, char player) {
         return map.getNumberOfStones()[MapUtil.playerToInt(player)] / (double) (Map.getMapHeight() * Map.getMapWidth() - Map.getNumberOfHoles());
     }
 }

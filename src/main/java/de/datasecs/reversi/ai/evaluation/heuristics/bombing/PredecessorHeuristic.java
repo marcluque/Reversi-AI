@@ -10,7 +10,7 @@ public class PredecessorHeuristic implements Heuristic {
     public void initHeuristic(Map map) {}
 
     @Override
-    public double executeHeuristic(Map map, char player, boolean allowOverrideStones) {
+    public double executeHeuristic(Map map, char player) {
         // Determine predecessor
         int playerStones = map.getNumberOfStones()[MapUtil.playerToInt(player)];
         int min = Integer.MAX_VALUE;

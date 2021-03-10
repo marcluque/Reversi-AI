@@ -10,7 +10,7 @@ public class StoneParityHeuristic implements Heuristic {
     public void initHeuristic(Map map) {}
 
     @Override
-    public double executeHeuristic(Map map, char player, boolean allowOverrideStones) {
+    public double executeHeuristic(Map map, char player) {
         int coinParity = 0;
         int[] num = map.getNumberOfStones();
 

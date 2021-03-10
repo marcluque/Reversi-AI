@@ -2,7 +2,7 @@ package de.datasecs.reversi.ai.evaluation.heuristics.building;
 
 import de.datasecs.reversi.ai.evaluation.heuristics.Heuristic;
 import de.datasecs.reversi.map.Map;
-import de.datasecs.reversi.moves.Move;
+import de.datasecs.reversi.moves.AbstractMove;
 import de.datasecs.reversi.util.Coordinate;
 import de.datasecs.reversi.util.MapUtil;
 import de.datasecs.reversi.util.Transition;
@@ -15,7 +15,7 @@ public class StabilityHeuristic implements Heuristic {
     }
 
     @Override
-    public double executeHeuristic(Map map, char player, boolean allowOverrideStones) {
+    public double executeHeuristic(Map map, char player) {
         int threatCounter = 0;
 
         for (int y = 0; y < Map.getMapHeight(); y++) {
@@ -31,13 +31,13 @@ public class StabilityHeuristic implements Heuristic {
                         transition = Map.getTransitions().get(new Transition(x, y, k));
                         neighbour = (transition != null)
                                 ? new Coordinate(transition.getX(), transition.getY())
-                                : new Coordinate(x + Move.CORNERS[k][0], y + Move.CORNERS[k][1]);
+                                : new Coordinate(x + AbstractMove.CORNERS[k][0], y + AbstractMove.CORNERS[k][1]);
 
                         // Check the potential opposite neighbour in direction k + 4
                         transition = Map.getTransitions().get(new Transition(x, y, k + 4));
                         oppositeNeighbour = (transition != null)
                                 ? new Coordinate(transition.getX(), transition.getY())
-                                : new Coordinate(x + Move.CORNERS[k + 4][0], y + Move.CORNERS[k + 4][1]);
+                                : new Coordinate(x + AbstractMove.CORNERS[k + 4][0], y + AbstractMove.CORNERS[k + 4][1]);
 
                         boolean threatInMap = MapUtil.isCoordinateInMap(neighbour.getX(), neighbour.getY())
                                 && MapUtil.isCoordinateInMap(oppositeNeighbour.getX(), oppositeNeighbour.getY());

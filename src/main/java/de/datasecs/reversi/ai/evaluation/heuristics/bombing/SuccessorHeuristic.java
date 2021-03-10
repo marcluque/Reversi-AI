@@ -10,7 +10,7 @@ public class SuccessorHeuristic implements Heuristic {
     public void initHeuristic(Map map) {}
 
     @Override
-    public double executeHeuristic(Map map, char player, boolean allowOverrideStones) {
+    public double executeHeuristic(Map map, char player) {
         // Determine successor
         int playerStones = map.getNumberOfStones()[MapUtil.playerToInt(player)];
         int max = Integer.MIN_VALUE;

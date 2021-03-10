@@ -11,7 +11,7 @@ public class StrongestOpponentHeuristic implements Heuristic {
     }
 
     @Override
-    public double executeHeuristic(Map map, char player, boolean allowOverrideStones) {
+    public double executeHeuristic(Map map, char player) {
         // Determine strongest opponent
         int strongestOpponent = -1;
         int max = Integer.MIN_VALUE;

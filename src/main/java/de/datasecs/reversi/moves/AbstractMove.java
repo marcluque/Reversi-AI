@@ -1,5 +1,6 @@
 package de.datasecs.reversi.moves;
 
+import de.datasecs.reversi.ai.evaluation.rules.Rules;
 import de.datasecs.reversi.map.Map;
 import de.datasecs.reversi.util.Coordinate;
 import de.datasecs.reversi.util.MapUtil;
@@ -9,20 +10,11 @@ import java.util.List;
 
 public abstract class Move {
 
-    // x, y, r; means first is the x-coord, then y-coord and then the direction
     public static final int[][] CORNERS = {{0, -1}, {1, -1}, {1, 0},
             {1, 1}, {0, 1}, {-1, 1}, {-1, 0}, {-1, -1}};
 
     private Move() {}
 
-    /**
-     * Checks whether or not the specified move is valid
-     *
-     * @param x coordinate of placed stone
-     * @param y coordinate of placed stone
-     * @param player the character that represents the player doing the move
-     * @return returns whether the move at the given coordinates in the given phase by the given player, was valid
-     */
     public static boolean isMoveValid(Map map, int x, int y, char player, List<Coordinate> capturableTiles, int phase) {
         return isMoveValidImpl(map, x, y, player, false, true, capturableTiles, phase);
     }
