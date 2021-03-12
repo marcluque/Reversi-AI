@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
 
 /*
  * Created with <3 by Marc Luqué, March 2021
@@ -23,8 +22,9 @@ public class MaxNSearch extends AbstractSearch {
         Move bestMove = null;
         double maxValue = Double.MIN_VALUE;
         int MAX_INT = MapUtil.playerToInt(MAX);
-        for (int y = 0; y < Map.getMapHeight(); y++) {
-            for (int x = 0; x < Map.getMapWidth(); x++) {
+
+        for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
+            for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
                 List<Coordinate> capturableTiles = new ArrayList<>();
                 if (AbstractMove.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
                     Map mapClone = new Map(map);
@@ -52,27 +52,23 @@ public class MaxNSearch extends AbstractSearch {
 
     private static double[] search(Map map, int player, int depth, int[] totalStates,
                                  BiFunction<double[], Map, double[]> searchFunction) {
-        // TODO: TERMINAL-TEST
-        if (depth <= 0) {
+        if (depth <= 0 || MapUtil.terminalTest(map)) {
             return Evaluation.utility(map);
         }
 
         totalStates[0]++;
 
         double[] value = new double[Map.getNumberOfPlayers()];
-        if (player == MAX) {
-            Arrays.fill(value, Double.MIN_VALUE);
-        } else {
-            Arrays.fill(value, Double.MAX_VALUE);
-        }
+        Arrays.fill(value, player == MAX ? Double.MIN_VALUE : Double.MAX_VALUE);
 
-        for (int y = 0; y < Map.getMapHeight(); y++) {
-            for (int x = 0; x < Map.getMapWidth(); x++) {
+        for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
+            for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
                 List<Coordinate> capturableTiles = new ArrayList<>();
                 if (AbstractMove.isMoveValid(map, x, y, MapUtil.intToPlayer(player), false, capturableTiles)) {
                     Map mapClone = new Map(map);
                     AbstractMove.executeMove(mapClone, x, y, MapUtil.intToPlayer(player), capturableTiles);
                     totalStates[0]++;
+
                     value = searchFunction.apply(value, mapClone);
                 }
             }
