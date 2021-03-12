@@ -16,9 +16,9 @@ public class SuccessorHeuristic extends AbstractHeuristic implements Heuristic {
     public void initHeuristic(Map map) {}
 
     @Override
-    public double executeHeuristic(Map map) {
+    public double executeHeuristic(Map map, char player) {
         // Determine successor
-        int playerStones = map.getNumberOfStones()[MapUtil.playerToInt(AbstractSearch.MAX)];
+        int playerStones = map.getNumberOfStones()[MapUtil.playerToInt(player)];
         int max = Integer.MIN_VALUE;
         int successor = -1;
         for (int i = 1, numberOfStonesLength = map.getNumberOfStones().length; i < numberOfStonesLength; i++) {

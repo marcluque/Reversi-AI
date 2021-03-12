@@ -21,12 +21,12 @@ public class StabilityHeuristic extends AbstractHeuristic implements Heuristic {
     }
 
     @Override
-    public double executeHeuristic(Map map) {
+    public double executeHeuristic(Map map, char player) {
         int threatCounter = 0;
 
         for (int y = 0; y < Map.getMapHeight(); y++) {
             for (int x = 0; x < Map.getMapWidth(); x++) {
-                if (map.getGameField()[y][x] == AbstractSearch.MAX) {
+                if (map.getGameField()[y][x] == player) {
                     Transition transition;
                     Coordinate neighbour;
                     Coordinate oppositeNeighbour;
@@ -51,12 +51,12 @@ public class StabilityHeuristic extends AbstractHeuristic implements Heuristic {
                         boolean neighbourIsThreat = MapUtil.isTileFree(
                                 map.getGameField()[neighbour.getY()][neighbour.getX()])
                                 && MapUtil.isDifferentPlayerStone(map, oppositeNeighbour.getX(),
-                                                                oppositeNeighbour.getY(), AbstractSearch.MAX);
+                                                                oppositeNeighbour.getY(), player);
 
                         boolean oppositeNeighbourIsThreat = MapUtil.isTileFree(
                                 map.getGameField()[oppositeNeighbour.getY()][oppositeNeighbour.getX()])
                                 && MapUtil.isDifferentPlayerStone(map, neighbour.getX(), neighbour.getY(),
-                                                                AbstractSearch.MAX);
+                                                                player);
 
                         // Threat is found
                         if (threatInMap && (neighbourIsThreat || oppositeNeighbourIsThreat)) {

@@ -16,7 +16,7 @@ public class StrongestOpponentHeuristic extends AbstractHeuristic implements Heu
     }
 
     @Override
-    public double executeHeuristic(Map map) {
+    public double executeHeuristic(Map map, char player) {
         // Determine strongest opponent
         int strongestOpponent = -1;
         int max = Integer.MIN_VALUE;

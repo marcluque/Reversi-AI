@@ -1,6 +1,5 @@
 package de.marcluque.reversi.ai.evaluation.heuristics;
 
-import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.MapUtil;
 
@@ -25,8 +24,8 @@ public class StoneCountHeuristic extends AbstractHeuristic implements Heuristic 
     }
 
     @Override
-    public double executeHeuristic(Map map) {
-        return map.getNumberOfStones()[MapUtil.playerToInt(AbstractSearch.MAX)]
+    public double executeHeuristic(Map map, char player) {
+        return map.getNumberOfStones()[MapUtil.playerToInt(player)]
                 / (double) ((Map.getMapHeight() * Map.getMapWidth()) - Map.getNumberOfHoles());
     }
 }

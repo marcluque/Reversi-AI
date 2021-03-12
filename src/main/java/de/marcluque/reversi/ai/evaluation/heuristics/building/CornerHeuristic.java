@@ -25,10 +25,10 @@ public class CornerHeuristic extends AbstractHeuristic implements Heuristic {
     }
 
     @Override
-    public double executeHeuristic(Map map) {
+    public double executeHeuristic(Map map, char player) {
         return Map.getCorners()
                 .stream()
-                .filter(corner -> map.getGameField()[corner.getY()][corner.getX()] == AbstractSearch.MAX)
+                .filter(corner -> map.getGameField()[corner.getY()][corner.getX()] == player)
                 .count() / (double) Map.getCorners().size();
     }
 }

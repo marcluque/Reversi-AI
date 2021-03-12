@@ -16,9 +16,9 @@ public class PredecessorHeuristic extends AbstractHeuristic implements Heuristic
     public void initHeuristic(Map map) {}
 
     @Override
-    public double executeHeuristic(Map map) {
+    public double executeHeuristic(Map map, char player) {
         // Determine predecessor
-        int playerStones = map.getNumberOfStones()[MapUtil.playerToInt(AbstractSearch.MAX)];
+        int playerStones = map.getNumberOfStones()[MapUtil.playerToInt(player)];
         int min = Integer.MAX_VALUE;
         int predecessor = -1;
         for (int i = 1, numberOfStonesLength = map.getNumberOfStones().length; i < numberOfStonesLength; i++) {
