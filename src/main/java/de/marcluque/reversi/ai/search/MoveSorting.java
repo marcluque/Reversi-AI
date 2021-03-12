@@ -4,6 +4,7 @@ import de.marcluque.reversi.ai.evaluation.Evaluation;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.moves.AbstractMove;
 import de.marcluque.reversi.util.Coordinate;
+import de.marcluque.reversi.util.Move;
 import de.marcluque.reversi.util.SortNode;
 
 import java.util.*;
@@ -18,8 +19,10 @@ public class MoveSorting {
 
         moves.forEach(move -> {
             Map mapClone = new Map(map);
-            AbstractMove.executeMove(mapClone, move.getX(), move.getY(), player, availableMoveMap.get(move));
+            Move tempMove = AbstractMove.executeMove(mapClone, move.getX(), move.getY(), player, availableMoveMap.get(move));
             move.setHeuristicValue(Evaluation.heuristicValue(mapClone, player));
+            move.setMap(mapClone);
+            move.setSpecialTile(tempMove.getSpecialTile());
         });
 
         moves.sort(Comparator.comparingDouble(SortNode::getHeuristicValue));

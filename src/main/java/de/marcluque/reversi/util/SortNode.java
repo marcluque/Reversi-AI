@@ -1,5 +1,7 @@
 package de.marcluque.reversi.util;
 
+import de.marcluque.reversi.map.Map;
+
 import java.util.Objects;
 
 /*
@@ -11,11 +13,15 @@ public class SortNode {
 
     private final int y;
 
+    private int specialTile;
+
     private double heuristicValue;
 
-    public SortNode(int x, int y) {
-        this.x = x;
-        this.y = y;
+    private Map map;
+
+    public SortNode(Move move) {
+        x = move.getX();
+        y = move.getY();
     }
 
     public int getX() {
@@ -26,12 +32,28 @@ public class SortNode {
         return y;
     }
 
+    public int getSpecialTile() {
+        return specialTile;
+    }
+
+    public void setSpecialTile(int specialTile) {
+        this.specialTile = specialTile;
+    }
+
     public double getHeuristicValue() {
         return heuristicValue;
     }
 
     public void setHeuristicValue(double heuristicValue) {
         this.heuristicValue = heuristicValue;
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
     }
 
     @Override
