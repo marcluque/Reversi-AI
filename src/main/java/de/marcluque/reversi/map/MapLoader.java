@@ -10,6 +10,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
+/*
+ * Created with <3 by Marc Luqué, March 2021
+ */
 public class MapLoader {
 
     private MapLoader() {}

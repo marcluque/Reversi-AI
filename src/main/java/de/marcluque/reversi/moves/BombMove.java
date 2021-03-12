@@ -5,6 +5,9 @@ import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.Move;
 import de.marcluque.reversi.util.Transition;
 
+/*
+ * Created with <3 by Marc Luqué, March 2021
+ */
 public abstract class BombMove {
 
     private static void executeBombMoveRecursive(Map map, int x, int y, int depth) {

@@ -3,10 +3,13 @@ package de.marcluque.reversi.util;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.moves.AbstractMove;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.*;
 
+/*
+ * Created with <3 by Marc Luqué, March 2021
+ */
 public class MapUtil {
 
     private MapUtil() {}
@@ -51,9 +54,12 @@ public class MapUtil {
         return MapUtil.isOccupied(map.getGameField()[y][x]) && map.getGameField()[y][x] != player;
     }
 
-
     public static int playerToInt(char player) {
         return player - '0';
+    }
+
+    public static char intToPlayer(int player) {
+        return (char) ('0' + player);
     }
 
     public static boolean isTileCapturableAndInMap(int x, int y, char type) {
@@ -110,37 +116,31 @@ public class MapUtil {
         return neighbours;
     }
 
-
-    public static void search(Map map, char player, boolean override, int phase, Predicate<Map> consumer) {
-        for (int i = 0; i < map.getGameField().length; i++) {
-            for (int j = 0; j < map.getGameField()[0].length; j++) {
-                List<Coordinate> capturableStones = new LinkedList<>();
-                if (AbstractMove.isMoveValidImpl(map, j, i, player, false, override, capturableStones)) {
-                    Map mapClone = new Map(map);
-                    AbstractMove.executeMove(mapClone, j, i, player, capturableStones);
-
-                    if (consumer.test(mapClone)) {
-                        return;
-                    }
+    public static boolean isStateTerminal(Map map) {
+        boolean isNotTerminal = false;
+        for (int player = 1; player <= Map.getNumberOfPlayers(); player++) {
+            for (int i = 0; i < map.getGameField().length; i++) {
+                for (int j = 0; j < map.getGameField()[0].length; j++) {
+                    isNotTerminal |= AbstractMove.isMoveValid(map, j, i, intToPlayer(player), true, true);
                 }
             }
         }
+
+        return !isNotTerminal;
     }
 
-    public static void search(Map map, char player, boolean override, int phase, BiPredicate<Map, Coordinate> consumer) {
-        for (int i = 0; i < map.getGameField().length; i++) {
-            for (int j = 0; j < map.getGameField()[0].length; j++) {
+    public static java.util.Map<SortNode, List<Coordinate>> getAvailableMoves(Map map, char player, boolean allowOverride) {
+        java.util.Map<SortNode, List<Coordinate>> availableMoves = new HashMap<>();
+        for (int y = 0; y < map.getGameField().length; y++) {
+            for (int x = 0; x < map.getGameField()[0].length; x++) {
                 List<Coordinate> capturableStones = new LinkedList<>();
-                if (AbstractMove.isMoveValidImpl(map, j, i, player, false, override, capturableStones)) {
-                    Map mapClone = new Map(map);
-                    AbstractMove.executeMove(mapClone, j, i, player, capturableStones);
-
-                    if (consumer.test(mapClone, new Coordinate(j, i))) {
-                        return;
-                    }
+                if (AbstractMove.isMoveValid(map, x, y, player, false, allowOverride, capturableStones)) {
+                    availableMoves.put(new SortNode(x, y), capturableStones);
                 }
             }
         }
+
+        return availableMoves;
     }
 
     public static String mapToPrintableString(char[][] map) {

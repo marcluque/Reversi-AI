@@ -8,6 +8,9 @@ import de.marcluque.reversi.util.SortNode;
 
 import java.util.*;
 
+/*
+ * Created with <3 by Marc Luqué, March 2021
+ */
 public class MoveSorting {
 
     public static List<SortNode> sort(Map map, char player, java.util.Map<SortNode, List<Coordinate>> availableMoveMap) {

@@ -4,6 +4,9 @@ import de.marcluque.reversi.map.Map;
 
 import java.util.Arrays;
 
+/*
+ * Created with <3 by Marc Luqué, March 2021
+ */
 public class StoneParityHeuristic extends AbstractHeuristic implements Heuristic {
 
     public StoneParityHeuristic(double weight) {

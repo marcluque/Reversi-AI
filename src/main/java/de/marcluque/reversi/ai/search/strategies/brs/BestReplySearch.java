@@ -10,6 +10,9 @@ import de.marcluque.reversi.util.Move;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * Created with <3 by Marc Luqué, March 2021
+ */
 public class BestReplySearch extends AbstractSearch {
 
     public static Move search(Map map, int depth, int[] totalStates) {

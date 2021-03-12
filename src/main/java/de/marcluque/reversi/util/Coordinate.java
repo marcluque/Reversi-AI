@@ -1,5 +1,8 @@
 package de.marcluque.reversi.util;
 
+/*
+ * Created with <3 by Marc Luqué, March 2021
+ */
 public class Coordinate {
 
     private final int x;

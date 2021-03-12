@@ -6,6 +6,9 @@ import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.MapUtil;
 
+/*
+ * Created with <3 by Marc Luqué, March 2021
+ */
 public class PredecessorHeuristic extends AbstractHeuristic implements Heuristic {
 
     public PredecessorHeuristic(double weight) {

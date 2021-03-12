@@ -9,6 +9,9 @@ import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.Move;
 import de.marcluque.reversi.util.SortNode;
 
+/*
+ * Created with <3 by Marc Luqué, March 2021
+ */
 public class OpponentPruningParanoidSearch extends AbstractSearch {
 
     // TODO: MIGHT NEED SOME FINE TUNING:

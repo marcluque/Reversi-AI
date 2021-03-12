@@ -2,6 +2,9 @@ package de.marcluque.reversi.util;
 
 import java.util.Objects;
 
+/*
+ * Created with <3 by Marc Luqué, March 2021
+ */
 public class SortNode {
 
     private final int x;

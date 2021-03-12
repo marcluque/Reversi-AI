@@ -11,6 +11,9 @@ import de.marcluque.reversi.util.Coordinate;
 import java.util.LinkedList;
 import java.util.List;
 
+/*
+ * Created with <3 by Marc Luqué, March 2021
+ */
 public class MobilityHeuristic extends AbstractHeuristic implements Heuristic {
 
     public MobilityHeuristic(double weight) {

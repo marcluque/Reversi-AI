@@ -7,6 +7,9 @@ import de.marcluque.reversi.util.StatisticsUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * Created with <3 by Marc Luqué, March 2021
+ */
 @SuppressWarnings("DuplicatedCode")
 public class IterativeDeepening {
 

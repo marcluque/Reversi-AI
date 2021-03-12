@@ -8,6 +8,9 @@ import de.marcluque.reversi.ai.evaluation.heuristics.building.MobilityHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.building.StabilityHeuristic;
 import de.marcluque.reversi.network.Client;
 
+/*
+ * Created with <3 by Marc Luqué, March 2021
+ */
 public class ReversiMain {
 
     public static void main(String[] args) {

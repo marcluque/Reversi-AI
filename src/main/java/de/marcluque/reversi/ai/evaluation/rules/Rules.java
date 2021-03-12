@@ -3,6 +3,9 @@ package de.marcluque.reversi.ai.evaluation.rules;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.MapUtil;
 
+/*
+ * Created with <3 by Marc Luqué, March 2021
+ */
 public class Rules {
 
     public static boolean OVERRIDE_STONES = false;

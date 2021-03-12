@@ -12,6 +12,9 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+/*
+ * Created with <3 by Marc Luqué, March 2021
+ */
 public abstract class AbstractMove {
 
     public static final int[][] CORNERS = {{0, -1}, {1, -1}, {1, 0},

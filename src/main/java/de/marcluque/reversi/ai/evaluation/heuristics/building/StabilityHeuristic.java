@@ -9,6 +9,9 @@ import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.Transition;
 
+/*
+ * Created with <3 by Marc Luqué, March 2021
+ */
 public class StabilityHeuristic extends AbstractHeuristic implements Heuristic {
 
     public StabilityHeuristic(double weight) {

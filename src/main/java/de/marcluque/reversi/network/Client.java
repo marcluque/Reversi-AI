@@ -9,6 +9,7 @@ import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.map.MapLoader;
 import de.marcluque.reversi.moves.AbstractMove;
 import de.marcluque.reversi.util.Coordinate;
+import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.Move;
 
 import java.io.DataInputStream;
@@ -18,7 +19,11 @@ import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
+/*
+ * Created with <3 by Marc Luqué, March 2021
+ */
 public class Client {
 
     private final String hostname;
@@ -84,6 +89,7 @@ public class Client {
 
                 // Message types
                 switch (type) {
+
                     // Sends map
                     case 2 -> {
                         map = MapLoader.generateMapFromString(new String(byteBuffer.array()));
@@ -94,7 +100,15 @@ public class Client {
 
                     // Assigns player number
                     case 3 -> {
-                        AbstractSearch.MAX = (char) ('0' + byteBuffer.get());
+                        AbstractSearch.MAX = MapUtil.intToPlayer(byteBuffer.get());
+
+                        IntStream.rangeClosed(1, Map.getNumberOfPlayers())
+                                .filter(i -> i != MapUtil.playerToInt(AbstractSearch.MAX))
+                                .forEach(i -> AbstractSearch.OPPONENTS.add(MapUtil.intToPlayer(i)));
+
+                        IntStream.rangeClosed(1, Map.getNumberOfPlayers())
+                                .forEach(i -> AbstractSearch.ACTIVE_PLAYERS.add(MapUtil.intToPlayer(i)));
+
                         System.out.println("WE ARE PLAYER: " + AbstractSearch.MAX);
                     }
 
@@ -121,7 +135,7 @@ public class Client {
                         char receivedPlayer = (char) ('0' + byteBuffer.get());
 
                         List<Coordinate> capturableTiles = new ArrayList<>();
-                        if (AbstractMove.isMoveValidImpl(map, x, y, receivedPlayer, false,
+                        if (AbstractMove.isMoveValid(map, x, y, receivedPlayer, false,
                                 Rules.OVERRIDE_STONES, capturableTiles)) {
                             AbstractMove.executeMove(map, x, y, receivedPlayer, capturableTiles);
                         } else {
@@ -139,17 +153,9 @@ public class Client {
                         if (disqualifiedPlayer == AbstractSearch.MAX) {
                             System.err.println("Client has been disqualified!");
                         } else {
+                            AbstractSearch.OPPONENTS.remove(disqualifiedPlayer);
+                            AbstractSearch.ACTIVE_PLAYERS.remove(disqualifiedPlayer);
                             System.out.printf("Player %d has been disqualified!%n", disqualifiedPlayer);
-                            char[] newOpponents = new char[AbstractSearch.OPPONENTS.length - 1];
-                            int counter = 0;
-                            for (char opponent : AbstractSearch.OPPONENTS) {
-                                if (opponent != disqualifiedPlayer) {
-                                    newOpponents[counter++] = opponent;
-                                }
-                            }
-
-                            System.arraycopy(newOpponents, 0, AbstractSearch.OPPONENTS, 0,
-                                    newOpponents.length);
                         }
                     }
 
@@ -189,11 +195,11 @@ public class Client {
         Move responseMove;
         if (timeLimit == 0) {
             responseMove = IterativeDeepening.iterativeDeepeningDepthLimit(depthLimit, (totalStates) -> {
-                return BestReplySearch.search(map, depthLimit, Rules.OVERRIDE_STONES, totalStates);
+                return BestReplySearch.search(map, depthLimit, totalStates);
             });
         } else {
             responseMove = IterativeDeepening.iterativeDeepeningTimeLimit((totalStates) -> {
-                return BestReplySearch.search(map, depthLimit, Rules.OVERRIDE_STONES, totalStates);
+                return BestReplySearch.search(map, depthLimit, totalStates);
             });
         }
 

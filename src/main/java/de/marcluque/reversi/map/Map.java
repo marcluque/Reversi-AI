@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+/*
+ * Created with <3 by Marc Luqué, March 2021
+ */
 public class Map {
 
     private final char[][] gameField;
