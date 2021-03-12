@@ -2,7 +2,7 @@
 This piece of software implements artificial intelligence that is based on informed search MiniMax algorithms and their extensions.
 The game played is Reversi. However, this version of Reversi is tweaked to be harder and not playable for humans anymore.
 This poses a greater challenge for AI. The exact rules of the tweaked Reversi game are explained below.
-The AI communicates with a game master that is a [server](https://github.com/DataSecs/Reversi-Server).
+The AI communicates with a game master that is a [server](https://github.com/marcluque/Reversi-Server).
 The communication is done according to the protocol defined below.
 
 ## Rules
@@ -46,11 +46,11 @@ However, when picking a too narrow window, the best move might be missed.
 ## Heuristics
 
 ## Server
-This client is used to play Reversi with the [server](https://github.com/DataSecs/Reversi-Server) as a game master.
+This client is used to play Reversi with the [server](https://github.com/marcluque/Reversi-Server) as a game master.
 The client communicates with the server by using the above-mentioned protocol.
 The game is played according to the above-defined rules.
 
 ## Running it
 
 ## License
-Licensed under the BSD 2-Clause License - see the [LICENSE](https://github.com/DataSecs/Reversi-AI/blob/master/LICENSE) file for details.
+Licensed under the BSD 2-Clause License - see the [LICENSE](https://github.com/marcluque/Reversi-AI/blob/master/LICENSE) file for details.
