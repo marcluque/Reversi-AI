@@ -1,5 +1,6 @@
 package de.marcluque.reversi.ai.search.strategies.opps;
 
+import de.marcluque.reversi.ai.evaluation.Evaluation;
 import de.marcluque.reversi.ai.evaluation.rules.Rules;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.ai.search.MoveSorting;
@@ -33,22 +34,19 @@ public class OpponentPruningParanoidSearch extends AbstractSearch {
 
         for (int i = 0, sortedMovesSize = sortedMoves.size(); i < sortedMovesSize; i++) {
             SortNode move = sortedMoves.get(i);
-            Map mapClone = new Map(map);
-            Move currentMove = AbstractMove.executeMove(mapClone, move.getX(), move.getY(), MAX,
-                    availableMoves.get(move));
             totalStates[0]++;
 
             if (i >= BRANCHING_LIMIT_GROUP_TWO) {
                 moveCount++;
             }
 
-            double value = OPPS(mapClone, depth - 1,
+            double value = OPPS(move.getMap(), depth - 1,
                     (MapUtil.playerToInt(MAX) % Map.getNumberOfPlayers()) + 1,
                     moveCount, numberAvailableMoves, totalStates);
 
             maxValue = Math.max(maxValue, value);
             if (value > maxValue) {
-                bestMove = currentMove;
+                bestMove = new Move(move.getX(), move.getY(), move.getSpecialTile());
                 maxValue = value;
             }
         }
@@ -56,50 +54,39 @@ public class OpponentPruningParanoidSearch extends AbstractSearch {
         return bestMove;
     }
 
-    private static double OPPS(Map map, int depth, int turn, int moveCount, int numberAvailableMoves,
-                               int[] totalStates) {
-        if (numberAvailableMoves < 5 && MapUtil.isStateTerminal(map)) {
-            return 1;
-        } else if (depth == 0) {
-            return 2;
-        } else {
-            char player = MapUtil.intToPlayer(turn);
-            boolean maxTurn = turn == MAX;
-            var availableMoves = MapUtil.getAvailableMoves(map, player, Rules.OVERRIDE_STONES);
-
-            var sortedMoves = MoveSorting.sort(map, player, availableMoves);
-            numberAvailableMoves = sortedMoves.size();
-
-            if (maxTurn) {
-                moveCount = 0;
-            } else if (moveCount == SIZE_GROUP_ONE) {
-                sortedMoves = sortedMoves.subList(0, BRANCHING_LIMIT_GROUP_TWO);
-            } else {
-                sortedMoves = sortedMoves.subList(0, BRANCHING_LIMIT_GROUP_ONE);
-            }
-
-            double bestValue = 0;
-            for (int i = 0, sortedMovesSize = sortedMoves.size(); i < sortedMovesSize; i++) {
-                SortNode move = sortedMoves.get(i);
-                Map mapClone = new Map(map);
-                AbstractMove.executeMove(mapClone, move.getX(), move.getY(), player, availableMoves.get(move));
-                totalStates[0]++;
-
-                if (i >= BRANCHING_LIMIT_GROUP_TWO) {
-                    moveCount++;
-                }
-
-                double value = OPPS(mapClone, depth - 1, (turn % Map.getNumberOfPlayers()) + 1,
-                        moveCount, numberAvailableMoves, totalStates);
-
-                if (maxTurn) {
-                    bestValue = Math.max(bestValue, value);
-                } else {
-                    bestValue = Math.min(bestValue, value);
-                }
-            }
-
-            return bestValue;
+    private static double OPPS(Map map, int depth, int turn, int moveCount, int numberAvailableMoves, int[] totalStates) {
+        if (depth <= 0 || (numberAvailableMoves < 2 && MapUtil.terminalTest(map))) {
+            return Evaluation.utility(map, MAX);
         }
+
+        char player = MapUtil.intToPlayer(turn);
+        boolean maxTurn = turn == MAX;
+        var availableMoves = MapUtil.getAvailableMoves(map, player, Rules.OVERRIDE_STONES);
+
+        var sortedMoves = MoveSorting.sort(map, player, availableMoves);
+        numberAvailableMoves = sortedMoves.size();
+
+        if (maxTurn) {
+            moveCount = 0;
+        } else if (moveCount == SIZE_GROUP_ONE) {
+            sortedMoves = sortedMoves.subList(0, BRANCHING_LIMIT_GROUP_TWO);
+        } else {
+            sortedMoves = sortedMoves.subList(0, BRANCHING_LIMIT_GROUP_ONE);
+        }
+
+        double bestValue = 0;
+        for (int i = 0, sortedMovesSize = sortedMoves.size(); i < sortedMovesSize; i++) {
+            totalStates[0]++;
+
+            if (i >= BRANCHING_LIMIT_GROUP_TWO) {
+                moveCount++;
+            }
+
+            double value = OPPS(sortedMoves.get(i).getMap(), depth - 1,
+                    (turn % Map.getNumberOfPlayers()) + 1, moveCount, numberAvailableMoves, totalStates);
+            bestValue = maxTurn ? Math.max(bestValue, value) : Math.min(bestValue, value);
+        }
+
+        return bestValue;
     }
 }
