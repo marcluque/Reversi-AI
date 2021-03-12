@@ -18,8 +18,8 @@ public class BestReplySearch extends AbstractSearch {
     public static Move search(Map map, int depth, int[] totalStates) {
         Move bestMove = null;
         double maxValue = Double.MIN_VALUE;
-        for (int y = 0; y < Map.getMapHeight(); y++) {
-            for (int x = 0; x < Map.getMapWidth(); x++) {
+        for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
+            for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
                 List<Coordinate> capturableTiles = new ArrayList<>();
                 if (AbstractMove.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
                     Map mapClone = new Map(map);
@@ -58,8 +58,8 @@ public class BestReplySearch extends AbstractSearch {
     }
 
     private static double BRSDoMoves(Map map, double alpha, double beta, int depth, char turn, int[] totalStates) {
-        for (int y = 0; y < Map.getMapHeight(); y++) {
-            for (int x = 0; x < Map.getMapWidth(); x++) {
+        for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
+            for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
                 List<Coordinate> capturableTiles = new ArrayList<>();
                 if (AbstractMove.isMoveValid(map, x, y, turn, false, capturableTiles)) {
                     Map mapClone = new Map(map);
