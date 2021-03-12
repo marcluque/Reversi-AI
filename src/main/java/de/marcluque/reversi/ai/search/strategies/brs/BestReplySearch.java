@@ -12,25 +12,22 @@ import java.util.List;
 
 public class BestReplySearch extends AbstractSearch {
 
-    public static Move search(Map map, int depth, boolean allowOverride, int[] totalStates) {
+    public static Move search(Map map, int depth, int[] totalStates) {
         Move bestMove = null;
         double maxValue = Double.MIN_VALUE;
         for (int y = 0; y < Map.getMapHeight(); y++) {
             for (int x = 0; x < Map.getMapWidth(); x++) {
                 List<Coordinate> capturableTiles = new ArrayList<>();
-                if (AbstractMove.isMoveValidImpl(map, x, y, MAX, false, allowOverride, capturableTiles
-                )) {
+                if (AbstractMove.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
                     Map mapClone = new Map(map);
                     Move currentMove = AbstractMove.executeMove(mapClone, x, y, MAX, capturableTiles);
+                    totalStates[0]++;
 
-                    double value = BRS(map, Double.MIN_VALUE, Double.MAX_VALUE, depth, MAX, allowOverride,
-                            totalStates);
+                    double value = BRS(map, Double.MIN_VALUE, Double.MAX_VALUE, depth, MAX, totalStates);
                     if (value > maxValue) {
                         maxValue = value;
                         bestMove = currentMove;
                     }
-
-                    totalStates[0]++;
                 }
             }
         }
@@ -38,20 +35,18 @@ public class BestReplySearch extends AbstractSearch {
         return bestMove;
     }
 
-    private static double BRS(Map map, double alpha, double beta, int depth, char turn, boolean allowOverride,
-                              int[] totalStates) {
+    private static double BRS(Map map, double alpha, double beta, int depth, char turn, int[] totalStates) {
         if (depth <= 0) {
-            return Evaluation.utility(map);
+            return Evaluation.utility(map, MAX);
         }
 
         double maxAlpha = alpha;
         if (turn == MAX) {
-            maxAlpha = Math.max(maxAlpha, BRSDoMoves(map, alpha, beta, depth, MAX, allowOverride, totalStates));
+            maxAlpha = Math.max(maxAlpha, BRSDoMoves(map, alpha, beta, depth, MAX, totalStates));
             return maxAlpha;
         } else {
             for (char opponent : OPPONENTS) {
-                maxAlpha = Math.max(maxAlpha, BRSDoMoves(map, alpha, beta, depth, opponent, allowOverride,
-                        totalStates));
+                maxAlpha = Math.max(maxAlpha, BRSDoMoves(map, alpha, beta, depth, opponent, totalStates));
                 return maxAlpha;
             }
         }
@@ -59,25 +54,22 @@ public class BestReplySearch extends AbstractSearch {
         return maxAlpha;
     }
 
-    private static double BRSDoMoves(Map map, double alpha, double beta, int depth, char turn, boolean allowOverride,
-                                     int[] totalStates) {
+    private static double BRSDoMoves(Map map, double alpha, double beta, int depth, char turn, int[] totalStates) {
         for (int y = 0; y < Map.getMapHeight(); y++) {
             for (int x = 0; x < Map.getMapWidth(); x++) {
                 List<Coordinate> capturableTiles = new ArrayList<>();
-                if (AbstractMove.isMoveValidImpl(map, x, y, turn, false, allowOverride, capturableTiles
-                )) {
+                if (AbstractMove.isMoveValid(map, x, y, turn, false, capturableTiles)) {
                     Map mapClone = new Map(map);
                     AbstractMove.executeMove(mapClone, x, y, turn, capturableTiles);
+                    totalStates[0]++;
                     double value = -BRS(mapClone, -beta, -alpha, depth - 1,
-                            (turn == MAX) ? OPPONENT : MAX, allowOverride, totalStates);
+                            (turn == MAX) ? OPPONENT : MAX, totalStates);
 
                     if (value >= beta) {
                         return value;
                     }
 
                     alpha = Math.max(alpha, value);
-
-                    totalStates[0]++;
                 }
             }
         }

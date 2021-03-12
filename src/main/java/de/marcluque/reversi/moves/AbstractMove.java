@@ -1,5 +1,6 @@
 package de.marcluque.reversi.moves;
 
+import de.marcluque.reversi.ai.evaluation.rules.Rules;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.MapUtil;
@@ -7,6 +8,9 @@ import de.marcluque.reversi.util.Move;
 import de.marcluque.reversi.util.Transition;
 
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public abstract class AbstractMove {
 
@@ -15,12 +19,34 @@ public abstract class AbstractMove {
 
     private AbstractMove() {}
 
-    public static boolean isMoveValid(Map map, int x, int y, char player, List<Coordinate> capturableTiles) {
-        return isMoveValidImpl(map, x, y, player, false, true, capturableTiles);
+    public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly,
+                                      List<Coordinate> capturableTiles) {
+        return isMoveValid(map, x, y, player, returnEarly, Rules.OVERRIDE_STONES, capturableTiles);
     }
 
-    public static boolean isMoveValidImpl(Map map, int x, int y, char player, boolean returnEarly,
-                                          boolean allowOverrideStones, List<Coordinate> capturableTiles) {
+    public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly,
+                                      boolean allowOverrideStones, List<Coordinate> capturableTiles) {
+        return isMoveValidImpl(map, x, y, player, returnEarly, allowOverrideStones,
+                (direction) -> walkPath(map, x, y, direction, player,
+                         (newX, newY) -> {
+                    capturableTiles.add(new Coordinate(newX, newY));
+                    return Map.getTransitions().get(new Transition(newX, newY, direction));
+                }));
+    }
+
+    public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly) {
+        return isMoveValid(map, x, y, player, returnEarly, Rules.OVERRIDE_STONES);
+    }
+
+    public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly,
+                                      boolean allowOverrideStones) {
+        return isMoveValidImpl(map, x, y, player, returnEarly, allowOverrideStones,
+                (direction) -> walkPath(map, x, y, direction, player,
+                         (newX, newY) -> Map.getTransitions().get(new Transition(newX, newY, direction))));
+    }
+
+    private static boolean isMoveValidImpl(Map map, int x, int y, char player, boolean returnEarly,
+                                           boolean allowOverrideStones, Function<Integer, Boolean> walkPathVariant) {
         // Holes are not allowed, neither for building nor for bomb phase
         if (MapUtil.isTileHole(map.getGameField()[y][x])) {
             return false;
@@ -40,7 +66,7 @@ public abstract class AbstractMove {
             // Iterate over all directions from start stone
             for (int direction = 0; direction < 8; direction++) {
                 // Walk along direction starting from (x,y)
-                result |= walkPath(map, x, y, direction, player, capturableTiles);
+                result |= walkPathVariant.apply(direction);
 
                 if (returnEarly & result) {
                     return true;
@@ -55,12 +81,8 @@ public abstract class AbstractMove {
         }
     }
 
-    public static boolean isBuildingMoveValid(Map map, int x, int y, char player, boolean allowOverrideStones, List<Coordinate> capturableTiles) {
-        return isMoveValidImpl(map, x, y, player, true, allowOverrideStones, capturableTiles);
-    }
-
     private static boolean walkPath(Map map, int startX, int startY, int direction, char player,
-                                    List<Coordinate> capturableTiles) {
+                                    BiFunction<Integer, Integer, Transition> transitionSupplier) {
         int x = startX;
         int y = startY;
         // Starts at -1 because the do while immediately adds the start tile, but the start tile doesn't count for a path
@@ -68,8 +90,7 @@ public abstract class AbstractMove {
         Transition transitionEnd;
 
         do {
-            capturableTiles.add(new Coordinate(x, y));
-            transitionEnd = Map.getTransitions().get(new Transition(x, y, direction));
+            transitionEnd = transitionSupplier.apply(x, y);
 
             // Follow the transition, if there is one and adapt its direction
             if (transitionEnd != null) {
