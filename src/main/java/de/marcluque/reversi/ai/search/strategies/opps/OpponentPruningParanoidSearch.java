@@ -40,8 +40,7 @@ public class OpponentPruningParanoidSearch extends AbstractSearch {
                 moveCount++;
             }
 
-            double value = OPPS(move.getMap(), depth - 1,
-                    (MapUtil.playerToInt(MAX) % Map.getNumberOfPlayers()) + 1,
+            double value = OPPS(move.getMap(), depth - 1, MapUtil.nextPlayer(MapUtil.playerToInt(MAX)),
                     moveCount, numberAvailableMoves, totalStates);
 
             maxValue = Math.max(maxValue, value);
@@ -83,7 +82,8 @@ public class OpponentPruningParanoidSearch extends AbstractSearch {
             }
 
             double value = OPPS(sortedMoves.get(i).getMap(), depth - 1,
-                    (turn % Map.getNumberOfPlayers()) + 1, moveCount, numberAvailableMoves, totalStates);
+                    MapUtil.nextPlayer(turn), moveCount, numberAvailableMoves, totalStates);
+
             bestValue = maxTurn ? Math.max(bestValue, value) : Math.min(bestValue, value);
         }
 

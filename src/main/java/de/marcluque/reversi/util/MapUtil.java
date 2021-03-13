@@ -137,6 +137,10 @@ public class MapUtil {
         return countAvailableMoves(map) == 0;
     }
 
+    public static int nextPlayer(int currentPlayer)  {
+        return (currentPlayer % Map.getNumberOfPlayers()) + 1;
+    }
+
     public static java.util.Map<SortNode, List<Coordinate>> getAvailableMoves(Map map, char player, boolean allowOverride) {
         java.util.Map<SortNode, List<Coordinate>> availableMoves = new HashMap<>();
         for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
