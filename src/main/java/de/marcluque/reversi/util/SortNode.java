@@ -36,6 +36,10 @@ public class SortNode {
         return specialTile;
     }
 
+    public Move getMove() {
+        return new Move(x, y, specialTile);
+    }
+
     public void setSpecialTile(int specialTile) {
         this.specialTile = specialTile;
     }

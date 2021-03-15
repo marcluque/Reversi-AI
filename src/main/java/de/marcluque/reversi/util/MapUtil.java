@@ -1,11 +1,10 @@
 package de.marcluque.reversi.util;
 
-import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.moves.AbstractMove;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 /*
@@ -117,36 +116,31 @@ public class MapUtil {
         return neighbours;
     }
 
-    public static int countAvailableMoves(Map map) {
-        int moves = 0;
-        for (int player = 1, numberOfPlayers = Map.getNumberOfPlayers(); player <= numberOfPlayers; player++) {
-            for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
-                for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
+    public static boolean isTerminal(Map map) {
+        // TODO: THINK OF BETTER IDEA THAN THIS
+        for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
+            for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
+                for (int player = 1, countPlayers = Map.getNumberOfPlayers(); player <= countPlayers; player++) {
                     if (AbstractMove.isMoveValid(map, x, y, intToPlayer(player), true, true)) {
-                        moves++;
+                        return false;
                     }
                 }
             }
         }
 
-        return moves;
-    }
-
-    public static boolean terminalTest(Map map) {
-        // TODO: THINK OF BETTER IDEA FOR THIS
-        return countAvailableMoves(map) == 0;
+        return true;
     }
 
     public static int nextPlayer(int currentPlayer)  {
         return (currentPlayer % Map.getNumberOfPlayers()) + 1;
     }
 
-    public static java.util.Map<SortNode, List<Coordinate>> getAvailableMoves(Map map, char player, boolean allowOverride) {
+    public static java.util.Map<SortNode, List<Coordinate>> getAvailableMoves(Map map, char player) {
         java.util.Map<SortNode, List<Coordinate>> availableMoves = new HashMap<>();
         for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
             for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
-                List<Coordinate> capturableStones = new LinkedList<>();
-                if (AbstractMove.isMoveValid(map, x, y, player, false, allowOverride, capturableStones)) {
+                List<Coordinate> capturableStones = new ArrayList<>();
+                if (AbstractMove.isMoveValid(map, x, y, player, false, capturableStones)) {
                     availableMoves.put(new SortNode(new Move(x, y, 0)), capturableStones);
                 }
             }
