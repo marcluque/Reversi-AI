@@ -13,4 +13,7 @@ public abstract class AbstractSearch {
     protected static final char OPPONENT = '§';
 
     public static List<Character> ACTIVE_PLAYERS;
+
+    // Only important for minimax algorithms
+    public static char MIN = '§';
 }
