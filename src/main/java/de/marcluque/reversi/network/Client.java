@@ -1,10 +1,13 @@
 package de.marcluque.reversi.network;
 
 import de.marcluque.reversi.ai.evaluation.Evaluation;
+import de.marcluque.reversi.ai.evaluation.metrics.Metrics;
 import de.marcluque.reversi.ai.evaluation.rules.Rules;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.ai.search.IterativeDeepening;
 import de.marcluque.reversi.ai.search.strategies.brs.BestReplySearch;
+import de.marcluque.reversi.ai.search.strategies.minimax.AlphaBetaMoveSorting;
+import de.marcluque.reversi.map.GameInstance;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.map.MapLoader;
 import de.marcluque.reversi.moves.AbstractMove;
@@ -31,16 +34,6 @@ public class Client {
     private final int port;
 
     private Socket clientSocket;
-
-    private Map map;
-
-    private int depthLimit;
-
-    private static long timeLimit;
-
-    private static long startTime;
-
-    private static final long TIME_BUFFER = 200;
 
     private DataOutputStream outputStream;
 
@@ -92,10 +85,10 @@ public class Client {
 
                     // Sends map
                     case 2 -> {
-                        map = MapLoader.generateMapFromString(new String(byteBuffer.array()));
+                        GameInstance.setMap(MapLoader.generateMapFromString(new String(byteBuffer.array())));
                         System.out.println("MAP:\n" + new String(byteBuffer.array()));
 
-                        Evaluation.initHeuristics(map);
+                        Evaluation.initHeuristics(GameInstance.getMap());
                     }
 
                     // Assigns player number
@@ -115,12 +108,12 @@ public class Client {
                     // Requests move from player
                     case 4 -> {
                         // Time limit is in milliseconds
-                        timeLimit = byteBuffer.getInt();
+                        GameInstance.setTimeLimit(byteBuffer.getInt());
                         // timeLimit == 0 -> no time limit
-                        if (timeLimit != 0) {
-                            startTime = System.currentTimeMillis() + TIME_BUFFER;
+                        if (GameInstance.getTimeLimit() != 0) {
+                            GameInstance.setStartTime(System.currentTimeMillis() + GameInstance.TIME_BUFFER);
                         }
-                        depthLimit = byteBuffer.get();
+                        GameInstance.setDepthLimit(byteBuffer.get());
 
                         Move move = sendMoveResponse();
                         System.out.printf("OUR MOVE: (%d,%d) with special %d%n", move.getX(), move.getY(),
@@ -135,9 +128,9 @@ public class Client {
                         char receivedPlayer = (char) ('0' + byteBuffer.get());
 
                         List<Coordinate> capturableTiles = new ArrayList<>();
-                        if (AbstractMove.isMoveValid(map, x, y, receivedPlayer, false,
+                        if (AbstractMove.isMoveValid(GameInstance.getMap(), x, y, receivedPlayer, false,
                                 Rules.OVERRIDE_STONES, capturableTiles)) {
-                            AbstractMove.executeMove(map, x, y, receivedPlayer, capturableTiles);
+                            AbstractMove.executeMove(GameInstance.getMap(), x, y, receivedPlayer, capturableTiles);
                         } else {
                             System.err.println("OPPONENT MOVE: (" + x + "," + y + ") with special " + specialField
                                     + " by player " + receivedPlayer + " wasn't valid!");
@@ -145,6 +138,8 @@ public class Client {
 
                         System.out.println("OPPONENT MOVE: (" + x + "," + y + ") with special " + specialField
                                 + " by player " + receivedPlayer);
+
+                        Metrics.updatePlayersWithMoves(GameInstance.getMap());
                     }
 
                     // Disqualification of a player
@@ -184,28 +179,8 @@ public class Client {
     }
 
     private Move sendMoveResponse() {
-        ////////////////////////
-        //    RULE UPDATES    //
-        ////////////////////////
-        Rules.updateOverrideStoneRule(map);
+        Move responseMove = GameInstance.generateMoveResponse();
 
-        ////////////////////////
-        //     SEARCH MOVE    //
-        ////////////////////////
-        Move responseMove;
-        if (timeLimit == 0) {
-            responseMove = IterativeDeepening.iterativeDeepeningDepthLimit(depthLimit, (totalStates) -> {
-                return BestReplySearch.search(map, depthLimit, totalStates);
-            });
-        } else {
-            responseMove = IterativeDeepening.iterativeDeepeningTimeLimit((totalStates) -> {
-                return BestReplySearch.search(map, depthLimit, totalStates);
-            });
-        }
-
-        ////////////////////////
-        //    SEND RESPONSE   //
-        ////////////////////////
         try {
             // Write type of message (1 Byte)
             outputStream.writeByte(5);
@@ -226,9 +201,5 @@ public class Client {
         }
 
         return responseMove;
-    }
-
-    public static long getLeftTime() {
-        return timeLimit - (startTime - System.currentTimeMillis());
     }
 }
