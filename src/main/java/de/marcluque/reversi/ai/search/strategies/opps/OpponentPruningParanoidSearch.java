@@ -5,7 +5,6 @@ import de.marcluque.reversi.ai.evaluation.rules.Rules;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.ai.search.MoveSorting;
 import de.marcluque.reversi.map.Map;
-import de.marcluque.reversi.moves.AbstractMove;
 import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.Move;
 import de.marcluque.reversi.util.SortNode;
@@ -26,9 +25,7 @@ public class OpponentPruningParanoidSearch extends AbstractSearch {
         Move bestMove = null;
         double maxValue = Double.MIN_VALUE;
 
-        var availableMoves = MapUtil.getAvailableMoves(map, MAX, Rules.OVERRIDE_STONES);
-
-        var sortedMoves = MoveSorting.sort(map, MAX, availableMoves);
+        var sortedMoves = MoveSorting.sort(map, MAX, MapUtil.getAvailableMoves(map, MAX));
         int numberAvailableMoves = sortedMoves.size();
         int moveCount = 0;
 
@@ -45,7 +42,7 @@ public class OpponentPruningParanoidSearch extends AbstractSearch {
 
             maxValue = Math.max(maxValue, value);
             if (value > maxValue) {
-                bestMove = new Move(move.getX(), move.getY(), move.getSpecialTile());
+                bestMove = move.getMove();
                 maxValue = value;
             }
         }
@@ -54,15 +51,14 @@ public class OpponentPruningParanoidSearch extends AbstractSearch {
     }
 
     private static double OPPS(Map map, int depth, int turn, int moveCount, int numberAvailableMoves, int[] totalStates) {
-        if (depth <= 0 || (numberAvailableMoves < 2 && MapUtil.terminalTest(map))) {
+        if (depth <= 0 || (numberAvailableMoves < 2 && MapUtil.isTerminal(map))) {
             return Evaluation.utility(map, MAX);
         }
 
         char player = MapUtil.intToPlayer(turn);
         boolean maxTurn = turn == MAX;
-        var availableMoves = MapUtil.getAvailableMoves(map, player, Rules.OVERRIDE_STONES);
 
-        var sortedMoves = MoveSorting.sort(map, player, availableMoves);
+        var sortedMoves = MoveSorting.sort(map, player, MapUtil.getAvailableMoves(map, MAX));
         numberAvailableMoves = sortedMoves.size();
 
         if (maxTurn) {

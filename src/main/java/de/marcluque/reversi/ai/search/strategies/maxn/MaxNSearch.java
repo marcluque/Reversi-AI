@@ -31,7 +31,7 @@ public class MaxNSearch extends AbstractSearch {
                     Move currentMove = AbstractMove.executeMove(mapClone, x, y, MAX, capturableTiles);
                     totalStates[0]++;
 
-                    double value = maxValue(map, depth, MapUtil.nextPlayer(MAX_INT), totalStates)[MAX_INT];
+                    double value = maxValue(map, depth - 1, MapUtil.nextPlayer(MAX_INT), totalStates)[MAX_INT];
                     if (value > maxValue) {
                         maxValue = value;
                         bestMove = currentMove;
@@ -45,14 +45,14 @@ public class MaxNSearch extends AbstractSearch {
 
     private static double[] maxValue(Map map, int player, int depth, int[] totalStates) {
         return search(map, player, depth, totalStates, (value, mapClone) -> {
-            double[] newValue = maxValue(mapClone, depth, MapUtil.nextPlayer(player), totalStates);
+            double[] newValue = maxValue(mapClone, depth - 1, MapUtil.nextPlayer(player), totalStates);
             return newValue[player] > value[player] ? newValue : value;
         });
     }
 
     private static double[] search(Map map, int player, int depth, int[] totalStates,
                                  BiFunction<double[], Map, double[]> searchFunction) {
-        if (depth <= 0 || MapUtil.terminalTest(map)) {
+        if (depth <= 0 || MapUtil.isTerminal(map)) {
             return Evaluation.utility(map);
         }
 

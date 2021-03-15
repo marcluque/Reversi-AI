@@ -26,7 +26,7 @@ public class BestReplySearch extends AbstractSearch {
                     Move currentMove = AbstractMove.executeMove(mapClone, x, y, MAX, capturableTiles);
                     totalStates[0]++;
 
-                    double value = BRS(map, Double.MIN_VALUE, Double.MAX_VALUE, depth, MAX, totalStates);
+                    double value = BRS(map, Double.MIN_VALUE, Double.MAX_VALUE, depth - 1, MAX, totalStates);
                     if (value > maxValue) {
                         maxValue = value;
                         bestMove = currentMove;
