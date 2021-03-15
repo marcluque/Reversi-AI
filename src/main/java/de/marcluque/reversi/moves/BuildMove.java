@@ -19,20 +19,20 @@ public abstract class BuildMove {
             map.getOverrideStones()[playerId]--;
         }
 
-        capturableStones.forEach(coordinate -> {
+        for (Coordinate coordinate : capturableStones) {
             char tile = map.getGameField()[coordinate.getY()][coordinate.getX()];
 
             // If a special tile is encountered, ignore, as it's dealt with separately
             if (MapUtil.isTileSpecial(tile)) {
                 map.getNumberOfStones()[playerId]++;
-                return;
+                continue;
             } else if (MapUtil.isPlayerTile(tile)) {
                 map.getNumberOfStones()[Character.getNumericValue(tile)]--;
             }
 
             map.getNumberOfStones()[playerId]++;
             map.getGameField()[coordinate.getY()][coordinate.getX()] = player;
-        });
+        }
 
         // Check whether field is a special field
         int specialTile = -1;

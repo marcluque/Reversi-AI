@@ -1,5 +1,6 @@
 package de.marcluque.reversi.ai.search;
 
+import de.marcluque.reversi.map.GameInstance;
 import de.marcluque.reversi.network.Client;
 import de.marcluque.reversi.util.Move;
 import de.marcluque.reversi.util.StatisticsUtil;
@@ -66,7 +67,11 @@ public class IterativeDeepening {
                 branchings.add(currentDepth - 1, averageBranchingForDepth);
 
                 // Calculate average branching factor for whole tree
-                double averageBranching = branchings.stream().mapToDouble(d -> d).sum() / (double) currentDepth;
+                double averageBranching = 0;
+                for (double d : branchings) {
+                    averageBranching += d;
+                }
+                averageBranching /= currentDepth;
 
                 // Make time estimation for next iteration
                 double estimatedTime = averageBranching * leafStates * (totalTime / (double) totalStates[0]);
@@ -75,11 +80,11 @@ public class IterativeDeepening {
 
                 // Print statistics
                 StatisticsUtil.printStatisticsWithEstimation(currentDepth, chosenMove, totalStates[0],
-                        leafStates, meanBranchingFactor, totalTime, Client.getLeftTime(), estimatedTime,
+                        leafStates, meanBranchingFactor, totalTime, GameInstance.getLeftTime(), estimatedTime,
                         totalTimeUntilDepth, branchings.get(currentDepth - 1), averageBranching);
 
                 // Check whether enough time is left for next iteration
-                if (Client.getLeftTime() <= estimatedTime) {
+                if (GameInstance.getLeftTime() <= estimatedTime) {
                     System.out.println("No time left!");
                 }
             });
