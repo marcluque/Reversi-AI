@@ -23,8 +23,7 @@ public class AlphaBetaMoveSorting extends AbstractSearch {
         Move bestMove = null;
         double maxValue = Double.MIN_VALUE;
 
-        var availableMoves = MapUtil.getAvailableMoves(map, MAX);
-        var sortedMoves = MoveSorting.sort(map, MAX, availableMoves);
+        var sortedMoves = MoveSorting.sort(map, MAX, MapUtil.getAvailableMoves(map, MAX));
         int numberAvailableMoves = sortedMoves.size();
 
         for (SortNode move : sortedMoves) {
@@ -33,7 +32,6 @@ public class AlphaBetaMoveSorting extends AbstractSearch {
             double value = minValue(move.getMap(), Double.MIN_VALUE, Double.MAX_VALUE, depth - 1,
                     numberAvailableMoves, totalStates);
 
-            maxValue = Math.max(maxValue, value);
             if (value > maxValue) {
                 bestMove = move.getMove();
                 maxValue = value;
@@ -48,7 +46,7 @@ public class AlphaBetaMoveSorting extends AbstractSearch {
             return Evaluation.utility(map, MAX);
         }
 
-        var sortedMoves = MoveSorting.sort(map, MIN, MapUtil.getAvailableMoves(map, MAX));
+        var sortedMoves = MoveSorting.sort(map, MIN, MapUtil.getAvailableMoves(map, MIN));
         numberAvailableMoves = sortedMoves.size();
 
         totalStates[0]++;

@@ -1,7 +1,6 @@
 package de.marcluque.reversi.ai.evaluation;
 
 import de.marcluque.reversi.ai.evaluation.heuristics.Heuristic;
-import de.marcluque.reversi.ai.evaluation.heuristics.StoneParityHeuristic;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.MapUtil;
@@ -17,7 +16,11 @@ public class Evaluation {
 
     private static final List<Heuristic> BOMBING_HEURISTICS = new ArrayList<>();
 
-    private static final Heuristic SORTING_HEURISTIC = new StoneParityHeuristic(1);
+    private static Heuristic sortingHeuristic;
+
+    public static void setSortingHeuristic(Heuristic heuristic) {
+        sortingHeuristic = heuristic;
+    }
 
     public static void addBuildingHeuristic(Heuristic heuristic) {
         BUILDING_HEURISTICS.add(heuristic);
@@ -75,6 +78,6 @@ public class Evaluation {
     }
 
     public static double heuristicValue(Map map, char player) {
-        return SORTING_HEURISTIC.executeHeuristic(map, player);
+        return sortingHeuristic.executeHeuristic(map, player);
     }
 }

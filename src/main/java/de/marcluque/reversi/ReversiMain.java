@@ -20,6 +20,8 @@ public class ReversiMain {
         Evaluation.addBuildingHeuristic(new MobilityHeuristic(0.2));
         Evaluation.addBuildingHeuristic(new StabilityHeuristic(0.2));
 
+        Evaluation.setSortingHeuristic(new StoneParityHeuristic(1));
+
         new Client("127.0.0.1", 8080).start();
     }
 }
