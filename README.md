@@ -25,7 +25,7 @@ The [Multi-Player Algorithms](#multi-player-algorithms) section presents various
 ### 2-Player Algorithms
 The 2-player algorithms use the classical scenario for the MiniMax algorithm and its extensions.
 The following algorithms are implemented in the Reversi-AI with
-the help of the book [Artificial Intelligence: A Modern Approach](http://aima.cs.berkeley.edu/).
+the help of the book [Artificial Intelligence: A Modern Approach](https://dl.acm.org/doi/10.5555/1671238).
 
 #### MiniMax
 An algorithm that performs an informed search.
@@ -59,7 +59,7 @@ Instead, the algorithms are implemented with the help of their respective papers
 
 #### Max^N
 The implementation is taken from the following paper [An Algorithmic Solution Of N-Person Games](https://www.aaai.org/Papers/AAAI/1986/AAAI86-025.pdf).
-Note that the book [Artificial Intelligence: A Modern Approach](http://aima.cs.berkeley.edu/) also provides an explanation of the idea for Max^N.
+Note that the book [Artificial Intelligence: A Modern Approach](https://dl.acm.org/doi/10.5555/1671238) also provides an explanation of the idea for Max^N.
 
 #### Paranoid Search
 The implementation is taken from the following paper [On Pruning Techniques for Multi-Player Games](https://www.aaai.org/Papers/AAAI/2000/AAAI00-031.pdf).
