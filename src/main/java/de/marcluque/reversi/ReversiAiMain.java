@@ -11,7 +11,7 @@ import de.marcluque.reversi.network.Client;
 /*
  * Created with <3 by Marc Luqué, March 2021
  */
-public class ReversiMain {
+public class ReversiAiMain {
 
     public static void main(String[] args) {
         Evaluation.addBuildingHeuristic(new StoneCountHeuristic(0.2));

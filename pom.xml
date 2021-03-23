@@ -8,6 +8,22 @@
     <artifactId>Reversi-Ai</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <developers>
+        <developer>
+            <name>marcluque</name>
+            <email>marcluque@outlook.com</email>
+            <url>https://marcluque.com</url>
+            <organizationUrl>https://github.com/marcluque</organizationUrl>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>BSD 2-Clause License</name>
+            <url>https://www.freebsd.org/copyright/freebsd-license.html</url>
+        </license>
+    </licenses>
+
     <dependencies>
         <!-- JUnit -->
         <dependency>
@@ -41,7 +57,7 @@
                     <archive>
                         <index>true</index>
                         <manifest>
-                            <mainClass>EvaluatorMain</mainClass>
+                            <mainClass>ReversiAiMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -55,7 +71,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ReversiMain</mainClass>
+                            <mainClass>ReversiAiMain</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
