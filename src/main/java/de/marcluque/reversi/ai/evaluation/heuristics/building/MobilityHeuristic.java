@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
- * Created with <3 by Marc Luqué, March 2021
+ * Created with <3 by marcluque, March 2021
  */
 public class MobilityHeuristic extends AbstractHeuristic implements Heuristic {
 
@@ -29,7 +29,7 @@ public class MobilityHeuristic extends AbstractHeuristic implements Heuristic {
 
         for (int i = 0; i < Map.getMapHeight(); i++) {
             for (int j = 0; j < Map.getMapWidth(); j++) {
-                if (AbstractMove.isMoveValid(map, j, i, player, true, Rules.OVERRIDE_STONES, temp)) {
+                if (AbstractMove.isMoveValid(map, j, i, player, true, Rules.useOverrideStones, temp)) {
                     numberOfMoves++;
                 }
             }

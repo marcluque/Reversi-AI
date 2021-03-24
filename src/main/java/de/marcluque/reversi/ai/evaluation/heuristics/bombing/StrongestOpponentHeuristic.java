@@ -5,7 +5,7 @@ import de.marcluque.reversi.ai.evaluation.heuristics.Heuristic;
 import de.marcluque.reversi.map.Map;
 
 /*
- * Created with <3 by Marc Luqué, March 2021
+ * Created with <3 by marcluque, March 2021
  */
 public class StrongestOpponentHeuristic extends AbstractHeuristic implements Heuristic {
 

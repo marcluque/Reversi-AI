@@ -8,7 +8,7 @@ import de.marcluque.reversi.util.Move;
 import java.util.List;
 
 /*
- * Created with <3 by Marc Luqué, March 2021
+ * Created with <3 by marcluque, March 2021
  */
 public abstract class BuildMove {
 

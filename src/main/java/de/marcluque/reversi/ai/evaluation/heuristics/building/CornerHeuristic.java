@@ -8,7 +8,7 @@ import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.MapUtil;
 
 /*
- * Created with <3 by Marc Luqué, March 2021
+ * Created with <3 by marcluque, March 2021
  */
 public class CornerHeuristic extends AbstractHeuristic implements Heuristic {
 

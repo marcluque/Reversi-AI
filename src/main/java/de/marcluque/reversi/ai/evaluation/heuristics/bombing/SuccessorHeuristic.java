@@ -7,7 +7,7 @@ import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.MapUtil;
 
 /*
- * Created with <3 by Marc Luqué, March 2021
+ * Created with <3 by marcluque, March 2021
  */
 public class SuccessorHeuristic extends AbstractHeuristic implements Heuristic {
 

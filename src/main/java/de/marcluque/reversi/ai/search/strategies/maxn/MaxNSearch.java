@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.function.BiFunction;
 
 /*
- * Created with <3 by Marc Luqué, March 2021
+ * Created with <3 by marcluque, March 2021
  */
 public class MaxNSearch extends AbstractSearch {
 
@@ -22,6 +22,7 @@ public class MaxNSearch extends AbstractSearch {
         Move bestMove = null;
         double maxValue = Double.MIN_VALUE;
         int MAX_INT = MapUtil.playerToInt(MAX);
+        totalStates[0]++;
 
         for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
             for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
@@ -29,7 +30,6 @@ public class MaxNSearch extends AbstractSearch {
                 if (AbstractMove.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
                     Map mapClone = new Map(map);
                     Move currentMove = AbstractMove.executeMove(mapClone, x, y, MAX, capturableTiles);
-                    totalStates[0]++;
 
                     double value = maxValue(map, depth - 1, MapUtil.nextPlayer(MAX_INT), totalStates)[MAX_INT];
                     if (value > maxValue) {
@@ -52,11 +52,11 @@ public class MaxNSearch extends AbstractSearch {
 
     private static double[] search(Map map, int player, int depth, int[] totalStates,
                                  BiFunction<double[], Map, double[]> searchFunction) {
+        totalStates[0]++;
+
         if (depth <= 0 || MapUtil.isTerminal(map)) {
             return Evaluation.utility(map);
         }
-
-        totalStates[0]++;
 
         double[] value = new double[Map.getNumberOfPlayers()];
         Arrays.fill(value, player == MAX ? Double.MIN_VALUE : Double.MAX_VALUE);

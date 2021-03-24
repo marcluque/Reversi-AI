@@ -11,7 +11,7 @@ import de.marcluque.reversi.util.SortNode;
 import java.util.*;
 
 /*
- * Created with <3 by Marc Luqué, March 2021
+ * Created with <3 by marcluque, March 2021
  */
 public class MoveSorting {
 
