@@ -1,15 +1,22 @@
 package de.marcluque.reversi.map;
 
+import de.marcluque.reversi.ai.evaluation.Evaluation;
 import de.marcluque.reversi.ai.evaluation.metrics.Metrics;
 import de.marcluque.reversi.ai.evaluation.rules.Rules;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.ai.search.IterativeDeepening;
 import de.marcluque.reversi.ai.search.strategies.brs.BestReplySearch;
+import de.marcluque.reversi.ai.search.strategies.maxn.MaxNSearch;
 import de.marcluque.reversi.ai.search.strategies.minimax.AlphaBetaMoveSorting;
+import de.marcluque.reversi.moves.AbstractMove;
+import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.Move;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /*
- * Created with <3 by Marc Luqué, March 2021
+ * Created with <3 by marcluque, March 2021
  */
 public class GameInstance {
 
@@ -23,22 +30,50 @@ public class GameInstance {
 
     public static final long TIME_BUFFER = 200;
 
-    public static Move generateMoveResponse() {
+    public static void processOpponentMove(int x, int y, int specialField, char opponent) {
+        List<Coordinate> capturableTiles = new ArrayList<>();
+        if (AbstractMove.isMoveValid(map, x, y, opponent, false, Rules.useOverrideStones, capturableTiles)) {
+            AbstractMove.executeMove(map, x, y, opponent, capturableTiles);
+        } else {
+            System.err.println("OPPONENT MOVE: (" + x + "," + y + ") with special " + specialField + " by player "
+                    + opponent + " wasn't valid!");
+        }
+
+        System.out.println("OPPONENT MOVE: (" + x + "," + y + ") with special " + specialField
+                + " by player " + opponent);
+
+        ////////////////////////
+        //   METRICS UPDATES  //
+        ////////////////////////
+        Metrics.updateOpponentsWithMoves();
+
         ////////////////////////
         //    RULE UPDATES    //
         ////////////////////////
-        Rules.updateOverrideStoneRule(map);
+        Rules.updateOverrideStoneRule();
+        Rules.updateStoneMaximizationRule();
+        Rules.updateFullGameTreeSearch();
 
-        ////////////////////////
-        //     SEARCH MOVE    //
-        ////////////////////////
+        if (Rules.useStoneMaximization) {
+            Evaluation.activateStoneMaximization();
+        }
+    }
+
+    public static Move generateMoveResponse() {
         Move responseMove;
         IterativeDeepening.SearchStrategy searchStrategy;
 
-        if (Map.getNumberOfPlayers() == 2 || Metrics.OPPONENTS_WITH_MOVES.size() == 1) {
-            AbstractSearch.MIN = Metrics.OPPONENTS_WITH_MOVES.get(0);
+        // If we have a 2-Player map or only one opponent has moves available, we use classical MiniMax/Alpha-Beta
+        if (Map.getNumberOfPlayers() == 2 || Metrics.opponentsWithMoves.size() == 1) {
+            AbstractSearch.MIN = Metrics.opponentsWithMoves.get(0);
             searchStrategy = (totalStates) -> AlphaBetaMoveSorting.search(map, depthLimit, totalStates);
-        } else {
+        }
+        // We don't have a two player game, but are close to the end, so start doing a full tree search
+        else if (Rules.useFullGameTreeSearch) {
+            searchStrategy = (totalStates) -> MaxNSearch.search(map, depthLimit, totalStates);
+        }
+        // We are mid-game, so just do the search that the user picked
+        else {
             searchStrategy = (totalStates) -> BestReplySearch.search(map, depthLimit, totalStates);
         }
 

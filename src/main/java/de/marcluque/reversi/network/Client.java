@@ -4,9 +4,6 @@ import de.marcluque.reversi.ai.evaluation.Evaluation;
 import de.marcluque.reversi.ai.evaluation.metrics.Metrics;
 import de.marcluque.reversi.ai.evaluation.rules.Rules;
 import de.marcluque.reversi.ai.search.AbstractSearch;
-import de.marcluque.reversi.ai.search.IterativeDeepening;
-import de.marcluque.reversi.ai.search.strategies.brs.BestReplySearch;
-import de.marcluque.reversi.ai.search.strategies.minimax.AlphaBetaMoveSorting;
 import de.marcluque.reversi.map.GameInstance;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.map.MapLoader;
@@ -25,7 +22,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 /*
- * Created with <3 by Marc Luqué, March 2021
+ * Created with <3 by marcluque, March 2021
  */
 public class Client {
 
@@ -89,6 +86,7 @@ public class Client {
                         System.out.println("MAP:\n" + new String(byteBuffer.array()));
 
                         Evaluation.initHeuristics(GameInstance.getMap());
+                        Metrics.initNumberFreeTiles();
                     }
 
                     // Assigns player number
@@ -120,26 +118,14 @@ public class Client {
                                 move.getSpecialTile());
                     }
 
-                    // Announces move of other player
+                    // Announces move of (an) opponent
                     case 6 -> {
                         int x = byteBuffer.getShort();
                         int y = byteBuffer.getShort();
                         int specialField = byteBuffer.get();
-                        char receivedPlayer = (char) ('0' + byteBuffer.get());
+                        char opponent = (char) ('0' + byteBuffer.get());
 
-                        List<Coordinate> capturableTiles = new ArrayList<>();
-                        if (AbstractMove.isMoveValid(GameInstance.getMap(), x, y, receivedPlayer, false,
-                                Rules.OVERRIDE_STONES, capturableTiles)) {
-                            AbstractMove.executeMove(GameInstance.getMap(), x, y, receivedPlayer, capturableTiles);
-                        } else {
-                            System.err.println("OPPONENT MOVE: (" + x + "," + y + ") with special " + specialField
-                                    + " by player " + receivedPlayer + " wasn't valid!");
-                        }
-
-                        System.out.println("OPPONENT MOVE: (" + x + "," + y + ") with special " + specialField
-                                + " by player " + receivedPlayer);
-
-                        Metrics.updatePlayersWithMoves(GameInstance.getMap());
+                        GameInstance.processOpponentMove(x, y, specialField, opponent);
                     }
 
                     // Disqualification of a player

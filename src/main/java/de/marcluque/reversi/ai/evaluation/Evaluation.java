@@ -8,11 +8,13 @@ import de.marcluque.reversi.util.MapUtil;
 import java.util.*;
 
 /*
- * Created with <3 by Marc Luqué, March 2021
+ * Created with <3 by marcluque, March 2021
  */
 public class Evaluation {
 
-    private static final List<Heuristic> BUILDING_HEURISTICS = new ArrayList<>();
+    private static List<Heuristic> buildingHeuristics = new ArrayList<>();
+
+    private static final List<Heuristic> MAXIMIZATION_HEURISTICS = new ArrayList<>();
 
     private static final List<Heuristic> BOMBING_HEURISTICS = new ArrayList<>();
 
@@ -23,7 +25,11 @@ public class Evaluation {
     }
 
     public static void addBuildingHeuristic(Heuristic heuristic) {
-        BUILDING_HEURISTICS.add(heuristic);
+        buildingHeuristics.add(heuristic);
+    }
+
+    public static void addMaximizationHeuristic(Heuristic heuristic) {
+        MAXIMIZATION_HEURISTICS.add(heuristic);
     }
 
     public static void addBombingHeuristic(Heuristic heuristic) {
@@ -31,7 +37,7 @@ public class Evaluation {
     }
 
     public static void initHeuristics(Map map) {
-        for (Heuristic BUILDING_HEURISTIC : BUILDING_HEURISTICS) {
+        for (Heuristic BUILDING_HEURISTIC : buildingHeuristics) {
             BUILDING_HEURISTIC.initHeuristic(map);
         }
 
@@ -40,11 +46,15 @@ public class Evaluation {
         }
     }
 
+    public static void activateStoneMaximization() {
+        buildingHeuristics = new ArrayList<>(MAXIMIZATION_HEURISTICS);
+    }
+
     public static double utility(Map map, char player) {
         double sum = 0;
 
         if (Map.getPhase() == 1) {
-            for (Heuristic heuristic : BUILDING_HEURISTICS) {
+            for (Heuristic heuristic : buildingHeuristics) {
                 sum += heuristic.executeHeuristic(map, player);
             }
         } else {
@@ -62,7 +72,7 @@ public class Evaluation {
 
         if (Map.getPhase() == 1) {
             for (Character player : AbstractSearch.ACTIVE_PLAYERS) {
-                for (Heuristic heuristic : BUILDING_HEURISTICS) {
+                for (Heuristic heuristic : buildingHeuristics) {
                     utility[MapUtil.playerToInt(player)] += heuristic.executeHeuristic(map, player);
                 }
             }

@@ -6,10 +6,11 @@ import de.marcluque.reversi.ai.evaluation.heuristics.StoneParityHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.building.CornerHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.building.MobilityHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.building.StabilityHeuristic;
+import de.marcluque.reversi.ai.evaluation.rules.Rules;
 import de.marcluque.reversi.network.Client;
 
 /*
- * Created with <3 by Marc Luqué, March 2021
+ * Created with <3 by marcluque, March 2021
  */
 public class ReversiAiMain {
 
@@ -20,7 +21,11 @@ public class ReversiAiMain {
         Evaluation.addBuildingHeuristic(new MobilityHeuristic(0.2));
         Evaluation.addBuildingHeuristic(new StabilityHeuristic(0.2));
 
+        Evaluation.addMaximizationHeuristic(new StoneParityHeuristic(1));
+
         Evaluation.setSortingHeuristic(new StoneParityHeuristic(1));
+
+        Rules.moveThresholdFullGameTreeSearch = 10;
 
         new Client("127.0.0.1", 8080).start();
     }

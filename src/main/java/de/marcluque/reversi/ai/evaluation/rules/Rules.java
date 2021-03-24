@@ -1,25 +1,33 @@
 package de.marcluque.reversi.ai.evaluation.rules;
 
+import de.marcluque.reversi.map.GameInstance;
 import de.marcluque.reversi.map.Map;
-import de.marcluque.reversi.util.MapUtil;
+
+import java.util.Arrays;
 
 /*
- * Created with <3 by Marc Luqué, March 2021
+ * Created with <3 by marcluque, March 2021
  */
 public class Rules {
 
-    public static boolean OVERRIDE_STONES = false;
+    public static boolean useOverrideStones = false;
 
-    public static void updateOverrideStoneRule(Map map) {
-        int freeTiles = 0;
-        for (int y = 0; y < Map.getMapHeight(); y++) {
-            for (int x = 0; x < Map.getMapWidth(); x++) {
-                if (!MapUtil.isOccupied(map.getGameField()[y][x])) {
-                    freeTiles++;
-                }
-            }
-        }
+    public static boolean useStoneMaximization = false;
 
-        OVERRIDE_STONES = freeTiles - Map.getNumberOfHoles() == 0;
+    public static boolean useFullGameTreeSearch = false;
+
+    public static int moveThresholdFullGameTreeSearch = -1;
+
+    public static void updateOverrideStoneRule() {
+        useOverrideStones = GameInstance.getMap().getNumberFreeTiles() - Map.getNumberOfHoles() == 0;
+    }
+
+    public static void updateStoneMaximizationRule() {
+        useStoneMaximization = GameInstance.getMap().getNumberFreeTiles() == 0;
+    }
+
+    public static void updateFullGameTreeSearch() {
+        useFullGameTreeSearch = moveThresholdFullGameTreeSearch
+                >= GameInstance.getMap().getNumberFreeTiles() + Arrays.stream(GameInstance.getMap().getOverrideStones()).sum();
     }
 }
