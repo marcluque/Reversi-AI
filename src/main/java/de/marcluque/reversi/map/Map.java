@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /*
- * Created with <3 by Marc Luqué, March 2021
+ * Created with <3 by marcluque, March 2021
  */
 public class Map {
 
@@ -36,6 +36,8 @@ public class Map {
     private final int[] numberOfStones;
 
     private final int[] bombs;
+
+    private int numberFreeTiles;
 
     // Public constructor
     public Map(char[][] gameField, int[] overrideStones, int[] numberOfStones, int[] bombs) {
@@ -99,6 +101,18 @@ public class Map {
 
     public int[] getBombs() {
         return bombs;
+    }
+
+    public int getNumberFreeTiles() {
+        return numberFreeTiles;
+    }
+
+    public void setNumberFreeTiles(int numberFreeTiles) {
+        this.numberFreeTiles = numberFreeTiles;
+    }
+
+    public void decrementNumberFreeTiles() {
+        numberFreeTiles--;
     }
 
     public static void setMapHeight(int mapHeight) {

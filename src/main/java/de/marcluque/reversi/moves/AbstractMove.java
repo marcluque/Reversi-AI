@@ -1,5 +1,6 @@
 package de.marcluque.reversi.moves;
 
+import de.marcluque.reversi.ai.evaluation.metrics.Metrics;
 import de.marcluque.reversi.ai.evaluation.rules.Rules;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.Coordinate;
@@ -10,10 +11,9 @@ import de.marcluque.reversi.util.Transition;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 /*
- * Created with <3 by Marc Luqué, March 2021
+ * Created with <3 by marcluque, March 2021
  */
 public abstract class AbstractMove {
 
@@ -24,7 +24,7 @@ public abstract class AbstractMove {
 
     public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly,
                                       List<Coordinate> capturableTiles) {
-        return isMoveValid(map, x, y, player, returnEarly, Rules.OVERRIDE_STONES, capturableTiles);
+        return isMoveValid(map, x, y, player, returnEarly, Rules.useOverrideStones, capturableTiles);
     }
 
     public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly,
@@ -38,7 +38,7 @@ public abstract class AbstractMove {
     }
 
     public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly) {
-        return isMoveValid(map, x, y, player, returnEarly, Rules.OVERRIDE_STONES);
+        return isMoveValid(map, x, y, player, returnEarly, Rules.useOverrideStones);
     }
 
     public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly,
@@ -119,6 +119,7 @@ public abstract class AbstractMove {
 
     public static Move executeMove(Map map, int x, int y, char player, List<Coordinate> capturableStones) {
         if (Map.getPhase() == 1) {
+            map.decrementNumberFreeTiles();
             return BuildMove.executeBuildMove(map, x, y, player, capturableStones);
         } else {
             return BombMove.executeBombMove(map, x, y);

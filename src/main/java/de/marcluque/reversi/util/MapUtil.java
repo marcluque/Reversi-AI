@@ -4,11 +4,12 @@ import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.moves.AbstractMove;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 /*
- * Created with <3 by Marc Luqué, March 2021
+ * Created with <3 by marcluque, March 2021
  */
 public class MapUtil {
 
@@ -48,7 +49,9 @@ public class MapUtil {
         return type == 'c' || type == 'b' || type == 'i';
     }
 
-    public static boolean isTileFree(char type) { return type == '0'; }
+    public static boolean isTileFree(char type) {
+        return type == '0';
+    }
 
     public static boolean isDifferentPlayerStone(Map map, int x, int y, int player) {
         return MapUtil.isOccupied(map.getGameField()[y][x]) && map.getGameField()[y][x] != player;
@@ -117,18 +120,8 @@ public class MapUtil {
     }
 
     public static boolean isTerminal(Map map) {
-        // TODO: THINK OF BETTER IDEA THAN THIS
-        for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
-            for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
-                for (int player = 1, countPlayers = Map.getNumberOfPlayers(); player <= countPlayers; player++) {
-                    if (AbstractMove.isMoveValid(map, x, y, intToPlayer(player), true, true)) {
-                        return false;
-                    }
-                }
-            }
-        }
-
-        return true;
+        // When no free tiles are left and no player has any more override stones, we are in a terminal state
+        return map.getNumberFreeTiles() > 0 || Arrays.stream(map.getOverrideStones()).sum() > 0;
     }
 
     public static int nextPlayer(int currentPlayer)  {
