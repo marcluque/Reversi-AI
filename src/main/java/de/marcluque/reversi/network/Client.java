@@ -1,14 +1,11 @@
 package de.marcluque.reversi.network;
 
-import de.marcluque.reversi.ai.evaluation.Evaluation;
+import de.marcluque.reversi.ai.evaluation.HeuristicEvaluation;
 import de.marcluque.reversi.ai.evaluation.metrics.Metrics;
-import de.marcluque.reversi.ai.evaluation.rules.Rules;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.GameInstance;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.map.MapLoader;
-import de.marcluque.reversi.moves.AbstractMove;
-import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.Move;
 
@@ -17,8 +14,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.IntStream;
 
 /*
@@ -85,7 +80,7 @@ public class Client {
                         GameInstance.setMap(MapLoader.generateMapFromString(new String(byteBuffer.array())));
                         System.out.println("MAP:\n" + new String(byteBuffer.array()));
 
-                        Evaluation.initHeuristics(GameInstance.getMap());
+                        HeuristicEvaluation.initHeuristics(GameInstance.getMap());
                         Metrics.initNumberFreeTiles();
                     }
 

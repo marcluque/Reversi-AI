@@ -1,6 +1,6 @@
 package de.marcluque.reversi.map;
 
-import de.marcluque.reversi.ai.evaluation.Evaluation;
+import de.marcluque.reversi.ai.evaluation.HeuristicEvaluation;
 import de.marcluque.reversi.ai.evaluation.metrics.Metrics;
 import de.marcluque.reversi.ai.evaluation.rules.Rules;
 import de.marcluque.reversi.ai.search.AbstractSearch;
@@ -55,7 +55,7 @@ public class GameInstance {
         Rules.updateFullGameTreeSearch();
 
         if (Rules.useStoneMaximization) {
-            Evaluation.activateStoneMaximization();
+            HeuristicEvaluation.activateStoneMaximization();
         }
     }
 
