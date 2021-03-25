@@ -6,7 +6,11 @@
 
     <groupId>de.marcluque</groupId>
     <artifactId>Reversi-Ai</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <developers>
         <developer>
@@ -42,9 +46,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <release>14</release>
-                    <source>14</source>
-                    <target>14</target>
+                    <release>16</release>
+                    <source>16</source>
+                    <target>16</target>
                 </configuration>
             </plugin>
 
@@ -57,7 +61,7 @@
                     <archive>
                         <index>true</index>
                         <manifest>
-                            <mainClass>ReversiAiMain</mainClass>
+                            <mainClass>de.marcluque.reversi.ReversiAiMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -71,7 +75,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ReversiAiMain</mainClass>
+                            <mainClass>de.marcluque.reversi.ReversiAiMain</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

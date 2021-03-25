@@ -1,6 +1,5 @@
 package de.marcluque.reversi.moves;
 
-import de.marcluque.reversi.ai.evaluation.metrics.Metrics;
 import de.marcluque.reversi.ai.evaluation.rules.Rules;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.Coordinate;
@@ -119,7 +118,10 @@ public abstract class AbstractMove {
 
     public static Move executeMove(Map map, int x, int y, char player, List<Coordinate> capturableStones) {
         if (Map.getPhase() == 1) {
-            map.decrementNumberFreeTiles();
+            if (MapUtil.isTileFree(map.getGameField()[y][x])) {
+                map.decrementNumberFreeTiles();
+            }
+
             return BuildMove.executeBuildMove(map, x, y, player, capturableStones);
         } else {
             return BombMove.executeBombMove(map, x, y);
