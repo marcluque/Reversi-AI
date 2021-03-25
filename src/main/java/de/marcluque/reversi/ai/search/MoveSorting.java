@@ -1,9 +1,8 @@
 package de.marcluque.reversi.ai.search;
 
-import de.marcluque.reversi.ai.evaluation.Evaluation;
+import de.marcluque.reversi.ai.evaluation.HeuristicEvaluation;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.moves.AbstractMove;
-import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.Move;
 import de.marcluque.reversi.util.SortNode;
@@ -15,18 +14,35 @@ import java.util.*;
  */
 public class MoveSorting {
 
-    public static List<SortNode> sort(Map map, char player, java.util.Map<SortNode, List<Coordinate>> availableMoveMap) {
-        List<SortNode> moves = new ArrayList<>(MapUtil.getAvailableMoves(map, player).keySet());
+    public static List<SortNode> sortForMax(Map map) {
+        return sortMoves(map, AbstractSearch.MAX);
+    }
+
+    public static List<SortNode> sortForMin(Map map) {
+        return sortMoves(map, AbstractSearch.MIN);
+    }
+
+    public static List<SortNode> sortMoves(Map map, char player) {
+        var availableMoveMap = MapUtil.getAvailableMoves(map, player);
+        var moves = new ArrayList<>(availableMoveMap.keySet());
 
         for (SortNode move : moves) {
             Map mapClone = new Map(map);
             Move tempMove = AbstractMove.executeMove(mapClone, move.getX(), move.getY(), player, availableMoveMap.get(move));
-            move.setHeuristicValue(Evaluation.heuristicValue(mapClone, player));
+
+            // We always evaluate for MAX since MIN tries to play the worst possible move for MAX
+            move.setHeuristicValue(HeuristicEvaluation.heuristicValue(mapClone));
             move.setMap(mapClone);
             move.setSpecialTile(tempMove.getSpecialTile());
         }
 
-        moves.sort(Comparator.comparingDouble(SortNode::getHeuristicValue));
+        if (player == AbstractSearch.MAX) {
+            // Descending order (maximum first)
+            moves.sort(Comparator.comparingDouble(SortNode::getHeuristicValue).reversed());
+        } else {
+            // Ascending order (minimum first)
+            moves.sort(Comparator.comparingDouble(SortNode::getHeuristicValue));
+        }
 
         return moves;
     }

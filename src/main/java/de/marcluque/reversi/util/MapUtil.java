@@ -121,11 +121,24 @@ public class MapUtil {
 
     public static boolean isTerminal(Map map) {
         // When no free tiles are left and no player has any more override stones, we are in a terminal state
-        return map.getNumberFreeTiles() > 0 || Arrays.stream(map.getOverrideStones()).sum() > 0;
+        return map.getNumberFreeTiles() <= 0 || Arrays.stream(map.getOverrideStones()).sum() <= 0;
     }
 
     public static int nextPlayer(int currentPlayer)  {
         return (currentPlayer % Map.getNumberOfPlayers()) + 1;
+    }
+
+    public static int playerWithMaxStones(Map map) {
+        int playerWithMostStones = -1;
+        int max = -1;
+        for (int i = 1; i <= 8; i++) {
+            if (map.getNumberOfStones()[i] > max) {
+                max = map.getNumberOfStones()[i];
+                playerWithMostStones = i;
+            }
+        }
+
+        return playerWithMostStones;
     }
 
     public static java.util.Map<SortNode, List<Coordinate>> getAvailableMoves(Map map, char player) {

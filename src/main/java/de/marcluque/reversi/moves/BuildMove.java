@@ -41,30 +41,21 @@ public abstract class BuildMove {
                 map.getGameField()[y][x] = player;
 
                 // HEURISTIC: Determine player with most stones for choice
-                int playerWithMostStones = player;
-                int max = -1;
-                for (int i = 1; i <= 8; i++) {
-                    if (map.getNumberOfStones()[i] > max) {
-                        max = map.getNumberOfStones()[i];
-                        playerWithMostStones = i;
-                    }
-                }
-
-                specialTile = playerWithMostStones;
+                specialTile = MapUtil.playerWithMaxStones(map);
 
                 // Switch stones of the player in numberOfStones array
-                int temp = map.getNumberOfStones()[playerWithMostStones];
-                map.getNumberOfStones()[playerWithMostStones] = map.getNumberOfStones()[playerId];
+                int temp = map.getNumberOfStones()[specialTile];
+                map.getNumberOfStones()[specialTile] = map.getNumberOfStones()[playerId];
                 map.getNumberOfStones()[playerId] = temp;
 
                 // Switches stones of the player specified in choiceStonePlayer
-                char playerWithMostStonesChar = (char) (playerWithMostStones + 96);
+                char playerWithMostStones = MapUtil.intToPlayer(specialTile);
                 for (int i = 0; i < map.getGameField().length; i++) {
                     for (int j = 0; j < map.getGameField()[0].length; j++) {
-                        if (map.getGameField()[i][j] == playerWithMostStonesChar) {
+                        if (map.getGameField()[i][j] == playerWithMostStones) {
                             map.getGameField()[i][j] = player;
                         } else if (map.getGameField()[i][j] == player) {
-                            map.getGameField()[i][j] = playerWithMostStonesChar;
+                            map.getGameField()[i][j] = playerWithMostStones;
                         }
                     }
                 }
