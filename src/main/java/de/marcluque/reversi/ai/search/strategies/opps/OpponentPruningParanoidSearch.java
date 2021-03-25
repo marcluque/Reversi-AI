@@ -1,7 +1,7 @@
 package de.marcluque.reversi.ai.search.strategies.opps;
 
-import de.marcluque.reversi.ai.evaluation.Evaluation;
-import de.marcluque.reversi.ai.evaluation.rules.Rules;
+import de.marcluque.reversi.ai.evaluation.HeuristicEvaluation;
+import de.marcluque.reversi.ai.evaluation.TerminalEvaluation;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.ai.search.MoveSorting;
 import de.marcluque.reversi.map.Map;
@@ -24,23 +24,21 @@ public class OpponentPruningParanoidSearch extends AbstractSearch {
     public static Move search(Map map, int depth, int[] totalStates) {
         Move bestMove = null;
         double maxValue = Double.MIN_VALUE;
+        totalStates[0]++;
 
-        var sortedMoves = MoveSorting.sort(map, MAX, MapUtil.getAvailableMoves(map, MAX));
-        int numberAvailableMoves = sortedMoves.size();
+        var sortedMoves = MoveSorting.sortForMax(map);
         int moveCount = 0;
 
         for (int i = 0, sortedMovesSize = sortedMoves.size(); i < sortedMovesSize; i++) {
             SortNode move = sortedMoves.get(i);
-            totalStates[0]++;
 
             if (i >= BRANCHING_LIMIT_GROUP_TWO) {
                 moveCount++;
             }
 
             double value = OPPS(move.getMap(), depth - 1, MapUtil.nextPlayer(MapUtil.playerToInt(MAX)),
-                    moveCount, numberAvailableMoves, totalStates);
+                    moveCount, totalStates);
 
-            maxValue = Math.max(maxValue, value);
             if (value > maxValue) {
                 bestMove = move.getMove();
                 maxValue = value;
@@ -50,16 +48,19 @@ public class OpponentPruningParanoidSearch extends AbstractSearch {
         return bestMove;
     }
 
-    private static double OPPS(Map map, int depth, int turn, int moveCount, int numberAvailableMoves, int[] totalStates) {
-        if (depth <= 0 || (numberAvailableMoves < 2 && MapUtil.isTerminal(map))) {
-            return Evaluation.utility(map, MAX);
+    private static double OPPS(Map map, int depth, int turn, int moveCount, int[] totalStates) {
+        totalStates[0]++;
+
+        if (MapUtil.isTerminal(map)) {
+            return TerminalEvaluation.utility(map);
+        } else if (depth <= 0) {
+            return HeuristicEvaluation.utility(map);
         }
 
         char player = MapUtil.intToPlayer(turn);
         boolean maxTurn = turn == MAX;
 
-        var sortedMoves = MoveSorting.sort(map, player, MapUtil.getAvailableMoves(map, MAX));
-        numberAvailableMoves = sortedMoves.size();
+        var sortedMoves = MoveSorting.sortMoves(map, player);
 
         if (maxTurn) {
             moveCount = 0;
@@ -71,14 +72,12 @@ public class OpponentPruningParanoidSearch extends AbstractSearch {
 
         double bestValue = 0;
         for (int i = 0, sortedMovesSize = sortedMoves.size(); i < sortedMovesSize; i++) {
-            totalStates[0]++;
-
             if (i >= BRANCHING_LIMIT_GROUP_TWO) {
                 moveCount++;
             }
 
             double value = OPPS(sortedMoves.get(i).getMap(), depth - 1,
-                    MapUtil.nextPlayer(turn), moveCount, numberAvailableMoves, totalStates);
+                    MapUtil.nextPlayer(turn), moveCount, totalStates);
 
             bestValue = maxTurn ? Math.max(bestValue, value) : Math.min(bestValue, value);
         }

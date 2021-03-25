@@ -1,6 +1,7 @@
 package de.marcluque.reversi.ai.search.strategies.maxn;
 
-import de.marcluque.reversi.ai.evaluation.Evaluation;
+import de.marcluque.reversi.ai.evaluation.HeuristicEvaluation;
+import de.marcluque.reversi.ai.evaluation.TerminalEvaluation;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.moves.AbstractMove;
@@ -44,22 +45,16 @@ public class MaxNSearch extends AbstractSearch {
     }
 
     private static double[] maxValue(Map map, int player, int depth, int[] totalStates) {
-        return search(map, player, depth, totalStates, (value, mapClone) -> {
-            double[] newValue = maxValue(mapClone, depth - 1, MapUtil.nextPlayer(player), totalStates);
-            return newValue[player] > value[player] ? newValue : value;
-        });
-    }
-
-    private static double[] search(Map map, int player, int depth, int[] totalStates,
-                                 BiFunction<double[], Map, double[]> searchFunction) {
         totalStates[0]++;
 
-        if (depth <= 0 || MapUtil.isTerminal(map)) {
-            return Evaluation.utility(map);
+        if (MapUtil.isTerminal(map)) {
+            return TerminalEvaluation.nPlayerUtility(map);
+        } else if (depth <= 0) {
+            return HeuristicEvaluation.nPlayerUtility(map);
         }
 
-        double[] value = new double[Map.getNumberOfPlayers()];
-        Arrays.fill(value, player == MAX ? Double.MIN_VALUE : Double.MAX_VALUE);
+        double[] maxValue = new double[Map.getNumberOfPlayers() + 1];
+        Arrays.fill(maxValue, player == MAX ? Double.MIN_VALUE : Double.MAX_VALUE);
 
         for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
             for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
@@ -69,11 +64,14 @@ public class MaxNSearch extends AbstractSearch {
                     AbstractMove.executeMove(mapClone, x, y, MapUtil.intToPlayer(player), capturableTiles);
                     totalStates[0]++;
 
-                    value = searchFunction.apply(value, mapClone);
+                    double[] value = maxValue(mapClone, depth - 1, MapUtil.nextPlayer(player), totalStates);
+                    if (value[player] > maxValue[player]) {
+                        System.arraycopy(value, 0, maxValue, 0, maxValue.length);
+                    }
                 }
             }
         }
 
-        return value;
+        return maxValue;
     }
 }

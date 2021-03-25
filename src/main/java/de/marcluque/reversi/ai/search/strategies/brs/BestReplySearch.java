@@ -1,10 +1,12 @@
 package de.marcluque.reversi.ai.search.strategies.brs;
 
-import de.marcluque.reversi.ai.evaluation.Evaluation;
+import de.marcluque.reversi.ai.evaluation.HeuristicEvaluation;
+import de.marcluque.reversi.ai.evaluation.TerminalEvaluation;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.moves.AbstractMove;
 import de.marcluque.reversi.util.Coordinate;
+import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.Move;
 
 import java.util.ArrayList;
@@ -18,13 +20,14 @@ public class BestReplySearch extends AbstractSearch {
     public static Move search(Map map, int depth, int[] totalStates) {
         Move bestMove = null;
         double maxValue = Double.MIN_VALUE;
+        totalStates[0]++;
+
         for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
             for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
                 List<Coordinate> capturableTiles = new ArrayList<>();
                 if (AbstractMove.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
                     Map mapClone = new Map(map);
                     Move currentMove = AbstractMove.executeMove(mapClone, x, y, MAX, capturableTiles);
-                    totalStates[0]++;
 
                     double value = BRS(map, Double.MIN_VALUE, Double.MAX_VALUE, depth - 1, MAX, totalStates);
                     if (value > maxValue) {
@@ -39,8 +42,12 @@ public class BestReplySearch extends AbstractSearch {
     }
 
     private static double BRS(Map map, double alpha, double beta, int depth, char turn, int[] totalStates) {
-        if (depth <= 0) {
-            return Evaluation.utility(map, MAX);
+        totalStates[0]++;
+
+        if (MapUtil.isTerminal(map)) {
+            return TerminalEvaluation.utility(map);
+        } else if (depth <= 0) {
+            return HeuristicEvaluation.utility(map);
         }
 
         double maxAlpha = alpha;
@@ -64,7 +71,7 @@ public class BestReplySearch extends AbstractSearch {
                 if (AbstractMove.isMoveValid(map, x, y, turn, false, capturableTiles)) {
                     Map mapClone = new Map(map);
                     AbstractMove.executeMove(mapClone, x, y, turn, capturableTiles);
-                    totalStates[0]++;
+
                     double value = -BRS(mapClone, -beta, -alpha, depth - 1,
                             (turn == MAX) ? OPPONENT : MAX, totalStates);
 

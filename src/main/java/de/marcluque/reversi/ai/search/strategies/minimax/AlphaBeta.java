@@ -1,6 +1,7 @@
 package de.marcluque.reversi.ai.search.strategies.minimax;
 
-import de.marcluque.reversi.ai.evaluation.Evaluation;
+import de.marcluque.reversi.ai.evaluation.HeuristicEvaluation;
+import de.marcluque.reversi.ai.evaluation.TerminalEvaluation;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.moves.AbstractMove;
@@ -43,8 +44,10 @@ public class AlphaBeta extends AbstractSearch {
     private static double maxValue(Map map, double alpha, double beta, int depth, int[] totalStates) {
         totalStates[0]++;
 
-        if (depth <= 0 || MapUtil.isTerminal(map)) {
-            return Evaluation.utility(map, MAX);
+        if (MapUtil.isTerminal(map)) {
+            return TerminalEvaluation.utility(map);
+        } else if (depth <= 0) {
+            return HeuristicEvaluation.utility(map);
         }
 
         double value = Double.MIN_VALUE;
@@ -73,8 +76,10 @@ public class AlphaBeta extends AbstractSearch {
     private static double minValue(Map map, double alpha, double beta, int depth, int[] totalStates) {
         totalStates[0]++;
 
-        if (depth <= 0 || MapUtil.isTerminal(map)) {
-            return Evaluation.utility(map, MAX);
+        if (MapUtil.isTerminal(map)) {
+            return TerminalEvaluation.utility(map);
+        } else if (depth <= 0) {
+            return HeuristicEvaluation.utility(map);
         }
 
         double value = Double.MAX_VALUE;
