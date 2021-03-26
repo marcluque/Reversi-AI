@@ -29,13 +29,13 @@ public class CornerHeuristic extends AbstractHeuristic implements Heuristic {
 
     @Override
     public double executeHeuristic(Map map, char player) {
-        long count = 0;
+        double count = 0;
         for (Coordinate corner : Map.getCorners()) {
             if (map.getGameField()[corner.getY()][corner.getX()] == player) {
                 count++;
             }
         }
 
-        return count / (double) Map.getCorners().size();
+        return count / Map.getCorners().size();
     }
 }

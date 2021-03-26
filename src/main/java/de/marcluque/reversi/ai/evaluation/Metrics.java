@@ -1,4 +1,4 @@
-package de.marcluque.reversi.ai.evaluation.metrics;
+package de.marcluque.reversi.ai.evaluation;
 
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.GameInstance;
@@ -31,7 +31,6 @@ public class Metrics {
     }
 
     public static void updateOpponentsWithMoves() {
-        Map map = GameInstance.getMap();
         opponentsWithMoves = new ArrayList<>(Map.getNumberOfPlayers() - 1);
 
         for (int player = 1, numberOfPlayers = Map.getNumberOfPlayers(); player <= numberOfPlayers; player++) {
@@ -43,6 +42,13 @@ public class Metrics {
 
     private static boolean playerHasMove(int player) {
         Map map = GameInstance.getMap();
+
+        // Shortcut: If the player has override stones, he has available moves
+        if (map.getOverrideStones()[player] > 0) {
+            return true;
+        }
+
+        // Otherwise do a regular check for available moves
         for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
             for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
                 if (AbstractMove.isMoveValid(map, x, y, MapUtil.intToPlayer(player), true)) {

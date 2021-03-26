@@ -2,9 +2,8 @@ package de.marcluque.reversi.ai.evaluation.heuristics.building;
 
 import de.marcluque.reversi.ai.evaluation.heuristics.AbstractHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.Heuristic;
-import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.Map;
-import de.marcluque.reversi.moves.AbstractMove;
+import de.marcluque.reversi.ai.moves.AbstractMove;
 import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.Transition;
@@ -19,13 +18,11 @@ public class StabilityHeuristic extends AbstractHeuristic implements Heuristic {
     }
 
     @Override
-    public void initHeuristic(Map map) {
-
-    }
+    public void initHeuristic(Map map) {}
 
     @Override
     public double executeHeuristic(Map map, char player) {
-        int threatCounter = 0;
+        double threatCounter = 0;
 
         for (int y = 0; y < Map.getMapHeight(); y++) {
             for (int x = 0; x < Map.getMapWidth(); x++) {
@@ -71,6 +68,6 @@ public class StabilityHeuristic extends AbstractHeuristic implements Heuristic {
         }
 
         // Divide by number of directions
-        return threatCounter / 8d;
+        return threatCounter / 8;
     }
 }
