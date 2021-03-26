@@ -3,11 +3,10 @@ package de.marcluque.reversi.ai.evaluation.metrics;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.GameInstance;
 import de.marcluque.reversi.map.Map;
-import de.marcluque.reversi.moves.AbstractMove;
+import de.marcluque.reversi.ai.moves.AbstractMove;
 import de.marcluque.reversi.util.MapUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /*
