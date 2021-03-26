@@ -1,6 +1,8 @@
+package moves;
+
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.map.MapLoader;
-import de.marcluque.reversi.moves.BombMove;
+import de.marcluque.reversi.ai.moves.BombMove;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
