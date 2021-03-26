@@ -1,4 +1,4 @@
-package de.marcluque.reversi.ai.evaluation.rules;
+package de.marcluque.reversi.ai.evaluation;
 
 import de.marcluque.reversi.map.GameInstance;
 import de.marcluque.reversi.map.Map;

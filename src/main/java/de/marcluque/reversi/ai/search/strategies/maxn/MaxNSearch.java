@@ -4,7 +4,7 @@ import de.marcluque.reversi.ai.evaluation.HeuristicEvaluation;
 import de.marcluque.reversi.ai.evaluation.TerminalEvaluation;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.Map;
-import de.marcluque.reversi.moves.AbstractMove;
+import de.marcluque.reversi.ai.moves.AbstractMove;
 import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.Move;
@@ -12,7 +12,6 @@ import de.marcluque.reversi.util.Move;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.BiFunction;
 
 /*
  * Created with <3 by marcluque, March 2021

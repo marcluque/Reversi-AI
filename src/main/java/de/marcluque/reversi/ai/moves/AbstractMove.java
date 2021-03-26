@@ -1,6 +1,6 @@
-package de.marcluque.reversi.moves;
+package de.marcluque.reversi.ai.moves;
 
-import de.marcluque.reversi.ai.evaluation.rules.Rules;
+import de.marcluque.reversi.ai.evaluation.Rules;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.MapUtil;

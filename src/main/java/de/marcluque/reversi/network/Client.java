@@ -1,7 +1,7 @@
 package de.marcluque.reversi.network;
 
 import de.marcluque.reversi.ai.evaluation.HeuristicEvaluation;
-import de.marcluque.reversi.ai.evaluation.metrics.Metrics;
+import de.marcluque.reversi.ai.evaluation.Metrics;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.GameInstance;
 import de.marcluque.reversi.map.Map;

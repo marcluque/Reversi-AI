@@ -1,4 +1,4 @@
-package de.marcluque.reversi.moves;
+package de.marcluque.reversi.ai.moves;
 
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.MapUtil;

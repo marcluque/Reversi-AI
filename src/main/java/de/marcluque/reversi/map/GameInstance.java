@@ -1,14 +1,14 @@
 package de.marcluque.reversi.map;
 
 import de.marcluque.reversi.ai.evaluation.HeuristicEvaluation;
-import de.marcluque.reversi.ai.evaluation.metrics.Metrics;
-import de.marcluque.reversi.ai.evaluation.rules.Rules;
+import de.marcluque.reversi.ai.evaluation.Metrics;
+import de.marcluque.reversi.ai.evaluation.Rules;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.ai.search.IterativeDeepening;
 import de.marcluque.reversi.ai.search.strategies.brs.BestReplySearch;
 import de.marcluque.reversi.ai.search.strategies.maxn.MaxNSearch;
 import de.marcluque.reversi.ai.search.strategies.minimax.AlphaBetaMoveSorting;
-import de.marcluque.reversi.moves.AbstractMove;
+import de.marcluque.reversi.ai.moves.AbstractMove;
 import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.Move;
 

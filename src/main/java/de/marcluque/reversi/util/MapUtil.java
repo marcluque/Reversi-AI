@@ -1,7 +1,7 @@
 package de.marcluque.reversi.util;
 
 import de.marcluque.reversi.map.Map;
-import de.marcluque.reversi.moves.AbstractMove;
+import de.marcluque.reversi.ai.moves.AbstractMove;
 
 import java.util.ArrayList;
 import java.util.Arrays;

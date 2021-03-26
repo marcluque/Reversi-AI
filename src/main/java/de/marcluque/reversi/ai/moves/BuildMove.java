@@ -1,4 +1,4 @@
-package de.marcluque.reversi.moves;
+package de.marcluque.reversi.ai.moves;
 
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.Coordinate;
@@ -65,10 +65,10 @@ public abstract class BuildMove {
                 map.getGameField()[y][x] = player;
 
                 // Switches the stones of the players
-                for (int i = 1; i <= 8; i++) {
-                    int nextPlayer = (i % Map.getNumberOfPlayers()) + 1;
-                    int tempNumber = map.getNumberOfStones()[i];
-                    map.getNumberOfStones()[i] = map.getNumberOfStones()[nextPlayer];
+                for (int switchPlayer = 1, numberOfPlayers = Map.getNumberOfPlayers(); switchPlayer <= numberOfPlayers; switchPlayer++) {
+                    int nextPlayer = (switchPlayer % Map.getNumberOfPlayers()) + 1;
+                    int tempNumber = map.getNumberOfStones()[switchPlayer];
+                    map.getNumberOfStones()[switchPlayer] = map.getNumberOfStones()[nextPlayer];
                     map.getNumberOfStones()[nextPlayer] = tempNumber;
                 }
 
@@ -84,7 +84,7 @@ public abstract class BuildMove {
             case 'b' -> {
                 map.getGameField()[y][x] = player;
 
-                // HEURISTIC: If 2 players and map smaller than 17x17, player picks bomb, else override
+                // TODO: Come up with a metric/rule for this
                 if (Map.getNumberOfPlayers() == 2 && Map.getMapWidth() * Map.getMapHeight() <= 300) {
                     map.getBombs()[playerId]++;
                     specialTile = 20;
