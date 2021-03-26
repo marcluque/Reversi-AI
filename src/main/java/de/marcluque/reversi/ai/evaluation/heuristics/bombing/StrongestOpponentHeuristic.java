@@ -3,6 +3,7 @@ package de.marcluque.reversi.ai.evaluation.heuristics.bombing;
 import de.marcluque.reversi.ai.evaluation.heuristics.AbstractHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.Heuristic;
 import de.marcluque.reversi.map.Map;
+import de.marcluque.reversi.util.MapUtil;
 
 /*
  * Created with <3 by marcluque, March 2021
@@ -20,17 +21,20 @@ public class StrongestOpponentHeuristic extends AbstractHeuristic implements Heu
 
     @Override
     public double executeHeuristic(Map map, char player) {
+        int playerInt = MapUtil.playerToInt(player);
+
         // Determine strongest opponent
         int strongestOpponent = -1;
         int max = Integer.MIN_VALUE;
         for (int i = 1, numberOfStonesLength = map.getNumberOfStones().length; i < numberOfStonesLength; i++) {
-            if (map.getNumberOfStones()[i] > max) {
+            if (i != playerInt && map.getNumberOfStones()[i] > max) {
                 max = map.getNumberOfStones()[i];
                 strongestOpponent = i;
             }
         }
 
-        int numberOfPlayableTiles = Map.getMapHeight() * Map.getMapWidth() - Map.getNumberOfHoles();
-        return (numberOfPlayableTiles - map.getNumberOfStones()[strongestOpponent]) / (double) numberOfPlayableTiles;
+        // The more stones the strongest opponent has, the higher is the heuristic value
+        double numberOfPlayableTiles = Map.getMapHeight() * Map.getMapWidth() - Map.getNumberOfHoles() - map.getNumberFreeTiles();
+        return (numberOfPlayableTiles - map.getNumberOfStones()[strongestOpponent]) / numberOfPlayableTiles;
     }
 }

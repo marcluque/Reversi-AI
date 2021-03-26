@@ -20,18 +20,18 @@ public class SuccessorHeuristic extends AbstractHeuristic implements Heuristic {
 
     @Override
     public double executeHeuristic(Map map, char player) {
-        // Determine successor
         int playerStones = map.getNumberOfStones()[MapUtil.playerToInt(player)];
-        int max = Integer.MIN_VALUE;
-        int successor = -1;
+        double minimalStoneDistance = Integer.MAX_VALUE;
+
+        // Determine minimal stone distance to opponent "after" player (aka successor)
         for (int i = 1, numberOfStonesLength = map.getNumberOfStones().length; i < numberOfStonesLength; i++) {
-            if ((playerStones - map.getNumberOfStones()[i]) > max) {
-                max = playerStones - map.getNumberOfStones()[i];
-                successor = i;
+            int stoneDistance = playerStones - map.getNumberOfStones()[i];
+            if (stoneDistance > 0 && stoneDistance < minimalStoneDistance) {
+                minimalStoneDistance = stoneDistance;
             }
         }
 
-        int numberOfPlayableTiles = Map.getMapHeight() * Map.getMapWidth() - Map.getNumberOfHoles();
-        return (numberOfPlayableTiles - map.getNumberOfStones()[successor]) / (double) numberOfPlayableTiles;
+        // The greater the distance between the player and its successor, the better
+        return minimalStoneDistance / playerStones;
     }
 }

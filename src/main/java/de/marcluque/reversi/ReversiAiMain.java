@@ -3,10 +3,13 @@ package de.marcluque.reversi;
 import de.marcluque.reversi.ai.evaluation.HeuristicEvaluation;
 import de.marcluque.reversi.ai.evaluation.heuristics.StoneCountHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.StoneParityHeuristic;
+import de.marcluque.reversi.ai.evaluation.heuristics.bombing.PredecessorHeuristic;
+import de.marcluque.reversi.ai.evaluation.heuristics.bombing.StrongestOpponentHeuristic;
+import de.marcluque.reversi.ai.evaluation.heuristics.bombing.SuccessorHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.building.CornerHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.building.MobilityHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.building.StabilityHeuristic;
-import de.marcluque.reversi.ai.evaluation.rules.Rules;
+import de.marcluque.reversi.ai.evaluation.Rules;
 import de.marcluque.reversi.network.Client;
 
 /*
@@ -24,6 +27,10 @@ public class ReversiAiMain {
         HeuristicEvaluation.addMaximizationHeuristic(new StoneParityHeuristic(1));
 
         HeuristicEvaluation.setSortingHeuristic(new StoneParityHeuristic(1));
+
+        HeuristicEvaluation.addBombingHeuristic(new PredecessorHeuristic(1d/3));
+        HeuristicEvaluation.addBombingHeuristic(new StrongestOpponentHeuristic(1d/3));
+        HeuristicEvaluation.addBombingHeuristic(new SuccessorHeuristic(1d/3));
 
         Rules.moveThresholdFullGameTreeSearch = 10;
 
