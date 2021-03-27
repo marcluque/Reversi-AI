@@ -35,6 +35,11 @@ public class MobilityHeuristic extends AbstractHeuristic implements Heuristic {
     }
 
     @Override
+    public double getWeight() {
+        return weight;
+    }
+
+    @Override
     public void updateWeight(double weight) {
         super.weight = weight;
     }

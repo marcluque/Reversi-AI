@@ -15,6 +15,7 @@ public abstract class AbstractSearch {
 
     protected static final char OPPONENT = '§';
 
+    // TODO: TAKE CARE THAT DISQUALIFIED PLAYERS ARE REGARDED
     public static List<Character> ACTIVE_PLAYERS;
 
     // Only important for minimax algorithms

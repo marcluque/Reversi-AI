@@ -55,11 +55,11 @@ public class HeuristicEvaluation {
 
         if (Map.getPhase() == 1) {
             for (Heuristic heuristic : buildingHeuristics) {
-                sum += heuristic.executeHeuristic(map, AbstractSearch.MAX);
+                sum += heuristic.getWeight() * heuristic.executeHeuristic(map, AbstractSearch.MAX);
             }
         } else {
             for (Heuristic heuristic : BOMBING_HEURISTICS) {
-                sum += heuristic.executeHeuristic(map, AbstractSearch.MAX);
+                sum += heuristic.getWeight() * heuristic.executeHeuristic(map, AbstractSearch.MAX);
             }
         }
 
@@ -73,13 +73,13 @@ public class HeuristicEvaluation {
         if (Map.getPhase() == 1) {
             for (Character player : AbstractSearch.ACTIVE_PLAYERS) {
                 for (Heuristic heuristic : buildingHeuristics) {
-                    utility[MapUtil.playerToInt(player)] += heuristic.executeHeuristic(map, player);
+                    utility[MapUtil.playerToInt(player)] += heuristic.getWeight() * heuristic.executeHeuristic(map, player);
                 }
             }
         } else {
             for (Character player : AbstractSearch.ACTIVE_PLAYERS) {
                 for (Heuristic heuristic : BOMBING_HEURISTICS) {
-                    utility[MapUtil.playerToInt(player)] += heuristic.executeHeuristic(map, player);
+                    utility[MapUtil.playerToInt(player)] += heuristic.getWeight() * heuristic.executeHeuristic(map, player);
                 }
             }
         }

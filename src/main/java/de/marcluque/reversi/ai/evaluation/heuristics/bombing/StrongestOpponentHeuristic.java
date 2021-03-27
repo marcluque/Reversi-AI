@@ -39,6 +39,11 @@ public class StrongestOpponentHeuristic extends AbstractHeuristic implements Heu
     }
 
     @Override
+    public double getWeight() {
+        return weight;
+    }
+
+    @Override
     public void updateWeight(double weight) {
         super.weight = weight;
     }

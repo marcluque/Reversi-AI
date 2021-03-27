@@ -11,5 +11,7 @@ public interface Heuristic {
 
     double executeHeuristic(Map map, char player);
 
+    double getWeight();
+
     void updateWeight(double weight);
 }
