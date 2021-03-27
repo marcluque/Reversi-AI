@@ -1,5 +1,6 @@
 package de.marcluque.reversi.util;
 
+import de.marcluque.reversi.ai.evaluation.HeuristicEvaluation;
 import de.marcluque.reversi.map.Map;
 
 import java.util.Objects;
@@ -13,15 +14,19 @@ public class SortNode {
 
     private final int y;
 
-    private int specialTile;
+    private final int specialTile;
 
-    private double heuristicValue;
+    private final double heuristicValue;
 
     private Map map;
 
-    public SortNode(Move move) {
-        x = move.getX();
-        y = move.getY();
+    public SortNode(Move move, Map mapClone) {
+        this.x = move.getX();
+        this.y = move.getY();
+        this.specialTile = move.getSpecialTile();
+        // We always evaluate for MAX since MIN tries to play the worst possible move for MAX
+        this.heuristicValue = HeuristicEvaluation.heuristicValue(mapClone);
+        this.map = mapClone;
     }
 
     public int getX() {
@@ -32,24 +37,12 @@ public class SortNode {
         return y;
     }
 
-    public int getSpecialTile() {
-        return specialTile;
-    }
-
     public Move getMove() {
         return new Move(x, y, specialTile);
     }
 
-    public void setSpecialTile(int specialTile) {
-        this.specialTile = specialTile;
-    }
-
     public double getHeuristicValue() {
         return heuristicValue;
-    }
-
-    public void setHeuristicValue(double heuristicValue) {
-        this.heuristicValue = heuristicValue;
     }
 
     public Map getMap() {

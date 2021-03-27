@@ -1,13 +1,13 @@
 package de.marcluque.reversi.ai.search;
 
-import de.marcluque.reversi.ai.evaluation.HeuristicEvaluation;
-import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.ai.moves.AbstractMove;
-import de.marcluque.reversi.util.MapUtil;
-import de.marcluque.reversi.util.Move;
+import de.marcluque.reversi.map.Map;
+import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.SortNode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /*
  * Created with <3 by marcluque, March 2021
@@ -23,17 +23,17 @@ public class MoveSorting {
     }
 
     public static List<SortNode> sortMoves(Map map, char player) {
-        var availableMoveMap = MapUtil.getAvailableMoves(map, player);
-        var moves = new ArrayList<>(availableMoveMap.keySet());
+        List<SortNode> moves = new ArrayList<>();
 
-        for (SortNode move : moves) {
-            Map mapClone = new Map(map);
-            Move tempMove = AbstractMove.executeMove(mapClone, move.getX(), move.getY(), player, availableMoveMap.get(move));
-
-            // We always evaluate for MAX since MIN tries to play the worst possible move for MAX
-            move.setHeuristicValue(HeuristicEvaluation.heuristicValue(mapClone));
-            move.setMap(mapClone);
-            move.setSpecialTile(tempMove.getSpecialTile());
+        // We first add the elements, taking n steps and then sort with n * log(n) steps in the worst-case
+        for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
+            for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
+                List<Coordinate> capturableStones = new ArrayList<>();
+                if (AbstractMove.isMoveValid(map, x, y, player, false, capturableStones)) {
+                    Map mapClone = new Map(map);
+                    moves.add(new SortNode(AbstractMove.executeMove(mapClone, x, y, player, capturableStones), mapClone));
+                }
+            }
         }
 
         if (player == AbstractSearch.MAX) {
