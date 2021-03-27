@@ -46,6 +46,7 @@ public class GameInstance {
         //   METRICS UPDATES  //
         ////////////////////////
         Metrics.updateOpponentsWithMoves();
+        Metrics.updateBombPower();
 
         ////////////////////////
         //    RULE UPDATES    //
@@ -53,6 +54,7 @@ public class GameInstance {
         Rules.updateOverrideStoneRule();
         Rules.updateStoneMaximizationRule();
         Rules.updateFullGameTreeSearch();
+        Rules.updateOverrideOverBombRule();
 
         if (Rules.useStoneMaximization) {
             HeuristicEvaluation.activateStoneMaximization();

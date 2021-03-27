@@ -1,5 +1,6 @@
 package de.marcluque.reversi.ai.moves;
 
+import de.marcluque.reversi.ai.evaluation.Rules;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.MapUtil;
@@ -40,7 +41,7 @@ public abstract class BuildMove {
             case 'c' -> {
                 map.getGameField()[y][x] = player;
 
-                // HEURISTIC: Determine player with most stones for choice
+                // ASSUMPTION: we always pick the player with most stones
                 specialTile = MapUtil.playerWithMaxStones(map);
 
                 // Switch stones of the player in numberOfStones array
@@ -84,13 +85,12 @@ public abstract class BuildMove {
             case 'b' -> {
                 map.getGameField()[y][x] = player;
 
-                // TODO: Come up with a metric/rule for this
-                if (Map.getNumberOfPlayers() == 2 && Map.getMapWidth() * Map.getMapHeight() <= 300) {
-                    map.getBombs()[playerId]++;
-                    specialTile = 20;
-                } else {
+                if (Rules.pickOverrideStoneOverBomb) {
                     map.getOverrideStones()[playerId]++;
                     specialTile = 21;
+                } else {
+                    map.getBombs()[playerId]++;
+                    specialTile = 20;
                 }
             }
         }

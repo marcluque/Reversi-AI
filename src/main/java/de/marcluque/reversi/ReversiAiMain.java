@@ -6,9 +6,7 @@ import de.marcluque.reversi.ai.evaluation.heuristics.StoneParityHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.bombing.PredecessorHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.bombing.StrongestOpponentHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.bombing.SuccessorHeuristic;
-import de.marcluque.reversi.ai.evaluation.heuristics.building.CornerHeuristic;
-import de.marcluque.reversi.ai.evaluation.heuristics.building.MobilityHeuristic;
-import de.marcluque.reversi.ai.evaluation.heuristics.building.StabilityHeuristic;
+import de.marcluque.reversi.ai.evaluation.heuristics.building.*;
 import de.marcluque.reversi.ai.evaluation.Rules;
 import de.marcluque.reversi.network.Client;
 
@@ -18,19 +16,32 @@ import de.marcluque.reversi.network.Client;
 public class ReversiAiMain {
 
     public static void main(String[] args) {
+        // BUILDING
         HeuristicEvaluation.addBuildingHeuristic(new StoneCountHeuristic(0.2));
         HeuristicEvaluation.addBuildingHeuristic(new StoneParityHeuristic(0.2));
         HeuristicEvaluation.addBuildingHeuristic(new CornerHeuristic(0.2));
         HeuristicEvaluation.addBuildingHeuristic(new MobilityHeuristic(0.2));
         HeuristicEvaluation.addBuildingHeuristic(new StabilityHeuristic(0.2));
 
+        // TODO: THESE WEIGHTS NEED TO BE DYNAMIC: We only include bomb heuristic if: bombs > 0, same for override
+        //       If bombs exhibit very high bomb power (see Metrics), we want to prioritize or even focus on them
+
+        // TODO: THESE HEURISTICS SHOULD NOT BE USED IN THE SEARCH TREE, BUT MERELY IN THE ROOT
+        HeuristicEvaluation.addBuildingHeuristic(new BombTileHeuristic(0.2));
+        HeuristicEvaluation.addBuildingHeuristic(new OverrideTileHeuristic(0.2));
+
+        // FINAL PHASE
         HeuristicEvaluation.addMaximizationHeuristic(new StoneParityHeuristic(1));
 
+        // SORTING
         HeuristicEvaluation.setSortingHeuristic(new StoneParityHeuristic(1));
 
-        HeuristicEvaluation.addBombingHeuristic(new PredecessorHeuristic(1d/3));
-        HeuristicEvaluation.addBombingHeuristic(new StrongestOpponentHeuristic(1d/3));
-        HeuristicEvaluation.addBombingHeuristic(new SuccessorHeuristic(1d/3));
+        // BOMBING
+        HeuristicEvaluation.addBombingHeuristic(new StoneCountHeuristic(0.2));
+        HeuristicEvaluation.addBombingHeuristic(new StoneParityHeuristic(0.2));
+        HeuristicEvaluation.addBombingHeuristic(new PredecessorHeuristic(0.2));
+        HeuristicEvaluation.addBombingHeuristic(new StrongestOpponentHeuristic(0.2));
+        HeuristicEvaluation.addBombingHeuristic(new SuccessorHeuristic(0.2));
 
         Rules.moveThresholdFullGameTreeSearch = 10;
 

@@ -45,8 +45,12 @@ public class MapUtil {
         return type == '-';
     }
 
+    public static boolean isTileBonus(char type) {
+        return type == 'b';
+    }
+
     public static boolean isTileSpecial(char type) {
-        return type == 'c' || type == 'b' || type == 'i';
+        return type == 'c' || isTileBonus(type) || type == 'i';
     }
 
     public static boolean isTileFree(char type) {
@@ -139,20 +143,6 @@ public class MapUtil {
         }
 
         return playerWithMostStones;
-    }
-
-    public static java.util.Map<SortNode, List<Coordinate>> getAvailableMoves(Map map, char player) {
-        java.util.Map<SortNode, List<Coordinate>> availableMoves = new HashMap<>();
-        for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
-            for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
-                List<Coordinate> capturableStones = new ArrayList<>();
-                if (AbstractMove.isMoveValid(map, x, y, player, false, capturableStones)) {
-                    availableMoves.put(new SortNode(new Move(x, y, 0)), capturableStones);
-                }
-            }
-        }
-
-        return availableMoves;
     }
 
     public static String mapToPrintableString(char[][] map) {

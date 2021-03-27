@@ -3,10 +3,7 @@ package de.marcluque.reversi.map;
 import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.Transition;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /*
  * Created with <3 by marcluque, March 2021
@@ -15,9 +12,13 @@ public class Map {
 
     private final char[][] gameField;
 
-    protected static java.util.Map<Transition, Transition> transitions = new HashMap<>();
+    protected static final java.util.Map<Transition, Transition> TRANSITIONS = new HashMap<>();
 
-    private static final Set<Coordinate> corners = new HashSet<>();
+    private static final List<Coordinate> CORNERS = new ArrayList<>();
+
+    private static final List<Coordinate> BOMB_TILES = new ArrayList<>();
+
+    private static final List<Coordinate> OVERRIDE_TILES = new ArrayList<>();
 
     private static int mapHeight;
 
@@ -53,6 +54,7 @@ public class Map {
         this.overrideStones = Arrays.copyOf(map.getOverrideStones(), map.getOverrideStones().length);
         this.numberOfStones = Arrays.copyOf(map.getNumberOfStones(), map.getNumberOfStones().length);
         this.bombs = Arrays.copyOf(map.getBombs(), map.getBombs().length);
+        this.numberFreeTiles = map.getNumberFreeTiles();
     }
 
     public char[][] getGameField() {
@@ -60,11 +62,19 @@ public class Map {
     }
 
     public static java.util.Map<Transition, Transition> getTransitions() {
-        return transitions;
+        return TRANSITIONS;
     }
 
-    public static Set<Coordinate> getCorners() {
-        return corners;
+    public static List<Coordinate> getCorners() {
+        return CORNERS;
+    }
+
+    public static List<Coordinate> getBombTiles() {
+        return BOMB_TILES;
+    }
+
+    public static List<Coordinate> getOverrideTiles() {
+        return OVERRIDE_TILES;
     }
 
     public static int getMapHeight() {

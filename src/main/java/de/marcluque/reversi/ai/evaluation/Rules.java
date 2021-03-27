@@ -18,6 +18,8 @@ public class Rules {
 
     public static int moveThresholdFullGameTreeSearch = -1;
 
+    public static boolean pickOverrideStoneOverBomb;
+
     public static void updateOverrideStoneRule() {
         useOverrideStones = GameInstance.getMap().getNumberFreeTiles() - Map.getNumberOfHoles() == 0;
     }
@@ -27,7 +29,12 @@ public class Rules {
     }
 
     public static void updateFullGameTreeSearch() {
-        useFullGameTreeSearch = moveThresholdFullGameTreeSearch
-                >= GameInstance.getMap().getNumberFreeTiles() + Arrays.stream(GameInstance.getMap().getOverrideStones()).sum();
+        useFullGameTreeSearch = moveThresholdFullGameTreeSearch >= GameInstance.getMap().getNumberFreeTiles()
+                + Arrays.stream(GameInstance.getMap().getOverrideStones()).sum();
+    }
+
+    public static void updateOverrideOverBombRule() {
+        // We pick override stones over bombs while bomb power does not exceed power of destroying half the playable tiles
+        pickOverrideStoneOverBomb = Metrics.numberPlayableTiles * 0.5 > Metrics.maximalBombPower;
     }
 }

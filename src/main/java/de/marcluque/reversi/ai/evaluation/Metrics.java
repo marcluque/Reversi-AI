@@ -14,20 +14,44 @@ import java.util.List;
  */
 public class Metrics {
 
+    public static int maximalBombEffect;
+
+    public static int maximalBombPower;
+
+    public static int numberPlayableTiles;
+
     public static List<Character> opponentsWithMoves;
 
-    public static void initNumberFreeTiles() {
+    public static void initNumberMetrics() {
         Map map = GameInstance.getMap();
         int numberFreeTiles = 0;
+        int numberOfHoles = 0;
+
         for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
             for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
                 if (MapUtil.isTileFree(map.getGameField()[y][x])) {
                     numberFreeTiles++;
+                } else if (MapUtil.isTileHole(map.getGameField()[y][x])) {
+                    numberOfHoles++;
                 }
             }
         }
 
         map.setNumberFreeTiles(numberFreeTiles);
+        Map.setNumberOfHoles(numberOfHoles);
+    }
+
+    public static void initBombEffect() {
+        int diameter = Map.getBombRadius() + Map.getBombRadius() + 1;
+        maximalBombEffect = diameter * diameter;
+    }
+
+    public static void initNumberPlayableTiles() {
+        numberPlayableTiles = Map.getMapHeight() * Map.getMapWidth() - Map.getNumberOfHoles();
+    }
+
+    public static void updateBombPower() {
+        maximalBombPower = GameInstance.getMap().getBombs()[AbstractSearch.MAX_NUMBER] * maximalBombEffect;
     }
 
     public static void updateOpponentsWithMoves() {
