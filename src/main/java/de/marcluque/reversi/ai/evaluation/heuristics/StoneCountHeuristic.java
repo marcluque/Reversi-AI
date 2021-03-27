@@ -1,5 +1,6 @@
 package de.marcluque.reversi.ai.evaluation.heuristics;
 
+import de.marcluque.reversi.ai.evaluation.Metrics;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.MapUtil;
 
@@ -13,22 +14,15 @@ public class StoneCountHeuristic extends AbstractHeuristic implements Heuristic 
     }
 
     @Override
-    public void initHeuristic(Map map) {
-        int numberOfHoles = 0;
-        for (int y = 0; y < Map.getMapHeight(); y++) {
-            for (int x = 0; x < Map.getMapWidth(); x++) {
-                if (MapUtil.isTileHole(map.getGameField()[y][x])) {
-                    numberOfHoles++;
-                }
-            }
-        }
-
-        Map.setNumberOfHoles(numberOfHoles);
-    }
+    public void initHeuristic(Map map) {}
 
     @Override
     public double executeHeuristic(Map map, char player) {
-        return map.getNumberOfStones()[MapUtil.playerToInt(player)]
-                / (double) ((Map.getMapHeight() * Map.getMapWidth()) - Map.getNumberOfHoles());
+        return map.getNumberOfStones()[MapUtil.playerToInt(player)] / (double) Metrics.numberPlayableTiles;
+    }
+
+    @Override
+    public void updateWeight(double weight) {
+        super.weight = weight;
     }
 }

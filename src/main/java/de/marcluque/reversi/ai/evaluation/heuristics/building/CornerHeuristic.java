@@ -18,8 +18,8 @@ public class CornerHeuristic extends AbstractHeuristic implements Heuristic {
 
     @Override
     public void initHeuristic(Map map) {
-        for (int y = 0; y < Map.getMapHeight(); y++) {
-            for (int x = 0; x < Map.getMapWidth(); x++) {
+        for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
+            for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
                 if (MapUtil.isTileCorner(map, x, y) != null) {
                     Map.getCorners().add(new Coordinate(x, y));
                 }
@@ -37,5 +37,10 @@ public class CornerHeuristic extends AbstractHeuristic implements Heuristic {
         }
 
         return count / Map.getCorners().size();
+    }
+
+    @Override
+    public void updateWeight(double weight) {
+        super.weight = weight;
     }
 }

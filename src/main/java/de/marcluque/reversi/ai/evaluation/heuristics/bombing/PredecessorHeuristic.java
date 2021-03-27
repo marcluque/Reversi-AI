@@ -34,4 +34,9 @@ public class PredecessorHeuristic extends AbstractHeuristic implements Heuristic
         // The greater the distance between the player and its predecessor, the better
         return minimalStoneDistance / playerStones;
     }
+
+    @Override
+    public void updateWeight(double weight) {
+        super.weight = weight;
+    }
 }

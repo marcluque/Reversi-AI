@@ -9,7 +9,10 @@ public abstract class AbstractSearch {
 
     public static char MAX;
 
+    public static int MAX_NUMBER;
+
     public static List<Character> OPPONENTS;
+
     protected static final char OPPONENT = '§';
 
     public static List<Character> ACTIVE_PLAYERS;

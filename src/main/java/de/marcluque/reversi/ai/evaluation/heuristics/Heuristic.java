@@ -10,4 +10,6 @@ public interface Heuristic {
     void initHeuristic(Map map);
 
     double executeHeuristic(Map map, char player);
+
+    void updateWeight(double weight);
 }

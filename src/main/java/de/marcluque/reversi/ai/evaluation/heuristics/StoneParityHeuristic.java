@@ -27,4 +27,9 @@ public class StoneParityHeuristic extends AbstractHeuristic implements Heuristic
 
         return coinParity / ((double) Arrays.stream(num).sum() * num.length);
     }
+
+    @Override
+    public void updateWeight(double weight) {
+        super.weight = weight;
+    }
 }

@@ -1,5 +1,6 @@
 package de.marcluque.reversi.ai.evaluation.heuristics.building;
 
+import de.marcluque.reversi.ai.evaluation.Metrics;
 import de.marcluque.reversi.ai.evaluation.heuristics.AbstractHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.Heuristic;
 import de.marcluque.reversi.ai.evaluation.Rules;
@@ -30,6 +31,11 @@ public class MobilityHeuristic extends AbstractHeuristic implements Heuristic {
             }
         }
 
-        return numberOfMoves / (Map.getMapHeight() * Map.getMapWidth() - Map.getNumberOfHoles());
+        return numberOfMoves / Metrics.numberPlayableTiles;
+    }
+
+    @Override
+    public void updateWeight(double weight) {
+        super.weight = weight;
     }
 }

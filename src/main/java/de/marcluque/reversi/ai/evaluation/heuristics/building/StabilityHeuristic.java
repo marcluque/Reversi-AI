@@ -70,4 +70,9 @@ public class StabilityHeuristic extends AbstractHeuristic implements Heuristic {
         // Divide by number of directions
         return threatCounter / 8;
     }
+
+    @Override
+    public void updateWeight(double weight) {
+        super.weight = weight;
+    }
 }

@@ -12,7 +12,7 @@ public class TerminalEvaluation {
     public static double utility(Map map) {
         // Find player with max number of stones
         double playerWithMostStones = MapUtil.playerWithMaxStones(map);
-        int maxPlayerStones = map.getNumberOfStones()[MapUtil.playerToInt(AbstractSearch.MAX)];
+        int maxPlayerStones = map.getNumberOfStones()[AbstractSearch.MAX_NUMBER];
 
         // Return 1 for first place in ranking and lowest possible value for last place in ranking
         return maxPlayerStones / playerWithMostStones;

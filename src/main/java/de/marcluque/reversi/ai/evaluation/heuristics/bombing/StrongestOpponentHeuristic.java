@@ -37,4 +37,9 @@ public class StrongestOpponentHeuristic extends AbstractHeuristic implements Heu
         double numberOfPlayableTiles = Map.getMapHeight() * Map.getMapWidth() - Map.getNumberOfHoles() - map.getNumberFreeTiles();
         return (numberOfPlayableTiles - map.getNumberOfStones()[strongestOpponent]) / numberOfPlayableTiles;
     }
+
+    @Override
+    public void updateWeight(double weight) {
+        super.weight = weight;
+    }
 }
