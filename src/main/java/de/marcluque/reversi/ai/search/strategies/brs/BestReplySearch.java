@@ -18,27 +18,25 @@ import java.util.List;
 public class BestReplySearch extends AbstractSearch {
 
     public static Move search(Map map, int depth, int[] totalStates) {
-        Move bestMove = null;
-        double maxValue = Double.MIN_VALUE;
+        final Move[] bestMove = {null};
+        final double[] maxValue = {Double.MIN_VALUE};
         totalStates[0]++;
 
-        for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
-            for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
-                List<Coordinate> capturableTiles = new ArrayList<>();
-                if (AbstractMove.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
-                    Map mapClone = new Map(map);
-                    Move currentMove = AbstractMove.executeMove(mapClone, x, y, MAX, capturableTiles);
+        MapUtil.iterateMap((x, y) -> {
+            List<Coordinate> capturableTiles = new ArrayList<>();
+            if (AbstractMove.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
+                Map mapClone = new Map(map);
+                Move currentMove = AbstractMove.executeMove(mapClone, x, y, MAX, capturableTiles);
 
-                    double value = BRS(map, Double.MIN_VALUE, Double.MAX_VALUE, depth - 1, MAX, totalStates);
-                    if (value > maxValue) {
-                        maxValue = value;
-                        bestMove = currentMove;
-                    }
+                double value = BRS(map, Double.MIN_VALUE, Double.MAX_VALUE, depth - 1, MAX, totalStates);
+                if (value > maxValue[0]) {
+                    maxValue[0] = value;
+                    bestMove[0] = currentMove;
                 }
             }
-        }
+        });
 
-        return bestMove;
+        return bestMove[0];
     }
 
     private static double BRS(Map map, double alpha, double beta, int depth, char turn, int[] totalStates) {

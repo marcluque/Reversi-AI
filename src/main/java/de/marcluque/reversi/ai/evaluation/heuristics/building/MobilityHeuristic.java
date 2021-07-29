@@ -6,6 +6,7 @@ import de.marcluque.reversi.ai.evaluation.heuristics.Heuristic;
 import de.marcluque.reversi.ai.evaluation.Rules;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.ai.moves.AbstractMove;
+import de.marcluque.reversi.util.MapUtil;
 
 /*
  * Created with <3 by marcluque, March 2021
@@ -21,17 +22,15 @@ public class MobilityHeuristic extends AbstractHeuristic implements Heuristic {
 
     @Override
     public double executeHeuristic(Map map, char player) {
-        double numberOfMoves = 0;
+        final double[] numberOfMoves = {0};
 
-        for (int i = 0; i < Map.getMapHeight(); i++) {
-            for (int j = 0; j < Map.getMapWidth(); j++) {
-                if (AbstractMove.isMoveValid(map, j, i, player, true, Rules.useOverrideStones)) {
-                    numberOfMoves++;
-                }
+        MapUtil.iterateMap((x, y) -> {
+            if (AbstractMove.isMoveValid(map, x, y, player, true, Rules.useOverrideStones)) {
+                numberOfMoves[0]++;
             }
-        }
+        });
 
-        return numberOfMoves / Metrics.numberPlayableTiles;
+        return numberOfMoves[0] / Metrics.numberPlayableTiles;
     }
 
     @Override

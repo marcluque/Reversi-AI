@@ -24,21 +24,19 @@ public class Metrics {
 
     public static void initNumberMetrics() {
         Map map = GameInstance.getMap();
-        int numberFreeTiles = 0;
-        int numberOfHoles = 0;
+        int[] numberFreeTiles = {0};
+        int[] numberOfHoles = {0};
 
-        for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
-            for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
-                if (MapUtil.isTileFree(map.getGameField()[y][x])) {
-                    numberFreeTiles++;
-                } else if (MapUtil.isTileHole(map.getGameField()[y][x])) {
-                    numberOfHoles++;
-                }
+        MapUtil.iterateMap((x, y) -> {
+            if (MapUtil.isTileFree(map.getGameField()[y][x])) {
+                numberFreeTiles[0]++;
+            } else if (MapUtil.isTileHole(map.getGameField()[y][x])) {
+                numberOfHoles[0]++;
             }
-        }
+        });
 
-        map.setNumberFreeTiles(numberFreeTiles);
-        Map.setNumberOfHoles(numberOfHoles);
+        map.setNumberFreeTiles(numberFreeTiles[0]);
+        Map.setNumberOfHoles(numberOfHoles[0]);
     }
 
     public static void initBombEffect() {

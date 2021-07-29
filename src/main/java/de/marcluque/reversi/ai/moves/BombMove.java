@@ -47,13 +47,11 @@ public abstract class BombMove {
     public static Move executeBombMove(Map map, int x, int y) {
         executeBombMoveRecursive(map, x, y, 0);
 
-        for (int i = 0; i < Map.getMapHeight(); i++) {
-            for (int j = 0; j < Map.getMapWidth(); j++) {
-                if (map.getGameField()[i][j] == '$') {
-                    map.getGameField()[i][j] = '-';
-                }
+        MapUtil.iterateMap((xMap, yMap) -> {
+            if (map.getGameField()[yMap][xMap] == '$') {
+                map.getGameField()[yMap][xMap] = '-';
             }
-        }
+        });
 
         return new Move(x, y, -1);
     }

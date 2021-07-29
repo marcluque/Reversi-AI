@@ -3,6 +3,7 @@ package de.marcluque.reversi.ai.search;
 import de.marcluque.reversi.ai.moves.AbstractMove;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.Coordinate;
+import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.SortNode;
 
 import java.util.ArrayList;
@@ -26,15 +27,13 @@ public class MoveSorting {
         List<SortNode> moves = new ArrayList<>();
 
         // We first add the elements, taking n steps and then sort with n * log(n) steps in the worst-case
-        for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
-            for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
-                List<Coordinate> capturableStones = new ArrayList<>();
-                if (AbstractMove.isMoveValid(map, x, y, player, false, capturableStones)) {
-                    Map mapClone = new Map(map);
-                    moves.add(new SortNode(AbstractMove.executeMove(mapClone, x, y, player, capturableStones), mapClone));
-                }
+        MapUtil.iterateMap((x, y) -> {
+            List<Coordinate> capturableStones = new ArrayList<>();
+            if (AbstractMove.isMoveValid(map, x, y, player, false, capturableStones)) {
+                Map mapClone = new Map(map);
+                moves.add(new SortNode(AbstractMove.executeMove(mapClone, x, y, player, capturableStones), mapClone));
             }
-        }
+        });
 
         if (player == AbstractSearch.MAX) {
             // Descending order (maximum first)

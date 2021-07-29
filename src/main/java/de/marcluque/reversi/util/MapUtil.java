@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /*
  * Created with <3 by marcluque, March 2021
@@ -143,6 +145,14 @@ public class MapUtil {
         }
 
         return playerWithMostStones;
+    }
+
+    public static void iterateMap(BiConsumer<Integer, Integer> action) {
+        for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
+            for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
+                action.accept(x, y);
+            }
+        }
     }
 
     public static String mapToPrintableString(char[][] map) {

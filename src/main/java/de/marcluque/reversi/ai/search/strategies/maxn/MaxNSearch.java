@@ -19,28 +19,26 @@ import java.util.List;
 public class MaxNSearch extends AbstractSearch {
 
     public static Move search(Map map, int depth, int[] totalStates) {
-        Move bestMove = null;
-        double maxValue = Double.MIN_VALUE;
+        final Move[] bestMove = {null};
+        final double[] maxValue = {Double.MIN_VALUE};
         int MAX_INT = MapUtil.playerToInt(MAX);
         totalStates[0]++;
 
-        for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
-            for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
-                List<Coordinate> capturableTiles = new ArrayList<>();
-                if (AbstractMove.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
-                    Map mapClone = new Map(map);
-                    Move currentMove = AbstractMove.executeMove(mapClone, x, y, MAX, capturableTiles);
+        MapUtil.iterateMap((x, y) -> {
+            List<Coordinate> capturableTiles = new ArrayList<>();
+            if (AbstractMove.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
+                Map mapClone = new Map(map);
+                Move currentMove = AbstractMove.executeMove(mapClone, x, y, MAX, capturableTiles);
 
-                    double value = maxValue(map, depth - 1, MapUtil.nextPlayer(MAX_INT), totalStates)[MAX_INT];
-                    if (value > maxValue) {
-                        maxValue = value;
-                        bestMove = currentMove;
-                    }
+                double value = maxValue(map, depth - 1, MapUtil.nextPlayer(MAX_INT), totalStates)[MAX_INT];
+                if (value > maxValue[0]) {
+                    maxValue[0] = value;
+                    bestMove[0] = currentMove;
                 }
             }
-        }
+        });
 
-        return bestMove;
+        return bestMove[0];
     }
 
     private static double[] maxValue(Map map, int player, int depth, int[] totalStates) {
@@ -55,21 +53,19 @@ public class MaxNSearch extends AbstractSearch {
         double[] maxValue = new double[Map.getNumberOfPlayers() + 1];
         Arrays.fill(maxValue, player == MAX ? Double.MIN_VALUE : Double.MAX_VALUE);
 
-        for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
-            for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
-                List<Coordinate> capturableTiles = new ArrayList<>();
-                if (AbstractMove.isMoveValid(map, x, y, MapUtil.intToPlayer(player), false, capturableTiles)) {
-                    Map mapClone = new Map(map);
-                    AbstractMove.executeMove(mapClone, x, y, MapUtil.intToPlayer(player), capturableTiles);
-                    totalStates[0]++;
+        MapUtil.iterateMap((x, y) -> {
+            List<Coordinate> capturableTiles = new ArrayList<>();
+            if (AbstractMove.isMoveValid(map, x, y, MapUtil.intToPlayer(player), false, capturableTiles)) {
+                Map mapClone = new Map(map);
+                AbstractMove.executeMove(mapClone, x, y, MapUtil.intToPlayer(player), capturableTiles);
+                totalStates[0]++;
 
-                    double[] value = maxValue(mapClone, depth - 1, MapUtil.nextPlayer(player), totalStates);
-                    if (value[player] > maxValue[player]) {
-                        System.arraycopy(value, 0, maxValue, 0, maxValue.length);
-                    }
+                double[] value = maxValue(mapClone, depth - 1, MapUtil.nextPlayer(player), totalStates);
+                if (value[player] > maxValue[player]) {
+                    System.arraycopy(value, 0, maxValue, 0, maxValue.length);
                 }
             }
-        }
+        });
 
         return maxValue;
     }
