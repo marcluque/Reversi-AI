@@ -11,23 +11,23 @@ public class TerminalEvaluation {
 
     public static double utility(Map map) {
         // Find player with max number of stones
-        double playerWithMostStones = MapUtil.playerWithMaxStones(map);
-        int maxPlayerStones = map.getNumberOfStones()[AbstractSearch.MAX_NUMBER];
+        int playerWithMostStones = MapUtil.playerWithMaxStones(map);
+        double maxPlayerStones = map.getNumberOfStones()[AbstractSearch.MAX_NUMBER];
 
-        // Return 1 for first place in ranking and lowest possible value for last place in ranking
-        return playerWithMostStones / maxPlayerStones;
+        // Return 1 for first place in ranking and lowest value for last place in ranking
+        return maxPlayerStones / map.getNumberOfStones()[playerWithMostStones];
     }
 
     public static double[] nPlayerUtility(Map map) {
         // Find player with max number of stones
-        double playerWithMostStones = MapUtil.playerWithMaxStones(map);
-        double[] utilities = new double[Map.getNumberOfPlayers() + 1];
+        int playerWithMostStones = MapUtil.playerWithMaxStones(map);
+        double[] utilities = new double[Map.getNumberOfPlayers()];
 
-        for (int player = 1; player <= utilities.length; player++) {
-            utilities[player] = map.getNumberOfStones()[player] / playerWithMostStones;
+        for (int player = 1; player < utilities.length; player++) {
+            utilities[player] = (double) map.getNumberOfStones()[player] / map.getNumberOfStones()[playerWithMostStones];
         }
 
-        // Return 1 for first place in ranking and lowest possible value for last place in ranking
+        // Return 1 for first place in ranking and lowest value for last place in ranking
         return utilities;
     }
 }

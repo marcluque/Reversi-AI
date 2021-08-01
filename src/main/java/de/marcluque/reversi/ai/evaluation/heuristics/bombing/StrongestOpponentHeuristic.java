@@ -35,7 +35,7 @@ public class StrongestOpponentHeuristic extends AbstractHeuristic implements Heu
 
         // The more stones the strongest opponent has, the higher is the heuristic value
         double numberOfPlayableTiles = Map.getMapHeight() * Map.getMapWidth() - Map.getNumberOfHoles() - map.getNumberFreeTiles();
-        return (numberOfPlayableTiles - map.getNumberOfStones()[strongestOpponent]) / numberOfPlayableTiles;
+        return 1 - ((numberOfPlayableTiles - map.getNumberOfStones()[strongestOpponent]) / numberOfPlayableTiles);
     }
 
     @Override

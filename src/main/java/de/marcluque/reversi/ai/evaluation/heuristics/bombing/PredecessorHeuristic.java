@@ -26,12 +26,12 @@ public class PredecessorHeuristic extends AbstractHeuristic implements Heuristic
         // Determine minimal stone distance to opponent "before" player (aka predecessor)
         for (int i = 1, numberOfStonesLength = map.getNumberOfStones().length; i < numberOfStonesLength; i++) {
             int stoneDistance = map.getNumberOfStones()[i] - playerStones;
-            if (stoneDistance > 0 && stoneDistance < minimalStoneDistance) {
-                minimalStoneDistance = stoneDistance;
+            if (stoneDistance < 0 && Math.abs(stoneDistance) < minimalStoneDistance) {
+                minimalStoneDistance = Math.abs(stoneDistance);
             }
         }
 
-        // The greater the distance between the player and its predecessor, the better
+        // The greater the distance between the player and its predecessor, the better (aka the higher the value)
         return minimalStoneDistance / playerStones;
     }
 
