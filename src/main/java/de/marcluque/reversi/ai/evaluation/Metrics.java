@@ -70,7 +70,7 @@ public class Metrics {
             return true;
         }
 
-        // Otherwise do a regular check for available moves
+        // Otherwise, do a regular check for available moves
         for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
             for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
                 if (AbstractMove.isMoveValid(map, x, y, MapUtil.intToPlayer(player), true)) {
