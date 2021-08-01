@@ -15,6 +15,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 /*
@@ -37,13 +38,15 @@ public class Client {
     }
 
     public void start() {
+        Logger.print("Starting client. Trying to connect to server...");
+
         // Handshake with server
         try {
             clientSocket = new Socket(hostname, port);
             outputStream = new DataOutputStream(clientSocket.getOutputStream());
 
             // Prepare message (6 Bytes)
-            // Set type of message (1 Byte)nice
+            // Set type of message (1 Byte)
             outputStream.writeByte(1);
             // Write length (4 Bytes)
             outputStream.writeInt(1);
@@ -52,9 +55,12 @@ public class Client {
 
             outputStream.flush();
         } catch(Exception e) {
-            Logger.error("Failed to connect with server!");
-            e.printStackTrace();
+            Logger.error("Failed to connect to server! Reason: %s", e.getLocalizedMessage());
+            return;
         }
+
+        Logger.print("Successfully connected to server!");
+        Logger.print("Waiting for game to start...");
 
         // Run in endless loop and wait for messages
         run();
@@ -76,6 +82,7 @@ public class Client {
 
                     // Sends map
                     case 2 -> {
+                        Logger.print("Game started!");
                         GameInstance.setMap(MapLoader.generateMapFromString(new String(byteBuffer.array())));
                         Logger.print("MAP:\n%s", new String(byteBuffer.array()));
                     }
@@ -83,16 +90,18 @@ public class Client {
                     // Assigns player number
                     case 3 -> {
                         AbstractSearch.MAX_NUMBER = byteBuffer.get();
+                        Logger.print("We are player %s", AbstractSearch.MAX_NUMBER);
                         AbstractSearch.MAX = MapUtil.intToPlayer(AbstractSearch.MAX_NUMBER);
+                        Logger.print("We have %d opponent(s) in total", Map.getNumberOfPlayers() - 1);
 
+                        AbstractSearch.OPPONENTS = new ArrayList<>();
                         IntStream.rangeClosed(1, Map.getNumberOfPlayers())
                                 .filter(i -> i != AbstractSearch.MAX_NUMBER)
                                 .forEach(i -> AbstractSearch.OPPONENTS.add(MapUtil.intToPlayer(i)));
 
+                        AbstractSearch.ACTIVE_PLAYERS = new ArrayList<>();
                         IntStream.rangeClosed(1, Map.getNumberOfPlayers())
                                 .forEach(i -> AbstractSearch.ACTIVE_PLAYERS.add(MapUtil.intToPlayer(i)));
-
-                        Logger.print("WE ARE PLAYER: %s", AbstractSearch.MAX);
 
                         HeuristicEvaluation.initHeuristics(GameInstance.getMap());
                         Metrics.initNumberMetrics();
@@ -107,18 +116,13 @@ public class Client {
                         GameInstance.setTimeLimit(byteBuffer.getInt());
                         if (GameInstance.getTimeLimit() != 0) {
                             GameInstance.setStartTime(System.currentTimeMillis() + GameInstance.TIME_BUFFER);
-                            Logger.print("TIME LIMIT: %d ms".formatted(GameInstance.getTimeLimit()));
+                            Logger.print("TIME LIMIT: %d ms", GameInstance.getTimeLimit());
                         }
 
                         int depthLimit = byteBuffer.get();
                         GameInstance.setDepthLimit(depthLimit);
-                        if (depthLimit != 0) {
-                            Logger.print("DEPTH LIMIT: %d ms".formatted(depthLimit));
-                        }
 
-                        Move move = sendMoveResponse();
-                        Logger.print("OUR MOVE: (%d,%d) with special %d%n", move.getX(), move.getY(),
-                                move.getSpecialTile());
+                        sendMoveResponse();
                     }
 
                     // Announces move of (an) opponent
@@ -126,15 +130,15 @@ public class Client {
                         int x = byteBuffer.getShort();
                         int y = byteBuffer.getShort();
                         int specialField = byteBuffer.get();
-                        char opponent = (char) ('0' + byteBuffer.get());
+                        char player = (char) ('0' + byteBuffer.get());
 
-                        GameInstance.processOpponentMove(x, y, specialField, opponent);
+                        GameInstance.processMove(x, y, specialField, player);
                     }
 
                     // Disqualification of a player
                     case 7 -> {
                         int disqualifiedPlayer = byteBuffer.get();
-                        if (disqualifiedPlayer == AbstractSearch.MAX) {
+                        if (disqualifiedPlayer == AbstractSearch.MAX_NUMBER) {
                             Logger.error("Client has been disqualified!");
                         } else {
                             AbstractSearch.OPPONENTS.remove(disqualifiedPlayer);
@@ -167,7 +171,7 @@ public class Client {
         }
     }
 
-    private Move sendMoveResponse() {
+    private void sendMoveResponse() {
         Move responseMove = GameInstance.generateMoveResponse();
 
         try {
@@ -189,6 +193,5 @@ public class Client {
             e.printStackTrace();
         }
 
-        return responseMove;
     }
 }

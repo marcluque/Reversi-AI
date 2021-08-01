@@ -16,18 +16,18 @@ public class Logger {
     }
 
     public static void print(String message) {
-        message(System.out, "[%s]: %s".formatted(dateTimeFormatter.format(LocalDateTime.now()), message));
+        message(System.out, String.format("[%s]: %s", dateTimeFormatter.format(LocalDateTime.now()), message));
     }
 
     public static void print(String formatMessage, Object... args) {
-        message(System.out, "[%s]: %s".formatted(dateTimeFormatter.format(LocalDateTime.now()), formatMessage.formatted(args)));
+        message(System.out, String.format("[%s]: %s", dateTimeFormatter.format(LocalDateTime.now()), String.format(formatMessage, args)));
     }
 
     public static void error(String message) {
-        message(System.err, "[%s]: %s".formatted(dateTimeFormatter.format(LocalDateTime.now()), message));
+        message(System.err, String.format("[%s]: %s", dateTimeFormatter.format(LocalDateTime.now()), message));
     }
 
     public static void error(String formatMessage, Object... args) {
-        message(System.err, "[%s]: %s".formatted(dateTimeFormatter.format(LocalDateTime.now()), formatMessage.formatted(args)));
+        message(System.err, String.format("[%s]: %s", dateTimeFormatter.format(LocalDateTime.now()), String.format(formatMessage, args)));
     }
 }
