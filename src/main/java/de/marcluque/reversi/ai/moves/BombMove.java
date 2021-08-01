@@ -53,6 +53,6 @@ public abstract class BombMove {
             }
         });
 
-        return new Move(x, y, -1);
+        return new Move(x, y, 0);
     }
 }
