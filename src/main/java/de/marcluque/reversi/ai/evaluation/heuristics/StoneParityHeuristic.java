@@ -1,6 +1,7 @@
 package de.marcluque.reversi.ai.evaluation.heuristics;
 
 import de.marcluque.reversi.map.Map;
+import de.marcluque.reversi.util.MapUtil;
 
 import java.util.Arrays;
 
@@ -22,7 +23,7 @@ public class StoneParityHeuristic extends AbstractHeuristic implements Heuristic
         int[] num = map.getNumberOfStones();
 
         for (int j = 1; j < num.length; j++) {
-            coinParity += (num[player] - num[j]);
+            coinParity += num[MapUtil.playerToInt(player)] - num[j];
         }
 
         return coinParity / ((double) Arrays.stream(num).sum() * num.length);

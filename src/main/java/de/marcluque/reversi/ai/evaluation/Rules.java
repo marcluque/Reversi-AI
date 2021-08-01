@@ -1,7 +1,9 @@
 package de.marcluque.reversi.ai.evaluation;
 
+import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.GameInstance;
 import de.marcluque.reversi.map.Map;
+import de.marcluque.reversi.util.MapUtil;
 
 import java.util.Arrays;
 
@@ -21,11 +23,12 @@ public class Rules {
     public static boolean pickOverrideStoneOverBomb;
 
     public static void updateOverrideStoneRule() {
-        useOverrideStones = GameInstance.getMap().getNumberFreeTiles() - Map.getNumberOfHoles() == 0;
+        useOverrideStones = GameInstance.getMap().getNumberFreeTiles() == 0
+                || MapUtil.noMovesPossibleForPlayer(GameInstance.getMap(), AbstractSearch.MAX);
     }
 
     public static void updateStoneMaximizationRule() {
-        useStoneMaximization = GameInstance.getMap().getNumberFreeTiles() == 0;
+        useStoneMaximization = useOverrideStones;
     }
 
     public static void updateFullGameTreeSearch() {

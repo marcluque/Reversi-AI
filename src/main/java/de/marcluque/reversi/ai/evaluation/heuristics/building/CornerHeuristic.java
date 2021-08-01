@@ -7,6 +7,8 @@ import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.MapUtil;
 
+import java.util.Arrays;
+
 /*
  * Created with <3 by marcluque, March 2021
  */
@@ -18,8 +20,12 @@ public class CornerHeuristic extends AbstractHeuristic implements Heuristic {
 
     @Override
     public void initHeuristic(Map map) {
+        if (Arrays.stream(map.getOverrideStones()).sum() == 0) {
+            super.weight = 1;
+        }
+
         MapUtil.iterateMap((x, y) -> {
-            if (MapUtil.isTileCorner(map, x, y) != null) {
+            if (MapUtil.isTileCorner(map, x, y)) {
                 Map.getCorners().add(new Coordinate(x, y));
             }
         });

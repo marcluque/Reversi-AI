@@ -1,5 +1,6 @@
 package de.marcluque.reversi.util;
 
+import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.ai.moves.AbstractMove;
 
@@ -71,73 +72,96 @@ public class MapUtil {
         return (char) ('0' + player);
     }
 
-    public static boolean isTileCapturableAndInMap(int x, int y, char type) {
-        return isCoordinateInMap(x, y) && !isTileHole(type);
-    }
-
-    public static Transition[] isTileCorner(Map map, int x, int y) {
-        if (!isTileCapturableAndInMap(x, y, map.getGameField()[y][x])) {
-            return null;
+    public static boolean isTileCorner(Map map, int x, int y) {
+        if (isTileHole(map.getGameField()[y][x])) {
+            return false;
         }
 
-        // Check every pair of neighbours around current tile (i,j)
         Transition transition;
-        Coordinate neighbour;
-        Coordinate oppositeNeighbour;
-        // Maximum amount of neighbours is 4
-        Transition[] neighbours = new Transition[4];
-        int neighbourCounter = 0;
+        for (int k = 1; k < 8; k += 2) {
+            int firstX = x + AbstractMove.CORNERS[k - 1][0];
+            int firstY = y + AbstractMove.CORNERS[k - 1][1];
+            transition = Map.getTransitions().get(new Transition(x, y, k - 1));
+            if (transition != null) {
+                firstX = transition.getX();
+                firstY = transition.getY();
+            }
 
-        // k in [0,3] because opposite neighbours are also checked
-        for (int k = 0; k < 4; k++) {
-            // Checks whether a path via a transition can be enclosed
-            // Check the potential neighbour in direction k
+            int secondX = x + AbstractMove.CORNERS[k][0];
+            int secondY = y + AbstractMove.CORNERS[k][1];
             transition = Map.getTransitions().get(new Transition(x, y, k));
-            neighbour = (transition != null)
-                    ? new Coordinate(transition.getX(), transition.getY())
-                    : new Coordinate(x + AbstractMove.CORNERS[k][0], y + AbstractMove.CORNERS[k][1]);
+            if (transition != null) {
+                secondX = transition.getX();
+                secondY = transition.getY();
+            }
 
-            // Check the potential opposite neighbour in direction k + 4
-            transition = Map.getTransitions().get(new Transition(x, y, k + 4));
-            oppositeNeighbour = (transition != null)
-                    ? new Coordinate(transition.getX(), transition.getY())
-                    : new Coordinate(x + AbstractMove.CORNERS[k + 4][0], y + AbstractMove.CORNERS[k + 4][1]);
+            int thirdX = x + AbstractMove.CORNERS[(k + 1) % 8][0];
+            int thirdY = y + AbstractMove.CORNERS[(k + 1) % 8][1];
+            transition = Map.getTransitions().get(new Transition(x, y, k + 1));
+            if (transition != null) {
+                thirdX = transition.getX();
+                thirdY = transition.getY();
+            }
 
-            // Returns null if there is a pair of neighbours around the tile (x,y) in opposite directions
-            boolean neighbourPresent = MapUtil.isTileCapturableAndInMap(
-                    neighbour.getX(),
-                    neighbour.getY(),
-                    map.getGameField()[neighbour.getY()][neighbour.getX()]);
-            boolean oppositeNeighbourPresent = MapUtil.isTileCapturableAndInMap(
-                    oppositeNeighbour.getX(),
-                    oppositeNeighbour.getY(),
-                    map.getGameField()[oppositeNeighbour.getY()][oppositeNeighbour.getX()]);
-            if (neighbourPresent && oppositeNeighbourPresent) {
-                return null;
-            } else if (neighbourPresent) {
-                neighbours[neighbourCounter++] = new Transition(neighbour.getX(), neighbour.getY(), k);
-            } else if (oppositeNeighbourPresent) {
-                neighbours[neighbourCounter++] = new Transition(oppositeNeighbour.getX(), oppositeNeighbour.getY(), k + 4);
+            if ((!isCoordinateInMap(firstX, firstY) || isTileHole(map.getGameField()[firstY][firstX]))
+                    && (!isCoordinateInMap(secondX, secondY) || isTileHole(map.getGameField()[secondY][secondX]))
+                    && (!isCoordinateInMap(thirdX, thirdY) || isTileHole(map.getGameField()[thirdY][thirdX]))) {
+                return true;
             }
         }
 
-        // Returns the neighbours when no such pair is found
-        return neighbours;
+        return false;
+    }
+
+    public static boolean noMovesPossibleForPlayer(Map map, char player) {
+        List<Coordinate> freeTiles = new ArrayList<>();
+        iterateMap((x, y) -> {
+            if (isTileFree(map.getGameField()[y][x])) {
+                freeTiles.add(new Coordinate(x, y));
+            }
+        });
+
+        for (Coordinate freeTile : freeTiles) {
+            if (AbstractMove.isMoveValid(map, freeTile.getX(), freeTile.getY(), player, true)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean noMovesPossible(Map map) {
+        List<Coordinate> freeTiles = new ArrayList<>();
+        iterateMap((x, y) -> {
+            if (isTileFree(map.getGameField()[y][x])) {
+                freeTiles.add(new Coordinate(x, y));
+            }
+        });
+
+        for (Coordinate freeTile : freeTiles) {
+            for (Character activePlayer : AbstractSearch.ACTIVE_PLAYERS) {
+                if (AbstractMove.isMoveValid(map, freeTile.getX(), freeTile.getY(), activePlayer, true)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     public static boolean isTerminal(Map map) {
         // When no free tiles are left and no player has any more override stones, we are in a terminal state
-        return map.getNumberFreeTiles() <= 0 || Arrays.stream(map.getOverrideStones()).sum() <= 0;
+        return Arrays.stream(map.getOverrideStones()).sum() <= 0 && noMovesPossible(map);
     }
 
-    public static int nextPlayer(int currentPlayer)  {
+    public static int nextPlayer(int currentPlayer) {
         return (currentPlayer % Map.getNumberOfPlayers()) + 1;
     }
 
     public static int playerWithMaxStones(Map map) {
         int playerWithMostStones = -1;
         int max = -1;
-        for (int i = 1; i <= 8; i++) {
+        for (int i = 1; i <= Map.getNumberOfPlayers(); i++) {
             if (map.getNumberOfStones()[i] > max) {
                 max = map.getNumberOfStones()[i];
                 playerWithMostStones = i;

@@ -15,7 +15,7 @@ public class TerminalEvaluation {
         int maxPlayerStones = map.getNumberOfStones()[AbstractSearch.MAX_NUMBER];
 
         // Return 1 for first place in ranking and lowest possible value for last place in ranking
-        return maxPlayerStones / playerWithMostStones;
+        return playerWithMostStones / maxPlayerStones;
     }
 
     public static double[] nPlayerUtility(Map map) {

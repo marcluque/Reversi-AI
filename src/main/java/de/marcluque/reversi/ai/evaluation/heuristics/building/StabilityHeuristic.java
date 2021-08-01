@@ -44,8 +44,10 @@ public class StabilityHeuristic extends AbstractHeuristic implements Heuristic {
                             ? new Coordinate(transition.getX(), transition.getY())
                             : new Coordinate(x + AbstractMove.CORNERS[k + 4][0], y + AbstractMove.CORNERS[k + 4][1]);
 
-                    boolean threatInMap = MapUtil.isCoordinateInMap(neighbour.getX(), neighbour.getY())
-                            && MapUtil.isCoordinateInMap(oppositeNeighbour.getX(), oppositeNeighbour.getY());
+                    if (!MapUtil.isCoordinateInMap(neighbour.getX(), neighbour.getY())
+                            || !MapUtil.isCoordinateInMap(oppositeNeighbour.getX(), oppositeNeighbour.getY())) {
+                        continue;
+                    }
 
                     boolean neighbourIsThreat = MapUtil.isTileFree(
                             map.getGameField()[neighbour.getY()][neighbour.getX()])
@@ -57,8 +59,7 @@ public class StabilityHeuristic extends AbstractHeuristic implements Heuristic {
                             && MapUtil.isDifferentPlayerStone(map, neighbour.getX(), neighbour.getY(),
                             player);
 
-                    // Threat is found
-                    if (threatInMap && (neighbourIsThreat || oppositeNeighbourIsThreat)) {
+                    if (neighbourIsThreat || oppositeNeighbourIsThreat) {
                         threatCounter[0]++;
                     }
                 }

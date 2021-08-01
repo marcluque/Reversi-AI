@@ -11,9 +11,9 @@ import java.util.List;
 /*
  * Created with <3 by marcluque, March 2021
  */
-public class OverrideTileHeuristic extends AbstractHeuristic implements Heuristic {
+public class BonusTileHeuristic extends AbstractHeuristic implements Heuristic {
 
-    public OverrideTileHeuristic(double weight) {
+    public BonusTileHeuristic(double weight) {
         super.weight = weight;
     }
 
@@ -21,7 +21,7 @@ public class OverrideTileHeuristic extends AbstractHeuristic implements Heuristi
     public void initHeuristic(Map map) {
         MapUtil.iterateMap((x, y) -> {
             if (MapUtil.isTileBonus(map.getGameField()[y][x])) {
-                Map.getOverrideTiles().add(new Coordinate(x, y));
+                Map.getBonusTiles().add(new Coordinate(x, y));
             }
         });
     }
@@ -29,14 +29,14 @@ public class OverrideTileHeuristic extends AbstractHeuristic implements Heuristi
     @Override
     public double executeHeuristic(Map map, char player) {
         double count = 0;
-        List<Coordinate> overrideTiles = Map.getOverrideTiles();
-        for (Coordinate bonusTile : overrideTiles) {
+        List<Coordinate> bombTiles = Map.getBonusTiles();
+        for (Coordinate bonusTile : bombTiles) {
             if (map.getGameField()[bonusTile.getY()][bonusTile.getX()] == player) {
                 count++;
             }
         }
 
-        return count / overrideTiles.size();
+        return bombTiles.size() == 0 ? 0 : count / bombTiles.size();
     }
 
     @Override

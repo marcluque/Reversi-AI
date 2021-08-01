@@ -16,9 +16,7 @@ public class Map {
 
     private static final List<Coordinate> CORNERS = new ArrayList<>();
 
-    private static final List<Coordinate> BOMB_TILES = new ArrayList<>();
-
-    private static final List<Coordinate> OVERRIDE_TILES = new ArrayList<>();
+    private static final List<Coordinate> BONUS_TILES = new ArrayList<>();
 
     private static int mapHeight;
 
@@ -69,12 +67,8 @@ public class Map {
         return CORNERS;
     }
 
-    public static List<Coordinate> getBombTiles() {
-        return BOMB_TILES;
-    }
-
-    public static List<Coordinate> getOverrideTiles() {
-        return OVERRIDE_TILES;
+    public static List<Coordinate> getBonusTiles() {
+        return BONUS_TILES;
     }
 
     public static int getMapHeight() {
