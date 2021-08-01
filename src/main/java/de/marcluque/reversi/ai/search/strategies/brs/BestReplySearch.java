@@ -26,7 +26,7 @@ public class BestReplySearch extends AbstractSearch {
             List<Coordinate> capturableTiles = new ArrayList<>();
             if (AbstractMove.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
                 Map mapClone = new Map(map);
-                Move currentMove = AbstractMove.executeMove(mapClone, x, y, MAX, capturableTiles);
+                Move currentMove = AbstractMove.executeMove(mapClone, x, y, 0, MAX, capturableTiles);
 
                 double value = BRS(map, Double.MIN_VALUE, Double.MAX_VALUE, depth - 1, MAX, totalStates);
                 if (value > maxValue[0]) {
@@ -68,7 +68,7 @@ public class BestReplySearch extends AbstractSearch {
                 List<Coordinate> capturableTiles = new ArrayList<>();
                 if (AbstractMove.isMoveValid(map, x, y, turn, false, capturableTiles)) {
                     Map mapClone = new Map(map);
-                    AbstractMove.executeMove(mapClone, x, y, turn, capturableTiles);
+                    AbstractMove.executeMove(mapClone, x, y, 0, turn, capturableTiles);
 
                     double value = -BRS(mapClone, -beta, -alpha, depth - 1,
                             (turn == MAX) ? OPPONENT : MAX, totalStates);

@@ -19,16 +19,16 @@ public class AlphaBeta extends AbstractSearch {
 
     public static Move search(Map map, int depth, int[] totalStates) {
         final Move[] bestMove = {null};
-        final double[] maxValue = {Double.MIN_VALUE};
+        final double[] maxValue = {Integer.MIN_VALUE};
         totalStates[0]++;
 
         MapUtil.iterateMap((x, y) -> {
             List<Coordinate> capturableTiles = new ArrayList<>();
             if (AbstractMove.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
                 Map mapClone = new Map(map);
-                Move currentMove = AbstractMove.executeMove(mapClone, x, y, MAX, capturableTiles);
+                Move currentMove = AbstractMove.executeMove(mapClone, x, y, 0, MAX, capturableTiles);
 
-                double value = minValue(map, Double.MIN_VALUE, Double.MAX_VALUE, depth - 1, totalStates);
+                double value = minValue(mapClone, Integer.MIN_VALUE, Integer.MAX_VALUE, depth - 1, totalStates);
                 if (value > maxValue[0]) {
                     maxValue[0] = value;
                     bestMove[0] = currentMove;
@@ -48,14 +48,14 @@ public class AlphaBeta extends AbstractSearch {
             return HeuristicEvaluation.utility(map);
         }
 
-        double value = Double.MIN_VALUE;
+        double value = Integer.MIN_VALUE;
 
         for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
             for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
                 List<Coordinate> capturableTiles = new ArrayList<>();
                 if (AbstractMove.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
                     Map mapClone = new Map(map);
-                    AbstractMove.executeMove(mapClone, x, y, MAX, capturableTiles);
+                    AbstractMove.executeMove(mapClone, x, y, 0, MAX, capturableTiles);
 
                     value = Math.max(value, minValue(mapClone, alpha, beta, depth - 1, totalStates));
 
@@ -66,6 +66,10 @@ public class AlphaBeta extends AbstractSearch {
                     alpha = Math.max(alpha, value);
                 }
             }
+        }
+
+        if (value == Integer.MIN_VALUE) {
+            return HeuristicEvaluation.utility(map);
         }
 
         return value;
@@ -80,14 +84,14 @@ public class AlphaBeta extends AbstractSearch {
             return HeuristicEvaluation.utility(map);
         }
 
-        double value = Double.MAX_VALUE;
+        double value = Integer.MAX_VALUE;
 
         for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
             for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
                 List<Coordinate> capturableTiles = new ArrayList<>();
                 if (AbstractMove.isMoveValid(map, x, y, MIN, false, capturableTiles)) {
                     Map mapClone = new Map(map);
-                    AbstractMove.executeMove(mapClone, x, y, MIN, capturableTiles);
+                    AbstractMove.executeMove(mapClone, x, y, 0, MIN, capturableTiles);
 
                     value = Math.min(value, maxValue(mapClone, alpha, beta, depth - 1, totalStates));
 
@@ -98,6 +102,10 @@ public class AlphaBeta extends AbstractSearch {
                     beta = Math.min(beta, value);
                 }
             }
+        }
+
+        if (value == Integer.MAX_VALUE) {
+            return HeuristicEvaluation.utility(map);
         }
 
         return value;

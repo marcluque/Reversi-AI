@@ -9,8 +9,7 @@ import de.marcluque.reversi.ai.search.strategies.brs.BestReplySearch;
 import de.marcluque.reversi.ai.search.strategies.maxn.MaxNSearch;
 import de.marcluque.reversi.ai.search.strategies.minimax.AlphaBetaMoveSorting;
 import de.marcluque.reversi.ai.moves.AbstractMove;
-import de.marcluque.reversi.util.Coordinate;
-import de.marcluque.reversi.util.Move;
+import de.marcluque.reversi.util.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,17 +29,22 @@ public class GameInstance {
 
     public static final long TIME_BUFFER = 200;
 
-    public static void processOpponentMove(int x, int y, int specialField, char opponent) {
+    private static int moveCount;
+
+    public static void processMove(int x, int y, int specialField, char player) {
+        moveCount++;
         List<Coordinate> capturableTiles = new ArrayList<>();
-        if (AbstractMove.isMoveValid(map, x, y, opponent, false, Rules.useOverrideStones, capturableTiles)) {
-            AbstractMove.executeMove(map, x, y, opponent, capturableTiles);
+        boolean allowOverrideStones = player != AbstractSearch.MAX_NUMBER || Rules.useOverrideStones;
+        if (AbstractMove.isMoveValid(map, x, y, player, false, allowOverrideStones, capturableTiles)) {
+            AbstractMove.executeMove(map, x, y, specialField, player, capturableTiles);
+            Logger.print("ANNOUNCED MOVE: (" + x + "," + y + ") with special " + specialField
+                    + " by player " + player);
         } else {
-            System.err.println("OPPONENT MOVE: (" + x + "," + y + ") with special " + specialField + " by player "
-                    + opponent + " wasn't valid!");
+            Logger.error("ANNOUNCED MOVE: (" + x + "," + y + ") with special " + specialField + " by player "
+                    + player + " wasn't valid!");
         }
 
-        System.out.println("OPPONENT MOVE: (" + x + "," + y + ") with special " + specialField
-                + " by player " + opponent);
+        Logger.print(MapUtil.mapToPrintableString(map.getGameField()));
 
         ////////////////////////
         //   METRICS UPDATES  //
@@ -66,17 +70,19 @@ public class GameInstance {
         IterativeDeepening.SearchStrategy searchStrategy;
 
         // If we have a 2-Player map or only one opponent has moves available, we use classical MiniMax/Alpha-Beta
-        if (Map.getNumberOfPlayers() == 2 || Metrics.opponentsWithMoves.size() == 1) {
+        if (InputParser.isUserChoice()) {
+            searchStrategy = InputParser.getUserStrategy(map);
+        } else if (Map.getNumberOfPlayers() == 2 || Metrics.opponentsWithMoves.size() == 1) {
             AbstractSearch.MIN = Metrics.opponentsWithMoves.get(0);
-            searchStrategy = (totalStates) -> AlphaBetaMoveSorting.search(map, depthLimit, totalStates);
+            searchStrategy = (totalStates, depthLimit) -> AlphaBetaMoveSorting.search(map, depthLimit, totalStates);
         }
         // We don't have a two player game, but are close to the end, so start doing a full tree search
         else if (Rules.useFullGameTreeSearch) {
-            searchStrategy = (totalStates) -> MaxNSearch.search(map, depthLimit, totalStates);
+            searchStrategy = (totalStates, depthLimit) -> MaxNSearch.search(map, depthLimit, totalStates);
         }
         // We are mid-game, so just do the search that the user picked
         else {
-            searchStrategy = (totalStates) -> BestReplySearch.search(map, depthLimit, totalStates);
+            searchStrategy = (totalStates, depthLimit) -> BestReplySearch.search(map, depthLimit, totalStates);
         }
 
         if (timeLimit == 0) {
@@ -114,5 +120,9 @@ public class GameInstance {
 
     public static void setStartTime(long startTime) {
         GameInstance.startTime = startTime;
+    }
+
+    public static int getMoveCount() {
+        return moveCount;
     }
 }

@@ -31,7 +31,7 @@ public class MoveSorting {
             List<Coordinate> capturableStones = new ArrayList<>();
             if (AbstractMove.isMoveValid(map, x, y, player, false, capturableStones)) {
                 Map mapClone = new Map(map);
-                moves.add(new SortNode(AbstractMove.executeMove(mapClone, x, y, player, capturableStones), mapClone));
+                moves.add(new SortNode(AbstractMove.executeMove(mapClone, x, y, 0, player, capturableStones), mapClone));
             }
         });
 

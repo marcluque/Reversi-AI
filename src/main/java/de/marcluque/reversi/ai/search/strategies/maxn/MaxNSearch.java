@@ -28,7 +28,7 @@ public class MaxNSearch extends AbstractSearch {
             List<Coordinate> capturableTiles = new ArrayList<>();
             if (AbstractMove.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
                 Map mapClone = new Map(map);
-                Move currentMove = AbstractMove.executeMove(mapClone, x, y, MAX, capturableTiles);
+                Move currentMove = AbstractMove.executeMove(mapClone, x, y, 0, MAX, capturableTiles);
 
                 double value = maxValue(map, depth - 1, MapUtil.nextPlayer(MAX_INT), totalStates)[MAX_INT];
                 if (value > maxValue[0]) {
@@ -57,7 +57,7 @@ public class MaxNSearch extends AbstractSearch {
             List<Coordinate> capturableTiles = new ArrayList<>();
             if (AbstractMove.isMoveValid(map, x, y, MapUtil.intToPlayer(player), false, capturableTiles)) {
                 Map mapClone = new Map(map);
-                AbstractMove.executeMove(mapClone, x, y, MapUtil.intToPlayer(player), capturableTiles);
+                AbstractMove.executeMove(mapClone, x, y, 0, MapUtil.intToPlayer(player), capturableTiles);
                 totalStates[0]++;
 
                 double[] value = maxValue(mapClone, depth - 1, MapUtil.nextPlayer(player), totalStates);

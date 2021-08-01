@@ -1,5 +1,7 @@
 package de.marcluque.reversi.util;
 
+import java.util.Objects;
+
 /*
  * Created with <3 by marcluque, March 2021
  */
@@ -20,6 +22,19 @@ public class Coordinate {
 
     public int getY() {
         return y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coordinate that = (Coordinate) o;
+        return x == that.x && y == that.y;
     }
 
     @Override

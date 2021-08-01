@@ -7,9 +7,11 @@ import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.Move;
 import de.marcluque.reversi.util.Transition;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 /*
  * Created with <3 by marcluque, March 2021
@@ -29,11 +31,8 @@ public abstract class AbstractMove {
     public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly,
                                       boolean allowOverrideStones, List<Coordinate> capturableTiles) {
         return isMoveValidImpl(map, x, y, player, returnEarly, allowOverrideStones,
-                (direction) -> walkPath(map, x, y, direction, player,
-                         (newX, newY) -> {
-                    capturableTiles.add(new Coordinate(newX, newY));
-                    return Map.getTransitions().get(new Transition(newX, newY, direction));
-                }));
+                (direction, tempTiles) -> walkPath(map, x, y, direction, player, tempTiles),
+                capturableTiles);
     }
 
     public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly) {
@@ -43,12 +42,14 @@ public abstract class AbstractMove {
     public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly,
                                       boolean allowOverrideStones) {
         return isMoveValidImpl(map, x, y, player, returnEarly, allowOverrideStones,
-                (direction) -> walkPath(map, x, y, direction, player,
-                         (newX, newY) -> Map.getTransitions().get(new Transition(newX, newY, direction))));
+                (direction, tempTiles) -> walkPath(map, x, y, direction, player, tempTiles),
+                new ArrayList<>());
     }
 
     private static boolean isMoveValidImpl(Map map, int x, int y, char player, boolean returnEarly,
-                                           boolean allowOverrideStones, Function<Integer, Boolean> walkPathVariant) {
+                                           boolean allowOverrideStones,
+                                           BiFunction<Integer, Set<Coordinate>, Set<Coordinate>> walkPathVariant,
+                                           List<Coordinate> capturableTiles) {
         // Holes are not allowed, neither for building nor for bomb phase
         if (MapUtil.isTileHole(map.getGameField()[y][x])) {
             return false;
@@ -68,11 +69,21 @@ public abstract class AbstractMove {
             // Iterate over all directions from start stone
             for (int direction = 0; direction < 8; direction++) {
                 // Walk along direction starting from (x,y)
-                result |= walkPathVariant.apply(direction);
+                Set<Coordinate> tempTiles = new HashSet<>();
+                boolean tempResult = !walkPathVariant.apply(direction, tempTiles).isEmpty();
 
-                if (returnEarly & result) {
+                if (returnEarly && tempResult) {
                     return true;
                 }
+
+                result |= tempResult;
+                if (tempResult) {
+                    capturableTiles.addAll(tempTiles);
+                }
+            }
+
+            if (result) {
+                capturableTiles.add(new Coordinate(x, y));
             }
 
             return result;
@@ -83,16 +94,17 @@ public abstract class AbstractMove {
         }
     }
 
-    private static boolean walkPath(Map map, int startX, int startY, int direction, char player,
-                                    BiFunction<Integer, Integer, Transition> transitionSupplier) {
+    private static Set<Coordinate> walkPath(Map map, int startX, int startY, int direction, char player,
+                                    Set<Coordinate> tempTiles) {
         int x = startX;
         int y = startY;
         // Starts at -1 because the do while immediately adds the start tile, but the start tile doesn't count for a path
         int pathLength = -1;
         Transition transitionEnd;
+        Coordinate newCoord;
 
         do {
-            transitionEnd = transitionSupplier.apply(x, y);
+            transitionEnd = Map.getTransitions().get(new Transition(x, y, direction));
 
             // Follow the transition, if there is one and adapt its direction
             if (transitionEnd != null) {
@@ -106,23 +118,33 @@ public abstract class AbstractMove {
                 y += CORNERS[direction][1];
             }
 
+            newCoord = new Coordinate(x, y);
+            if (tempTiles.contains(newCoord)) {
+                break;
+            }
+
             pathLength++;
-        } while ((MapUtil.isCoordinateInMap(x, y) && MapUtil.isCapturableStone(map, x, y, player)));
+            tempTiles.add(new Coordinate(x, y));
+        } while (MapUtil.isCoordinateInMap(x, y) && MapUtil.isCapturableStone(map, x, y, player));
 
         // Check whether the last tile of the path is in the map, not the start tile and has the player stone on it
-        return MapUtil.isCoordinateInMap(x, y)
+        if (!(MapUtil.isCoordinateInMap(x, y)
                 && pathLength > 0
                 && map.getGameField()[y][x] == player
-                && (startX != x || startY != y);
+                && (startX != x || startY != y))) {
+            tempTiles = new HashSet<>();
+        }
+
+        return tempTiles;
     }
 
-    public static Move executeMove(Map map, int x, int y, char player, List<Coordinate> capturableStones) {
+    public static Move executeMove(Map map, int x, int y, int specialField, char player, List<Coordinate> capturableStones) {
         if (Map.getPhase() == 1) {
             if (MapUtil.isTileFree(map.getGameField()[y][x])) {
                 map.decrementNumberFreeTiles();
             }
 
-            return BuildMove.executeBuildMove(map, x, y, player, capturableStones);
+            return BuildMove.executeBuildMove(map, x, y, specialField, player, capturableStones);
         } else {
             return BombMove.executeBombMove(map, x, y);
         }

@@ -1,6 +1,9 @@
 package de.marcluque.reversi.ai.search;
 
+import de.marcluque.reversi.ai.evaluation.Rules;
 import de.marcluque.reversi.map.GameInstance;
+import de.marcluque.reversi.util.Logger;
+import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.Move;
 import de.marcluque.reversi.util.StatisticsUtil;
 
@@ -13,7 +16,7 @@ public class IterativeDeepening {
 
     @FunctionalInterface
     public interface SearchStrategy {
-        Move apply(int[] states);
+        Move apply(int[] states, int depthLimit);
     }
 
     @FunctionalInterface
@@ -23,15 +26,13 @@ public class IterativeDeepening {
 
     private static int currentDepth;
 
-    private static final int[] totalStates;
+    private static int[] totalStates;
 
-    private static final ArrayList<Integer> statesPerDepth = new ArrayList<>();
+    private static ArrayList<Integer> statesPerDepth = new ArrayList<>();
 
     private static long totalTime;
 
     private static Move chosenMove;
-
-    private static final PostSearchAction postSearchActionDepthLimit;
 
     private static final PostSearchAction postSearchActionTimeLimit;
 
@@ -40,22 +41,86 @@ public class IterativeDeepening {
     private static double summedBranching;
 
     static  {
-        currentDepth = 1;
-        totalStates = new int[1];
-        // At depth 0 we only have the root state
-        statesPerDepth.add(0, 1);
-        totalTime = 0;
-        chosenMove = null;
         continueSearch = true;
         summedBranching = 0;
 
-        postSearchActionDepthLimit = (leafStates, averageBranchingForDepth, meanBranchingFactor, totalTimeUntilDepth) -> {
-            // Print statistics
-            StatisticsUtil.printStatistics(currentDepth, chosenMove, totalStates[0],
-                    leafStates, averageBranchingForDepth, meanBranchingFactor, totalTimeUntilDepth, totalTime);
-        };
-
         postSearchActionTimeLimit = (leafStates, branchingForDepth, meanBranchingFactor, totalTimeUntilDepth) -> {
+
+        };
+    }
+
+    public static Move iterativeDeepeningDepthLimit(int depthLimit, SearchStrategy searchStrategy) {
+        currentDepth = 1;
+        chosenMove = null;
+        totalStates = new int[1];
+        long timeForFullDepth = 0;
+        statesPerDepth = new ArrayList<>();
+        statesPerDepth.add(0, 1);
+        double avgBranchingFactor = 0;
+
+        while (currentDepth <= depthLimit) {
+            long start = System.nanoTime();
+            chosenMove = searchStrategy.apply(totalStates, currentDepth);
+
+            if (chosenMove == null) {
+                Rules.useOverrideStones = true;
+            }
+
+            timeForFullDepth = System.nanoTime() - start;
+            totalTime += timeForFullDepth;
+            statesPerDepth.add(currentDepth, totalStates[0]);
+
+            avgBranchingFactor += (double) statesPerDepth.get(currentDepth) / statesPerDepth.get(currentDepth - 1);
+            currentDepth++;
+        }
+
+        currentDepth--;
+        int leafStates = statesPerDepth.get(currentDepth) - statesPerDepth.get(currentDepth - 1);
+
+        // Calculate average branching factor
+        avgBranchingFactor /= depthLimit;
+
+        // Print statistics
+        StatisticsUtil.printStatistics(currentDepth, chosenMove, totalStates[0],
+                leafStates, avgBranchingFactor, timeForFullDepth, totalTime);
+
+        return chosenMove;
+    }
+
+    public static Move iterativeDeepeningTimeLimit(SearchStrategy searchStrategy) {
+        continueSearch = true;
+        summedBranching = 0;
+        currentDepth = 1;
+        chosenMove = null;
+        long totalTimeUntilDepth = 0;
+        double meanBranchingFactor = 0;
+        int leafStates = 0;
+        double branchingForDepth = 0;
+
+        while (continueSearch) {
+            // Do search
+            long start = System.nanoTime();
+            chosenMove = searchStrategy.apply(totalStates, currentDepth);
+            totalTimeUntilDepth = System.nanoTime() - start;
+            totalTime += totalTimeUntilDepth;
+
+            // Count states
+            statesPerDepth.add(currentDepth, totalStates[0]);
+            leafStates = statesPerDepth.get(currentDepth) - statesPerDepth.get(currentDepth - 1);
+
+            // Calculate mean branching factor
+            double nonTerminalStates = totalStates[0] - leafStates;
+            meanBranchingFactor = totalStates[0] / nonTerminalStates;
+
+            // Branching factor (NOT average over the whole tree, just the last two states) at currentDepth - 1
+            if (currentDepth >= 1) {
+                branchingForDepth = (double) leafStates / statesPerDepth.get(currentDepth - 1);
+            }
+
+
+
+
+
             summedBranching += branchingForDepth;
 
             // Make time estimation for next iteration
@@ -72,52 +137,14 @@ public class IterativeDeepening {
             // Print statistics
             StatisticsUtil.printStatisticsWithEstimation(currentDepth, chosenMove, totalStates[0],
                     leafStates, meanBranchingFactor, totalTime, GameInstance.getLeftTime(), estimatedTime,
-                    totalTimeUntilDepth, branchingForDepth, branchingAverage);
-        };
-    }
+                    branchingForDepth, branchingAverage);
 
-    public static Move iterativeDeepeningDepthLimit(int depthLimit, SearchStrategy searchStrategy) {
-        while (currentDepth <= depthLimit) {
-            performSearch(searchStrategy, postSearchActionDepthLimit);
+
+
+
             currentDepth++;
         }
 
         return chosenMove;
-    }
-
-    public static Move iterativeDeepeningTimeLimit(SearchStrategy searchStrategy) {
-        continueSearch = true;
-        summedBranching = 0;
-
-        while (continueSearch) {
-            performSearch(searchStrategy, postSearchActionTimeLimit);
-            currentDepth++;
-        }
-
-        return chosenMove;
-    }
-
-    private static void performSearch(SearchStrategy searchStrategy, PostSearchAction postSearchAction) {
-        // Do search
-        long start = System.nanoTime();
-        chosenMove = searchStrategy.apply(totalStates);
-        long totalTimeUntilDepth = System.nanoTime() - start;
-        totalTime += totalTimeUntilDepth;
-
-        // Count states
-        statesPerDepth.add(currentDepth, totalStates[0]);
-        int leafStates = statesPerDepth.get(currentDepth) - statesPerDepth.get(currentDepth - 1);
-
-        // Calculate mean branching factor
-        double nonTerminalStates = totalStates[0] - leafStates;
-        double meanBranchingFactor = totalStates[0] / nonTerminalStates;
-
-        // Branching factor (NOT average over the whole tree, just the last two states) at currentDepth - 1
-        double branchingForDepth = 0;
-        if (currentDepth >= 1) {
-            branchingForDepth = (double) leafStates / statesPerDepth.get(currentDepth - 1);
-        }
-
-        postSearchAction.apply(leafStates, branchingForDepth, meanBranchingFactor, totalTimeUntilDepth);
     }
 }
