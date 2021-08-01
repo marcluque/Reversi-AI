@@ -16,13 +16,13 @@ public class AlphaBetaMoveSorting extends AbstractSearch {
 
     public static Move search(Map map, int depth, int[] totalStates) {
         Move bestMove = null;
-        double maxValue = Double.MIN_VALUE;
+        double maxValue = Integer.MIN_VALUE;
         totalStates[0]++;
 
-        var sortedMoves = MoveSorting.sortForMax(map);
+        var sortedMoves = MoveSorting.sortMoves(map, AbstractSearch.MAX);
 
         for (SortNode move : sortedMoves) {
-            double value = minValue(move.getMap(), Double.MIN_VALUE, Double.MAX_VALUE, depth - 1, totalStates);
+            double value = minValue(move.getMap(), Integer.MIN_VALUE, Integer.MAX_VALUE, depth - 1, totalStates);
 
             if (value > maxValue) {
                 bestMove = move.getMove();
@@ -42,9 +42,9 @@ public class AlphaBetaMoveSorting extends AbstractSearch {
             return HeuristicEvaluation.utility(map);
         }
 
-        var sortedMoves = MoveSorting.sortForMax(map);
+        var sortedMoves = MoveSorting.sortMoves(map, AbstractSearch.MAX);
 
-        double value = Double.MIN_VALUE;
+        double value = Integer.MIN_VALUE;
 
         for (SortNode move : sortedMoves) {
             value = Math.max(value, minValue(move.getMap(), alpha, beta, depth - 1, totalStates));
@@ -56,7 +56,7 @@ public class AlphaBetaMoveSorting extends AbstractSearch {
             alpha = Math.max(alpha, value);
         }
 
-        return value;
+        return value == Integer.MIN_VALUE ? HeuristicEvaluation.utility(map) : value;
     }
 
     private static double minValue(Map map, double alpha, double beta, int depth, int[] totalStates) {
@@ -68,9 +68,9 @@ public class AlphaBetaMoveSorting extends AbstractSearch {
             return HeuristicEvaluation.utility(map);
         }
 
-        var sortedMoves = MoveSorting.sortForMin(map);
+        var sortedMoves = MoveSorting.sortMoves(map, AbstractSearch.MIN);
 
-        double value = Double.MAX_VALUE;
+        double value = Integer.MAX_VALUE;
 
         for (SortNode move : sortedMoves) {
             value = Math.min(value, maxValue(move.getMap(), alpha, beta, depth - 1, totalStates));
@@ -82,6 +82,6 @@ public class AlphaBetaMoveSorting extends AbstractSearch {
             beta = Math.min(beta, value);
         }
 
-        return value;
+        return value == Integer.MAX_VALUE ? HeuristicEvaluation.utility(map) : value;
     }
 }

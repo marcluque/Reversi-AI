@@ -15,14 +15,6 @@ import java.util.List;
  */
 public class MoveSorting {
 
-    public static List<SortNode> sortForMax(Map map) {
-        return sortMoves(map, AbstractSearch.MAX);
-    }
-
-    public static List<SortNode> sortForMin(Map map) {
-        return sortMoves(map, AbstractSearch.MIN);
-    }
-
     public static List<SortNode> sortMoves(Map map, char player) {
         List<SortNode> moves = new ArrayList<>();
 

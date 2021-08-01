@@ -68,11 +68,7 @@ public class AlphaBeta extends AbstractSearch {
             }
         }
 
-        if (value == Integer.MIN_VALUE) {
-            return HeuristicEvaluation.utility(map);
-        }
-
-        return value;
+        return value == Integer.MIN_VALUE ? HeuristicEvaluation.utility(map) : value;
     }
 
     private static double minValue(Map map, double alpha, double beta, int depth, int[] totalStates) {
@@ -104,10 +100,6 @@ public class AlphaBeta extends AbstractSearch {
             }
         }
 
-        if (value == Integer.MAX_VALUE) {
-            return HeuristicEvaluation.utility(map);
-        }
-
-        return value;
+        return value == Integer.MAX_VALUE ? HeuristicEvaluation.utility(map) : value;
     }
 }

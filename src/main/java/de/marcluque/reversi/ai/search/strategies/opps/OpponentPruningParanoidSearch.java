@@ -26,7 +26,7 @@ public class OpponentPruningParanoidSearch extends AbstractSearch {
         double maxValue = Double.MIN_VALUE;
         totalStates[0]++;
 
-        var sortedMoves = MoveSorting.sortForMax(map);
+        var sortedMoves = MoveSorting.sortMoves(map, AbstractSearch.MAX);
         int moveCount = 0;
 
         for (int i = 0, sortedMovesSize = sortedMoves.size(); i < sortedMovesSize; i++) {
