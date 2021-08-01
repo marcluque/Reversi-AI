@@ -42,11 +42,11 @@ public class ReversiAiMain {
         HeuristicEvaluation.setSortingHeuristic(new StoneParityHeuristic(1));
 
         // BOMBING
-        HeuristicEvaluation.addBombingHeuristic(new StoneCountHeuristic(0.2));
-        HeuristicEvaluation.addBombingHeuristic(new StoneParityHeuristic(0.2));
-        HeuristicEvaluation.addBombingHeuristic(new PredecessorHeuristic(0.2));
-        HeuristicEvaluation.addBombingHeuristic(new StrongestOpponentHeuristic(0.2));
-        HeuristicEvaluation.addBombingHeuristic(new SuccessorHeuristic(0.2));
+        HeuristicEvaluation.addBombingHeuristic(new StoneCountHeuristic(0.15));
+        HeuristicEvaluation.addBombingHeuristic(new StoneParityHeuristic(0.4));
+        HeuristicEvaluation.addBombingHeuristic(new PredecessorHeuristic(0.15));
+        HeuristicEvaluation.addBombingHeuristic(new StrongestOpponentHeuristic(0.15));
+        HeuristicEvaluation.addBombingHeuristic(new SuccessorHeuristic(0.15));
 
         Rules.moveThresholdFullGameTreeSearch = 10;
 

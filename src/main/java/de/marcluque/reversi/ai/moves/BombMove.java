@@ -41,6 +41,11 @@ public abstract class BombMove {
 
         x = startX;
         y = startY;
+
+        if (MapUtil.isPlayerTile(map.getGameField()[y][x])) {
+            map.getNumberOfStones()[MapUtil.playerToInt(map.getGameField()[y][x])]--;
+        }
+
         map.getGameField()[y][x] = '$';
     }
 

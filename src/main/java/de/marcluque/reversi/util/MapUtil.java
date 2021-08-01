@@ -1,6 +1,7 @@
 package de.marcluque.reversi.util;
 
 import de.marcluque.reversi.ai.search.AbstractSearch;
+import de.marcluque.reversi.map.GameInstance;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.ai.moves.AbstractMove;
 
@@ -151,7 +152,9 @@ public class MapUtil {
 
     public static boolean isTerminal(Map map) {
         // When no free tiles are left and no player has any more override stones, we are in a terminal state
-        return Arrays.stream(map.getOverrideStones()).sum() <= 0 && noMovesPossible(map);
+        return Map.getPhase() == 1
+                ? Arrays.stream(map.getOverrideStones()).sum() <= 0 && noMovesPossible(map)
+                : Arrays.stream(map.getBombs()).sum() <= 0;
     }
 
     public static int nextPlayer(int currentPlayer) {

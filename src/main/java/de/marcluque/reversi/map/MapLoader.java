@@ -42,7 +42,7 @@ public class MapLoader {
         Map.setMapHeight(Integer.parseInt(s[0]));
         Map.setMapWidth(Integer.parseInt(s[1]));
 
-        int[] numberOfStones = new int[bombs.length + 1];
+        int[] numberOfStones = new int[bombs.length];
 
         // Game map
         char[][] map = new char[Map.getMapHeight()][Map.getMapWidth()];

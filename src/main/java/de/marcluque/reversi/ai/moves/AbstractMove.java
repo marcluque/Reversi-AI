@@ -146,6 +146,7 @@ public abstract class AbstractMove {
 
             return BuildMove.executeBuildMove(map, x, y, specialField, player, capturableStones);
         } else {
+            map.getBombs()[MapUtil.playerToInt(player)]--;
             return BombMove.executeBombMove(map, x, y);
         }
     }
