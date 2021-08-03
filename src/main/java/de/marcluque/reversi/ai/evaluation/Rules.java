@@ -32,6 +32,7 @@ public class Rules {
     }
 
     public static void updateFullGameTreeSearch() {
+        // TODO: Override stones allow for many possible moves, this is not regarded
         useFullGameTreeSearch = moveThresholdFullGameTreeSearch >= GameInstance.getMap().getNumberFreeTiles()
                 + Arrays.stream(GameInstance.getMap().getOverrideStones()).sum();
     }

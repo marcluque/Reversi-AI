@@ -26,17 +26,21 @@ public class Metrics {
         Map map = GameInstance.getMap();
         int[] numberFreeTiles = {0};
         int[] numberOfHoles = {0};
+        int[] numberOfBonusTiles = {0};
 
         MapUtil.iterateMap((x, y) -> {
             if (MapUtil.isTileFree(map.getGameField()[y][x])) {
                 numberFreeTiles[0]++;
             } else if (MapUtil.isTileHole(map.getGameField()[y][x])) {
                 numberOfHoles[0]++;
+            } else if (MapUtil.isTileBonus(map.getGameField()[y][x])) {
+                numberOfBonusTiles[0]++;
             }
         });
 
         map.setNumberFreeTiles(numberFreeTiles[0]);
         Map.setNumberOfHoles(numberOfHoles[0]);
+        Map.setNumberOfBonusTiles(numberOfBonusTiles[0]);
     }
 
     public static void initBombEffect() {
@@ -49,7 +53,8 @@ public class Metrics {
     }
 
     public static void updateBombPower() {
-        maximalBombPower = GameInstance.getMap().getBombs()[AbstractSearch.MAX_NUMBER] * maximalBombEffect;
+        maximalBombPower = (GameInstance.getMap().getBombs()[AbstractSearch.MAX_NUMBER] + Map.getNumberOfBonusTiles())
+                * maximalBombEffect;
     }
 
     public static void updateOpponentsWithMoves() {
