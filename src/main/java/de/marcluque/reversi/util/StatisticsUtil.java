@@ -176,16 +176,17 @@ public class StatisticsUtil {
         printStatistics(depth, chosenMove, totalStates, leafStates, avgBranchingLastDepth, avgBranching,
                 timeForFullDepth, totalTime);
         System.out.println();
-        Logger.appendPrintMessage("- - - - - - - - - - - - - -" + ANSI_BLUE
-                + " ESTIMATION DEPTH %d " + ANSI_RESET + "- - - - - - - - - - - - - -%n", depth + 1);
-        Logger.appendPrintMessage(STATS_PREFIX + "%d%n" + ANSI_RESET,
+        Logger.appendPrintMessage("- - - - - - - - - - - - - -" + ANSI_PURPLE
+                + " ESTIMATION DEPTH %d " + ANSI_RESET + "- - - - - - - - - - - - - -", depth + 1);
+        Logger.appendPrintMessage(STATS_PREFIX + "%d" + ANSI_RESET,
                 "Time left (ms):",
                 timeLeft);
-        Logger.appendPrintMessage(STATS_PREFIX + "%s%n" + ANSI_RESET,
+        Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 "Estimated (ms):",
                 estimatedTime);
-        Logger.appendPrintMessage(STATS_PREFIX + "%s%n" + ANSI_RESET,
-                "Average Branching Factor:",
+        Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
+                "Average branching factor:",
                 avgBranching);
+        Logger.appendPrintMessage("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
     }
 }

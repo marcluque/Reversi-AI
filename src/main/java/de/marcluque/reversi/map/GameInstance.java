@@ -100,7 +100,7 @@ public class GameInstance {
     }
 
     public static long getLeftTime() {
-        return timeLimit - (startTime - System.currentTimeMillis());
+        return timeLimit - (System.currentTimeMillis() - startTime);
     }
 
     public static Map getMap() {

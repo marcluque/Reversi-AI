@@ -2,13 +2,8 @@ package de.marcluque.reversi.ai.search;
 
 import de.marcluque.reversi.ai.evaluation.Rules;
 import de.marcluque.reversi.map.GameInstance;
-import de.marcluque.reversi.util.Logger;
-import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.Move;
 import de.marcluque.reversi.util.StatisticsUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /*
  * Created with <3 by marcluque, March 2021
@@ -70,7 +65,7 @@ public class IterativeDeepening {
         int prevStatesPerDepth = 1;
 
         double estimatedTime = 0;
-        long timeUntilDepth = 0;
+        double timeUntilDepth = 0;
         long totalTime = 0;
 
         int leafStates = 0;
@@ -103,9 +98,12 @@ public class IterativeDeepening {
 
             // Make time estimation for next iteration
             branchingAverage = summedBranching / currentDepth;
-            double estimatedTimeForNextDepth = branchingAverage * leafStates
-                    * (timeUntilDepth / (double) totalStatesUntilDepth[0]);
-            estimatedTime = timeUntilDepth + estimatedTimeForNextDepth;
+            double timeUntilDepthInMs = timeUntilDepth / 1_000_000;
+            double statesOnNextDepth = branchingAverage * leafStates;
+            double timePerState = (timeUntilDepthInMs / totalStatesUntilDepth[0]);
+            // Estimated time will be in ms
+            double estimatedTimeForNextDepth = statesOnNextDepth * timePerState;
+            estimatedTime = timeUntilDepthInMs + estimatedTimeForNextDepth;
         }
 
         // Print statistics
