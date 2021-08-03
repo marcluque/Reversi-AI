@@ -39,6 +39,6 @@ public class Rules {
 
     public static void updateOverrideOverBombRule() {
         // We pick override stones over bombs while bomb power does not exceed power of destroying half the playable tiles
-        pickOverrideStoneOverBomb = Metrics.numberPlayableTiles * 0.5 > Metrics.maximalBombPower;
+        pickOverrideStoneOverBomb = Metrics.maximalOverrideEffect >= Metrics.maximalBombPower;
     }
 }

@@ -42,10 +42,10 @@ public class GameInstance {
 
         if (player != AbstractSearch.MAX) {
             if (moveIsValid) {
-                Logger.print("ANNOUNCED MOVE: (" + x + "," + y + ") with special " + specialField
+                Logger.print("ANNOUNCED MOVE " + moveCount + ": (" + x + "," + y + ") with special " + specialField
                         + " by player " + player);
             } else {
-                Logger.error("ANNOUNCED MOVE: (" + x + "," + y + ") with special " + specialField + " by player "
+                Logger.error("ANNOUNCED MOVE " + moveCount + ": (" + x + "," + y + ") with special " + specialField + " by player "
                         + player + " wasn't valid!");
             }
         }
@@ -55,6 +55,7 @@ public class GameInstance {
         ////////////////////////
         Metrics.updateOpponentsWithMoves();
         Metrics.updateBombPower();
+        Metrics.updateOverrideEffect();
 
         ////////////////////////
         //    RULE UPDATES    //

@@ -61,7 +61,7 @@ public class StatisticsUtil {
                                      long timeLeft, double estimatedTime) {
         System.out.println();
         Logger.appendPrintMessage(ANSI_CYAN_BACKGROUND + ANSI_BLACK + "================================="
-                        + " MOVE %d =================================" + ANSI_RESET,
+                        + " MOVE %d ================================" + ANSI_RESET,
                 GameInstance.getMoveCount() + 1);
         printStatisticsWithEstimation(depth, chosenMove, totalStates, leafStates, avgBranchingLastDepth,
                 avgBranching, timeForFullDepth, totalTime, timeLeft, estimatedTime);
@@ -77,7 +77,7 @@ public class StatisticsUtil {
                                                       double timeForFullDepth, double totalTime) {
         System.out.println();
         Logger.appendPrintMessage(ANSI_CYAN_BACKGROUND + ANSI_BLACK + "================================="
-                + " MOVE %d =================================" + ANSI_RESET,
+                + " MOVE %d ================================" + ANSI_RESET,
                 GameInstance.getMoveCount() + 1);
         printStatistics(depth, chosenMove, totalStates, leafStates, avgBranchingLastDepth,
                 avgBranching, timeForFullDepth, totalTime);
@@ -98,16 +98,16 @@ public class StatisticsUtil {
                 "Move number:",
                 GameInstance.getMoveCount() + 1);
         Logger.appendPrintMessage(STATS_PREFIX + "%s %s: %s" + ANSI_RESET,
-                "Chosen Move:", "Player",
+                "Chosen move:", "Player",
                 AbstractSearch.MAX, chosenMove);
         Logger.appendPrintMessage(STATS_PREFIX + "%d, %d, %d" + ANSI_RESET,
                 "Total-, Interior-, Leaf-nodes:",
                 totalStates, (totalStates - leafStates), leafStates);
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
-                String.format("Average Branching factor (depth %d->%d):", depth - 1, depth),
+                String.format("Average branching factor (depth %d->%d):", depth - 1, depth),
                 avgBranchingLastDepth);
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
-                "Average Branching factor (tree):",
+                "Average branching factor (tree):",
                 avgBranching);
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 "Computation time per state (ms):",
@@ -124,7 +124,7 @@ public class StatisticsUtil {
     public static void printRules() {
         System.out.println();
         Logger.appendPrintMessage("= = = = = = = = = = = = = = =" + ANSI_BLUE
-                + " RULES MOVE %d " + ANSI_RESET + "= = = = = = = = = = = = = = = =", GameInstance.getMoveCount() + 1);
+                + " RULES MOVE %d " + ANSI_RESET + "= = = = = = = = = = = = = = =", GameInstance.getMoveCount() + 1);
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 "Use stone maximizing heuristics:",
                 Rules.useStoneMaximization);
@@ -153,13 +153,16 @@ public class StatisticsUtil {
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 "Maximal bomb power (area * #bombs):",
                 Metrics.maximalBombPower);
+        Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
+                "Maximal override effect (maxLength * #override):",
+                Metrics.maximalOverrideEffect);
         Logger.appendPrintMessage("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =\n");
     }
 
     public static void printMetrics() {
         System.out.println();
         Logger.appendPrintMessage("= = = = = = = = = = = = = = =" + ANSI_BLUE
-                + " METRICS MOVE %d " + ANSI_RESET + "= = = = = = = = = = = = = = =", GameInstance.getMoveCount() + 1);
+                + " METRICS MOVE %d " + ANSI_RESET + "= = = = = = = = = = = = = =", GameInstance.getMoveCount() + 1);
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 "Players with at least one move:",
                 Metrics.opponentsWithMoves);

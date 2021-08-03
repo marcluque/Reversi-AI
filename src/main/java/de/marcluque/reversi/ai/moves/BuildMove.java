@@ -86,11 +86,15 @@ public abstract class BuildMove {
                 if (specialField != 0) {
                     specialTile = specialField;
                 } else if (Rules.pickOverrideStoneOverBomb) {
-                    map.getOverrideStones()[playerId]++;
                     specialTile = 21;
                 } else {
-                    map.getBombs()[playerId]++;
                     specialTile = 20;
+                }
+
+                if (specialTile == 21) {
+                    map.getOverrideStones()[playerId]++;
+                } else {
+                    map.getBombs()[playerId]++;
                 }
             }
         }

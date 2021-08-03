@@ -18,6 +18,8 @@ public class Metrics {
 
     public static int maximalBombPower;
 
+    public static int maximalOverrideEffect;
+
     public static int numberPlayableTiles;
 
     public static List<Character> opponentsWithMoves;
@@ -48,13 +50,26 @@ public class Metrics {
         maximalBombEffect = diameter * diameter;
     }
 
+    public static void initBombPower() {
+        maximalBombPower = (GameInstance.getMap().getBombs()[AbstractSearch.MAX_NUMBER] + Map.getNumberOfBonusTiles())
+                * maximalBombEffect;
+    }
+
+    public static void initOverrideEffect() {
+        maximalOverrideEffect = (GameInstance.getMap().getOverrideStones()[AbstractSearch.MAX_NUMBER] + Map.getNumberOfBonusTiles())
+                * Math.max(Map.getMapWidth(), Map.getMapHeight());
+    }
+
     public static void initNumberPlayableTiles() {
         numberPlayableTiles = Map.getMapHeight() * Map.getMapWidth() - Map.getNumberOfHoles();
     }
 
     public static void updateBombPower() {
-        maximalBombPower = (GameInstance.getMap().getBombs()[AbstractSearch.MAX_NUMBER] + Map.getNumberOfBonusTiles())
-                * maximalBombEffect;
+        initBombPower();
+    }
+
+    public static void updateOverrideEffect() {
+        initOverrideEffect();
     }
 
     public static void updateOpponentsWithMoves() {

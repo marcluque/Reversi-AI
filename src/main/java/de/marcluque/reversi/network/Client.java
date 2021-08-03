@@ -107,7 +107,9 @@ public class Client {
                         HeuristicEvaluation.initHeuristics(GameInstance.getMap());
                         Metrics.initNumberMetrics();
                         Metrics.initBombEffect();
+                        Metrics.initBombPower();
                         Metrics.initNumberPlayableTiles();
+                        Metrics.initOverrideEffect();
 
                         StatisticsUtil.printInitialMetrics();
                     }
