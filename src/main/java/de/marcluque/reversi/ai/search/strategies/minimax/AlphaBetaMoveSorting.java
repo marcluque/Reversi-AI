@@ -43,7 +43,6 @@ public class AlphaBetaMoveSorting extends AbstractSearch {
         }
 
         var sortedMoves = MoveSorting.sortMoves(map, AbstractSearch.MAX);
-
         double value = Integer.MIN_VALUE;
 
         for (SortNode move : sortedMoves) {
@@ -69,7 +68,6 @@ public class AlphaBetaMoveSorting extends AbstractSearch {
         }
 
         var sortedMoves = MoveSorting.sortMoves(map, AbstractSearch.MIN);
-
         double value = Integer.MAX_VALUE;
 
         for (SortNode move : sortedMoves) {

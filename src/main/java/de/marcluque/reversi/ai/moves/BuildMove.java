@@ -13,7 +13,8 @@ import java.util.List;
  */
 public abstract class BuildMove {
 
-    public static Move executeBuildMove(Map map, int x, int y, int specialField, char player, List<Coordinate> capturableStones) {
+    public static Move executeBuildMove(Map map, int x, int y, int specialField, char player,
+                                        List<Coordinate> capturableStones) {
         int playerId = Character.getNumericValue(player);
 
         if (MapUtil.isOccupied(map.getGameField()[y][x])) {
@@ -74,14 +75,17 @@ public abstract class BuildMove {
                 // Iterates over all players and switches their stones with (i % numberOfPlayers) + 1 where i is the player
                 MapUtil.iterateMap((newX, newY) -> {
                     if (MapUtil.isPlayerTile(map.getGameField()[newY][newX])) {
-                        map.getGameField()[newY][newX] = MapUtil.intToPlayer((Character.getNumericValue(map.getGameField()[newY][newX]) % Map.getNumberOfPlayers()) + 1);
+                        int playerNumber = Character.getNumericValue(map.getGameField()[newY][newX]);
+                        map.getGameField()[newY][newX] = MapUtil.intToPlayer((playerNumber % Map.getNumberOfPlayers()) + 1);
                     }
                 });
             }
             case 'b' -> {
                 map.getGameField()[y][x] = player;
 
-                if (Rules.pickOverrideStoneOverBomb) {
+                if (specialField != 0) {
+                    specialTile = specialField;
+                } else if (Rules.pickOverrideStoneOverBomb) {
                     map.getOverrideStones()[playerId]++;
                     specialTile = 21;
                 } else {

@@ -24,6 +24,8 @@ public class Map {
 
     private static int numberOfHoles;
 
+    private static int numberOfBonusTiles;
+
     private static int numberOfPlayers;
 
     private static int bombRadius;
@@ -83,6 +85,10 @@ public class Map {
         return numberOfHoles;
     }
 
+    public static int getNumberOfBonusTiles() {
+        return numberOfBonusTiles;
+    }
+
     public static int getNumberOfPlayers() {
         return numberOfPlayers;
     }
@@ -129,6 +135,10 @@ public class Map {
 
     public static void setNumberOfHoles(int numberOfHoles) {
         Map.numberOfHoles = numberOfHoles;
+    }
+
+    public static void setNumberOfBonusTiles(int numberOfBonusTiles) {
+        Map.numberOfBonusTiles = numberOfBonusTiles;
     }
 
     public static void setNumberOfPlayers(int numberOfPlayers) {
