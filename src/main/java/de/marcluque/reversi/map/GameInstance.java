@@ -35,16 +35,20 @@ public class GameInstance {
         moveCount++;
         List<Coordinate> capturableTiles = new ArrayList<>();
         boolean allowOverrideStones = player != AbstractSearch.MAX_NUMBER || Rules.useOverrideStones;
-        if (AbstractMove.isMoveValid(map, x, y, player, false, allowOverrideStones, capturableTiles)) {
+        boolean moveIsValid = AbstractMove.isMoveValid(map, x, y, player, false, allowOverrideStones, capturableTiles);
+        if (moveIsValid) {
             AbstractMove.executeMove(map, x, y, specialField, player, capturableTiles);
-            Logger.print("ANNOUNCED MOVE: (" + x + "," + y + ") with special " + specialField
-                    + " by player " + player);
-        } else {
-            Logger.error("ANNOUNCED MOVE: (" + x + "," + y + ") with special " + specialField + " by player "
-                    + player + " wasn't valid!");
         }
 
-        Logger.print(MapUtil.mapToPrintableString(map.getGameField()));
+        if (player != AbstractSearch.MAX) {
+            if (moveIsValid) {
+                Logger.print("ANNOUNCED MOVE: (" + x + "," + y + ") with special " + specialField
+                        + " by player " + player);
+            } else {
+                Logger.error("ANNOUNCED MOVE: (" + x + "," + y + ") with special " + specialField + " by player "
+                        + player + " wasn't valid!");
+            }
+        }
 
         ////////////////////////
         //   METRICS UPDATES  //

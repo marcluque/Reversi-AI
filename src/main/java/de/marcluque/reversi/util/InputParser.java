@@ -1,6 +1,5 @@
 package de.marcluque.reversi.util;
 
-import de.marcluque.reversi.ai.evaluation.Metrics;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.ai.search.IterativeDeepening;
 import de.marcluque.reversi.ai.search.strategies.brs.BestReplySearch;
@@ -10,6 +9,9 @@ import de.marcluque.reversi.ai.search.strategies.minimax.AlphaBetaMoveSorting;
 import de.marcluque.reversi.ai.search.strategies.opps.OpponentPruningParanoidSearch;
 import de.marcluque.reversi.map.Map;
 
+/*
+ * Created with <3 by marcluque, August 2021
+ */
 public class InputParser {
 
     enum Strategy {

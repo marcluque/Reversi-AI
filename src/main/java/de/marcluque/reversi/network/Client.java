@@ -9,6 +9,7 @@ import de.marcluque.reversi.map.MapLoader;
 import de.marcluque.reversi.util.Logger;
 import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.Move;
+import de.marcluque.reversi.util.StatisticsUtil;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -107,6 +108,8 @@ public class Client {
                         Metrics.initNumberMetrics();
                         Metrics.initBombEffect();
                         Metrics.initNumberPlayableTiles();
+
+                        StatisticsUtil.printInitialMetrics();
                     }
 
                     // Requests move from player
@@ -123,6 +126,8 @@ public class Client {
                         GameInstance.setDepthLimit(depthLimit);
 
                         sendMoveResponse();
+                        Logger.flushPrintMessage();
+                        // TODO: Calculate everything for logging map here
                     }
 
                     // Announces move of (an) opponent

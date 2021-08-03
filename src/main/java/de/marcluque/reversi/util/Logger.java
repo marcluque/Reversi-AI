@@ -15,6 +15,10 @@ public class Logger {
         stream.println(message);
     }
 
+    private static void appendMessage(PrintStream stream, String message) {
+        stream.append(message);
+    }
+
     public static void print(String message) {
         message(System.out, String.format("[%s]: %s", dateTimeFormatter.format(LocalDateTime.now()), message));
     }
@@ -23,11 +27,35 @@ public class Logger {
         message(System.out, String.format("[%s]: %s", dateTimeFormatter.format(LocalDateTime.now()), String.format(formatMessage, args)));
     }
 
+    public static void appendPrintMessage(String message) {
+        appendMessage(System.out, String.format("[%s]: %s", dateTimeFormatter.format(LocalDateTime.now()), message + "\n"));
+    }
+
+    public static void appendPrintMessage(String formatMessage, Object... args) {
+        appendMessage(System.out, String.format("[%s]: %s", dateTimeFormatter.format(LocalDateTime.now()), String.format(formatMessage + "\n", args)));
+    }
+
+    public static void flushPrintMessage() {
+        System.out.flush();
+    }
+
     public static void error(String message) {
         message(System.err, String.format("[%s]: %s", dateTimeFormatter.format(LocalDateTime.now()), message));
     }
 
     public static void error(String formatMessage, Object... args) {
         message(System.err, String.format("[%s]: %s", dateTimeFormatter.format(LocalDateTime.now()), String.format(formatMessage, args)));
+    }
+
+    public static void appendError(String message) {
+        appendMessage(System.err, String.format("[%s]: %s", dateTimeFormatter.format(LocalDateTime.now()), message + "\n"));
+    }
+
+    public static void appendError(String formatMessage, Object... args) {
+        appendMessage(System.err, String.format("[%s]: %s", dateTimeFormatter.format(LocalDateTime.now()), String.format(formatMessage + "\n", args)));
+    }
+
+    public static void flushErrorMessage() {
+        System.err.flush();
     }
 }
