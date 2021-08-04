@@ -47,8 +47,8 @@ public class ReversiAiMain {
         HeuristicEvaluation.addMaximizationHeuristic(new StoneCountHeuristic(1));
 
         // SORTING
-        HeuristicEvaluation.setSortingHeuristic(new StoneCountHeuristic(0.4));
-        HeuristicEvaluation.setSortingHeuristic(new CornerHeuristic(0.6));
+        HeuristicEvaluation.setSortingHeuristic(new StoneCountHeuristic(0.2));
+        HeuristicEvaluation.setSortingHeuristic(new CornerHeuristic(0.8));
 
         // BOMBING
         HeuristicEvaluation.addBombingHeuristic(new StoneCountHeuristic(0.15));
