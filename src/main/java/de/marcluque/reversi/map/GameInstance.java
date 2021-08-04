@@ -45,8 +45,8 @@ public class GameInstance {
                 Logger.print("ANNOUNCED MOVE " + moveCount + ": (" + x + "," + y + ") with special " + specialField
                         + " by player " + player);
             } else {
-                Logger.error("ANNOUNCED MOVE " + moveCount + ": (" + x + "," + y + ") with special " + specialField + " by player "
-                        + player + " wasn't valid!");
+                Logger.error("ILLEGAL MOVE " + moveCount + ": (" + x + "," + y + ") with special " + specialField + " by player "
+                        + player);
             }
         }
 
@@ -92,6 +92,15 @@ public class GameInstance {
 
         if (timeLimit == 0) {
             responseMove = IterativeDeepening.iterativeDeepeningDepthLimit(depthLimit, searchStrategy);
+//            int[] totalStates = new int[1];
+//            long start = System.nanoTime();
+//            responseMove = searchStrategy.apply(totalStates, depthLimit);
+//            long end = System.nanoTime();
+//            System.out.println();
+//            System.out.println("STATES: " + totalStates[0]);
+//            System.out.println("TIME (ms): " + (end - start) / 1_000_000d);
+//            System.out.println("TIME per state (µs): " + ((end - start) / 1_000d) / totalStates[0]);
+//            System.out.println();
         } else {
             responseMove = IterativeDeepening.iterativeDeepeningTimeLimit(searchStrategy);
         }

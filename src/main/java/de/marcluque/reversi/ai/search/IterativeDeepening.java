@@ -96,12 +96,12 @@ public class IterativeDeepening {
             summedBranching += lastBranchingFactor;
             prevLeafStates = leafStates;
 
-            // Make time estimation for next iteration
+            // TODO: Make better estimations, still miscalculating
+            // Make time estimation for next iteration (everything in ms)
             branchingAverage = summedBranching / currentDepth;
             double timeUntilDepthInMs = timeUntilDepth / 1_000_000;
             double statesOnNextDepth = branchingAverage * leafStates;
             double timePerState = (timeUntilDepthInMs / totalStatesUntilDepth[0]);
-            // Estimated time will be in ms
             double estimatedTimeForNextDepth = statesOnNextDepth * timePerState;
             estimatedTime = timeUntilDepthInMs + estimatedTimeForNextDepth;
         }
