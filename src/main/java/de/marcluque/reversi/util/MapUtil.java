@@ -116,11 +116,14 @@ public class MapUtil {
 
     public static boolean noMovesPossibleForPlayer(Map map, char player) {
         List<Coordinate> freeTiles = new ArrayList<>();
-        iterateMap((x, y) -> {
-            if (isTileFree(map.getGameField()[y][x])) {
-                freeTiles.add(new Coordinate(x, y));
+
+        for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
+            for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
+                if (isTileFree(map.getGameField()[y][x])) {
+                    freeTiles.add(new Coordinate(x, y));
+                }
             }
-        });
+        }
 
         for (Coordinate freeTile : freeTiles) {
             if (AbstractMove.isMoveValid(map, freeTile.getX(), freeTile.getY(), player, true)) {
@@ -133,11 +136,13 @@ public class MapUtil {
 
     public static boolean noMovesPossible(Map map) {
         List<Coordinate> freeTiles = new ArrayList<>();
-        iterateMap((x, y) -> {
-            if (isTileFree(map.getGameField()[y][x])) {
-                freeTiles.add(new Coordinate(x, y));
+        for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
+            for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
+                if (isTileFree(map.getGameField()[y][x])) {
+                    freeTiles.add(new Coordinate(x, y));
+                }
             }
-        });
+        }
 
         for (Coordinate freeTile : freeTiles) {
             for (Character activePlayer : AbstractSearch.ACTIVE_PLAYERS) {
@@ -172,14 +177,6 @@ public class MapUtil {
         }
 
         return playerWithMostStones;
-    }
-
-    public static void iterateMap(BiConsumer<Integer, Integer> action) {
-        for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
-            for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
-                action.accept(x, y);
-            }
-        }
     }
 
     public static String mapToPrintableString(char[][] map) {

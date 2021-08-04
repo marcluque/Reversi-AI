@@ -30,9 +30,7 @@ public abstract class AbstractMove {
 
     public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly,
                                       boolean allowOverrideStones, List<Coordinate> capturableTiles) {
-        return isMoveValidImpl(map, x, y, player, returnEarly, allowOverrideStones,
-                (direction, tempTiles) -> walkPath(map, x, y, direction, player, tempTiles),
-                capturableTiles);
+        return isMoveValidImpl(map, x, y, player, returnEarly, allowOverrideStones, capturableTiles);
     }
 
     public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly) {
@@ -41,22 +39,17 @@ public abstract class AbstractMove {
 
     public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly,
                                       boolean allowOverrideStones) {
-        return isMoveValidImpl(map, x, y, player, returnEarly, allowOverrideStones,
-                (direction, tempTiles) -> walkPath(map, x, y, direction, player, tempTiles),
-                new ArrayList<>());
+        return isMoveValidImpl(map, x, y, player, returnEarly, allowOverrideStones, new ArrayList<>());
     }
 
     private static boolean isMoveValidImpl(Map map, int x, int y, char player, boolean returnEarly,
-                                           boolean allowOverrideStones,
-                                           BiFunction<Integer, Set<Coordinate>, Set<Coordinate>> walkPathVariant,
-                                           List<Coordinate> capturableTiles) {
+                                           boolean allowOverrideStones, List<Coordinate> capturableTiles) {
         // Holes are not allowed, neither for building nor for bomb phase
         if (MapUtil.isTileHole(map.getGameField()[y][x])) {
             return false;
         }
-
         // Building phase
-        if (Map.getPhase() == 1) {
+        else if (Map.getPhase() == 1) {
             // Tile may be occupied by player or expansion stone -> override stones must be allowed and available for player
             if (MapUtil.isOccupied(map.getGameField()[y][x])
                     && (!allowOverrideStones || map.getOverrideStones()[Character.getNumericValue(player)] == 0)) {
@@ -70,7 +63,7 @@ public abstract class AbstractMove {
             for (int direction = 0; direction < 8; direction++) {
                 // Walk along direction starting from (x,y)
                 Set<Coordinate> tempTiles = new HashSet<>();
-                boolean tempResult = !walkPathVariant.apply(direction, tempTiles).isEmpty();
+                boolean tempResult = !walkPath(map, x, y, direction, player, tempTiles).isEmpty();
 
                 if (returnEarly && tempResult) {
                     return true;
@@ -124,7 +117,7 @@ public abstract class AbstractMove {
             }
 
             pathLength++;
-            tempTiles.add(new Coordinate(x, y));
+            tempTiles.add(newCoord);
         } while (MapUtil.isCoordinateInMap(x, y) && MapUtil.isCapturableStone(map, x, y, player));
 
         // Check whether the last tile of the path is in the map, not the start tile and has the player stone on it

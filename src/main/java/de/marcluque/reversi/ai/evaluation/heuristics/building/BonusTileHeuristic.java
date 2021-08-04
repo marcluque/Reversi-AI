@@ -19,24 +19,26 @@ public class BonusTileHeuristic extends AbstractHeuristic implements Heuristic {
 
     @Override
     public void initHeuristic(Map map) {
-        MapUtil.iterateMap((x, y) -> {
-            if (MapUtil.isTileBonus(map.getGameField()[y][x])) {
-                Map.getBonusTiles().add(new Coordinate(x, y));
+        for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
+            for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
+                if (MapUtil.isTileBonus(map.getGameField()[y][x])) {
+                    Map.getBonusTiles().add(new Coordinate(x, y));
+                }
             }
-        });
+        }
     }
 
     @Override
     public double executeHeuristic(Map map, char player) {
         double count = 0;
-        List<Coordinate> bombTiles = Map.getBonusTiles();
-        for (Coordinate bonusTile : bombTiles) {
+        List<Coordinate> bonusTiles = Map.getBonusTiles();
+        for (Coordinate bonusTile : bonusTiles) {
             if (map.getGameField()[bonusTile.getY()][bonusTile.getX()] == player) {
                 count++;
             }
         }
 
-        return bombTiles.size() == 0 ? 0 : count / bombTiles.size();
+        return bonusTiles.size() == 0 ? 0 : count / bonusTiles.size();
     }
 
     @Override

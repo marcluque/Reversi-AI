@@ -52,14 +52,15 @@ public abstract class BuildMove {
 
                 // Switch stones of the player specified in playerWithMostStones
                 char playerWithMostStones = MapUtil.intToPlayer(specialTile);
-                MapUtil.iterateMap((newX, newY) -> {
-                    if (map.getGameField()[newY][newX] == playerWithMostStones) {
-                        map.getGameField()[newY][newX] = player;
-                    } else if (map.getGameField()[newY][newX] == player) {
-                        map.getGameField()[newY][newX] = playerWithMostStones;
+                for (int newY = 0, height = Map.getMapHeight(); newY < height; newY++) {
+                    for (int newX = 0, width = Map.getMapWidth(); newX < width; newX++) {
+                        if (map.getGameField()[newY][newX] == playerWithMostStones) {
+                            map.getGameField()[newY][newX] = player;
+                        } else if (map.getGameField()[newY][newX] == player) {
+                            map.getGameField()[newY][newX] = playerWithMostStones;
+                        }
                     }
-                });
-
+                }
             }
             case 'i' -> {
                 map.getGameField()[y][x] = player;
@@ -73,12 +74,14 @@ public abstract class BuildMove {
                 System.arraycopy(tempStones, 0, map.getNumberOfStones(), 0, map.getNumberOfStones().length);
 
                 // Iterates over all players and switches their stones with (i % numberOfPlayers) + 1 where i is the player
-                MapUtil.iterateMap((newX, newY) -> {
-                    if (MapUtil.isPlayerTile(map.getGameField()[newY][newX])) {
-                        int playerNumber = Character.getNumericValue(map.getGameField()[newY][newX]);
-                        map.getGameField()[newY][newX] = MapUtil.intToPlayer((playerNumber % Map.getNumberOfPlayers()) + 1);
+                for (int newY = 0, height = Map.getMapHeight(); newY < height; newY++) {
+                    for (int newX = 0, width = Map.getMapWidth(); newX < width; newX++) {
+                        if (MapUtil.isPlayerTile(map.getGameField()[newY][newX])) {
+                            int playerNumber = Character.getNumericValue(map.getGameField()[newY][newX]);
+                            map.getGameField()[newY][newX] = MapUtil.intToPlayer((playerNumber % Map.getNumberOfPlayers()) + 1);
+                        }
                     }
-                });
+                }
             }
             case 'b' -> {
                 map.getGameField()[y][x] = player;

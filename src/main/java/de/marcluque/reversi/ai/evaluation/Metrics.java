@@ -30,15 +30,17 @@ public class Metrics {
         int[] numberOfHoles = {0};
         int[] numberOfBonusTiles = {0};
 
-        MapUtil.iterateMap((x, y) -> {
-            if (MapUtil.isTileFree(map.getGameField()[y][x])) {
-                numberFreeTiles[0]++;
-            } else if (MapUtil.isTileHole(map.getGameField()[y][x])) {
-                numberOfHoles[0]++;
-            } else if (MapUtil.isTileBonus(map.getGameField()[y][x])) {
-                numberOfBonusTiles[0]++;
+        for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
+            for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
+                if (MapUtil.isTileFree(map.getGameField()[y][x])) {
+                    numberFreeTiles[0]++;
+                } else if (MapUtil.isTileHole(map.getGameField()[y][x])) {
+                    numberOfHoles[0]++;
+                } else if (MapUtil.isTileBonus(map.getGameField()[y][x])) {
+                    numberOfBonusTiles[0]++;
+                }
             }
-        });
+        }
 
         map.setNumberFreeTiles(numberFreeTiles[0]);
         Map.setNumberOfHoles(numberOfHoles[0]);

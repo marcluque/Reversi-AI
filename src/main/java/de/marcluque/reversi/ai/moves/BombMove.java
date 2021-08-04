@@ -49,14 +49,17 @@ public abstract class BombMove {
         map.getGameField()[y][x] = '$';
     }
 
+    // TODO: Fix bomb heuristic
     public static Move executeBombMove(Map map, int x, int y) {
         executeBombMoveRecursive(map, x, y, 0);
 
-        MapUtil.iterateMap((xMap, yMap) -> {
-            if (map.getGameField()[yMap][xMap] == '$') {
-                map.getGameField()[yMap][xMap] = '-';
+        for (int yMap = 0, height = Map.getMapHeight(); yMap < height; yMap++) {
+            for (int xMap = 0, width = Map.getMapWidth(); yMap < width; yMap++) {
+                if (map.getGameField()[yMap][xMap] == '$') {
+                    map.getGameField()[yMap][xMap] = '-';
+                }
             }
-        });
+        }
 
         return new Move(x, y, 0);
     }

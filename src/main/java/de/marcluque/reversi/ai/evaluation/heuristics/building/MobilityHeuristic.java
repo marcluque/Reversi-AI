@@ -24,11 +24,13 @@ public class MobilityHeuristic extends AbstractHeuristic implements Heuristic {
     public double executeHeuristic(Map map, char player) {
         final double[] numberOfMoves = {0};
 
-        MapUtil.iterateMap((x, y) -> {
-            if (AbstractMove.isMoveValid(map, x, y, player, true, Rules.useOverrideStones)) {
-                numberOfMoves[0]++;
+        for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
+            for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
+                if (AbstractMove.isMoveValid(map, x, y, player, true, Rules.useOverrideStones)) {
+                    numberOfMoves[0]++;
+                }
             }
-        });
+        }
 
         return numberOfMoves[0] / Metrics.numberPlayableTiles;
     }

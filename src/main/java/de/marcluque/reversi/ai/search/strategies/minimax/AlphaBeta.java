@@ -22,19 +22,21 @@ public class AlphaBeta extends AbstractSearch {
         final double[] maxValue = {Integer.MIN_VALUE};
         totalStates[0]++;
 
-        MapUtil.iterateMap((x, y) -> {
-            List<Coordinate> capturableTiles = new ArrayList<>();
-            if (AbstractMove.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
-                Map mapClone = new Map(map);
-                Move currentMove = AbstractMove.executeMove(mapClone, x, y, 0, MAX, capturableTiles);
+        for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
+            for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
+                List<Coordinate> capturableTiles = new ArrayList<>();
+                if (AbstractMove.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
+                    Map mapClone = new Map(map);
+                    Move currentMove = AbstractMove.executeMove(mapClone, x, y, 0, MAX, capturableTiles);
 
-                double value = minValue(mapClone, Integer.MIN_VALUE, Integer.MAX_VALUE, depth - 1, totalStates);
-                if (value > maxValue[0]) {
-                    maxValue[0] = value;
-                    bestMove[0] = currentMove;
+                    double value = minValue(mapClone, Integer.MIN_VALUE, Integer.MAX_VALUE, depth - 1, totalStates);
+                    if (value > maxValue[0]) {
+                        maxValue[0] = value;
+                        bestMove[0] = currentMove;
+                    }
                 }
             }
-        });
+        }
 
         return bestMove[0];
     }

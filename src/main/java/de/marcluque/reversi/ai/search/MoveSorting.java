@@ -19,13 +19,15 @@ public class MoveSorting {
         List<SortNode> moves = new ArrayList<>();
 
         // We first add the elements, taking n steps and then sort with n * log(n) steps in the worst-case
-        MapUtil.iterateMap((x, y) -> {
-            List<Coordinate> capturableStones = new ArrayList<>();
-            if (AbstractMove.isMoveValid(map, x, y, player, false, capturableStones)) {
-                Map mapClone = new Map(map);
-                moves.add(new SortNode(AbstractMove.executeMove(mapClone, x, y, 0, player, capturableStones), mapClone));
+        for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
+            for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
+                List<Coordinate> capturableStones = new ArrayList<>();
+                if (AbstractMove.isMoveValid(map, x, y, player, false, capturableStones)) {
+                    Map mapClone = new Map(map);
+                    moves.add(new SortNode(AbstractMove.executeMove(mapClone, x, y, 0, player, capturableStones), mapClone));
+                }
             }
-        });
+        }
 
         if (player == AbstractSearch.MAX) {
             // Descending order (maximum first)

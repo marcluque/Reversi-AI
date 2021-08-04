@@ -24,11 +24,13 @@ public class CornerHeuristic extends AbstractHeuristic implements Heuristic {
             super.weight = 1;
         }
 
-        MapUtil.iterateMap((x, y) -> {
-            if (MapUtil.isTileCorner(map, x, y)) {
-                Map.getCorners().add(new Coordinate(x, y));
+        for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
+            for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
+                if (MapUtil.isTileCorner(map, x, y)) {
+                    Map.getCorners().add(new Coordinate(x, y));
+                }
             }
-        });
+        }
     }
 
     @Override
