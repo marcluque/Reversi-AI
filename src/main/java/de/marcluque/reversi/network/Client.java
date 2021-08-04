@@ -162,7 +162,7 @@ public class Client {
 
                     // Second phase has ended (game ends)
                     case 9 -> {
-                        Logger.print("GAME OVER");
+                        Logger.print("GAME DONE");
                         clientSocket.close();
                         return;
                     }

@@ -49,7 +49,7 @@ public class StatisticsUtil {
 
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
-    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.###");
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#########.###");
 
     static {
         DECIMAL_FORMAT.setRoundingMode(RoundingMode.CEILING);
@@ -105,10 +105,10 @@ public class StatisticsUtil {
                 totalStates, (totalStates - leafStates), leafStates);
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 String.format("Average branching factor (depth %d->%d):", depth - 1, depth),
-                avgBranchingLastDepth);
+                DECIMAL_FORMAT.format(avgBranchingLastDepth));
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 "Average branching factor (tree):",
-                avgBranching);
+                DECIMAL_FORMAT.format(avgBranching));
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 "Computation time per state (ms):",
                 DECIMAL_FORMAT.format((timeForFullDepth / 1_000_000) / totalStates));
@@ -183,10 +183,10 @@ public class StatisticsUtil {
                 timeLeft);
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 "Estimated (ms):",
-                estimatedTime);
+                DECIMAL_FORMAT.format(estimatedTime));
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 "Average branching factor:",
-                avgBranching);
+                DECIMAL_FORMAT.format(avgBranching));
         Logger.appendPrintMessage("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
     }
 }

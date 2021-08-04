@@ -17,6 +17,10 @@ public abstract class BombMove {
         if (!MapUtil.isCoordinateInMap(x, y) || MapUtil.isTileHole(map.getGameField()[y][x])) {
             return;
         } else if (depth == Map.getBombRadius()) {
+            if (MapUtil.isPlayerTile(map.getGameField()[y][x])) {
+                map.getNumberOfStones()[MapUtil.playerToInt(map.getGameField()[y][x])]--;
+            }
+
             map.getGameField()[y][x] = '$';
             return;
         }
@@ -54,7 +58,7 @@ public abstract class BombMove {
         executeBombMoveRecursive(map, x, y, 0);
 
         for (int yMap = 0, height = Map.getMapHeight(); yMap < height; yMap++) {
-            for (int xMap = 0, width = Map.getMapWidth(); yMap < width; yMap++) {
+            for (int xMap = 0, width = Map.getMapWidth(); xMap < width; xMap++) {
                 if (map.getGameField()[yMap][xMap] == '$') {
                     map.getGameField()[yMap][xMap] = '-';
                 }
