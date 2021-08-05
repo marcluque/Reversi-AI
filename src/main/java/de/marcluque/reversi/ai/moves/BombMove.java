@@ -53,7 +53,6 @@ public abstract class BombMove {
         map.getGameField()[y][x] = '$';
     }
 
-    // TODO: Fix bomb heuristic
     public static Move executeBombMove(Map map, int x, int y) {
         executeBombMoveRecursive(map, x, y, 0);
 
