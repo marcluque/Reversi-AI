@@ -17,6 +17,8 @@ public class IterativeDeepening {
 
     public static Move iterativeDeepeningDepthLimit(int depthLimit, SearchStrategy searchStrategy) {
         Move chosenMove = null;
+        boolean searchSpaceCompleted = false;
+        int currentDepth;
         int[] totalStatesUntilDepth = new int[1];
         int prevStatesPerDepth = 1;
 
@@ -29,16 +31,17 @@ public class IterativeDeepening {
         double summedBranching = 0;
         double lastBranchingFactor = 0;
 
-        for (int currentDepth = 1; currentDepth <= depthLimit; currentDepth++) {
+        for (currentDepth = 1; currentDepth <= depthLimit; currentDepth++) {
             totalStatesUntilDepth[0] = 0;
             long start = System.nanoTime();
             chosenMove = searchStrategy.apply(totalStatesUntilDepth, currentDepth);
             timeUntilDepth = System.nanoTime() - start;
             totalTime += timeUntilDepth;
 
-            // TODO: Is this necessary?
-            if (chosenMove == null) {
-                Rules.useOverrideStones = true;
+            if (totalStatesUntilDepth[0] - prevStatesPerDepth == 0) {
+                searchSpaceCompleted = true;
+                totalTime -= timeUntilDepth;
+                break;
             }
 
             // Count states
@@ -51,20 +54,23 @@ public class IterativeDeepening {
             prevLeafStates = leafStates;
         }
 
-        // Print statistics
-        StatisticsUtil.printAllStatsWithoutEstimation(depthLimit, chosenMove, totalStatesUntilDepth[0], leafStates,
-                lastBranchingFactor, summedBranching / depthLimit, timeUntilDepth, totalTime);
+        currentDepth--;
+        StatisticsUtil.printAllStatsWithoutEstimation(currentDepth, chosenMove, totalStatesUntilDepth[0], leafStates,
+                lastBranchingFactor, summedBranching / currentDepth, timeUntilDepth, totalTime,
+                searchSpaceCompleted);
 
         return chosenMove;
     }
 
     public static Move iterativeDeepeningTimeLimit(SearchStrategy searchStrategy) {
         Move chosenMove = null;
+        boolean searchSpaceCompleted = false;
         int currentDepth;
         int[] totalStatesUntilDepth = new int[1];
         int prevStatesPerDepth = 1;
 
         double estimatedTime = 0;
+        double prevEstimatedTime = 0;
         double timeUntilDepth = 0;
         long totalTime = 0;
 
@@ -73,7 +79,6 @@ public class IterativeDeepening {
 
         double summedBranching = 0;
         double lastBranchingFactor = 0;
-        double branchingAverage = 0;
 
         for (currentDepth = 1; GameInstance.getLeftTime() >= estimatedTime; currentDepth++) {
             totalStatesUntilDepth[0] = 0;
@@ -82,9 +87,10 @@ public class IterativeDeepening {
             timeUntilDepth = System.nanoTime() - start;
             totalTime += timeUntilDepth;
 
-            // TODO: Is this necessary?
-            if (chosenMove == null) {
-                Rules.useOverrideStones = true;
+            if (totalStatesUntilDepth[0] - prevStatesPerDepth == 0) {
+                searchSpaceCompleted = true;
+                totalTime -= timeUntilDepth;
+                break;
             }
 
             // Count states
@@ -98,19 +104,18 @@ public class IterativeDeepening {
 
             // TODO: Make better estimations, still miscalculating
             // Make time estimation for next iteration (everything in ms)
-            branchingAverage = summedBranching / currentDepth;
             double timeUntilDepthInMs = timeUntilDepth / 1_000_000;
-            double statesOnNextDepth = branchingAverage * leafStates;
+            double statesOnNextDepth = Math.max(lastBranchingFactor, summedBranching / currentDepth) * leafStates;
             double timePerState = (timeUntilDepthInMs / totalStatesUntilDepth[0]);
             double estimatedTimeForNextDepth = statesOnNextDepth * timePerState;
+            prevEstimatedTime = estimatedTime;
             estimatedTime = timeUntilDepthInMs + estimatedTimeForNextDepth;
         }
 
-        // Print statistics
         currentDepth--;
-        StatisticsUtil.printAllStats(currentDepth, chosenMove, totalStatesUntilDepth[0],
-                leafStates, lastBranchingFactor, branchingAverage, timeUntilDepth, totalTime,
-                GameInstance.getLeftTime(), estimatedTime);
+        StatisticsUtil.printAllStats(currentDepth, chosenMove, totalStatesUntilDepth[0], leafStates,
+                lastBranchingFactor, summedBranching / currentDepth, timeUntilDepth, prevEstimatedTime, totalTime,
+                GameInstance.getLeftTime(), estimatedTime, searchSpaceCompleted);
 
         return chosenMove;
     }

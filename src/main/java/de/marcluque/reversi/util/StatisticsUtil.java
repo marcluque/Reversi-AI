@@ -57,14 +57,15 @@ public class StatisticsUtil {
 
     public static void printAllStats(int depth, Move chosenMove, int totalStates, int leafStates,
                                      double avgBranchingLastDepth, double avgBranching,
-                                     double timeForFullDepth, double totalTime,
-                                     long timeLeft, double estimatedTime) {
+                                     double timeForFullDepth, double prevEstimatedTime,
+                                     double totalTime, long timeLeft, double estimatedTime,
+                                     boolean searchSpaceCompleted) {
         System.out.println();
         Logger.appendPrintMessage(ANSI_CYAN_BACKGROUND + ANSI_BLACK + "================================="
                         + " MOVE %d ================================" + ANSI_RESET,
                 GameInstance.getMoveCount() + 1);
         printStatisticsWithEstimation(depth, chosenMove, totalStates, leafStates, avgBranchingLastDepth,
-                avgBranching, timeForFullDepth, totalTime, timeLeft, estimatedTime);
+                avgBranching, timeForFullDepth, prevEstimatedTime, totalTime, timeLeft, estimatedTime, searchSpaceCompleted);
         printRules();
         printMetrics();
         Logger.appendPrintMessage(ANSI_CYAN_BACKGROUND + ANSI_BLACK
@@ -74,13 +75,14 @@ public class StatisticsUtil {
 
     public static void printAllStatsWithoutEstimation(int depth, Move chosenMove, int totalStates, int leafStates,
                                                       double avgBranchingLastDepth, double avgBranching,
-                                                      double timeForFullDepth, double totalTime) {
+                                                      double timeForFullDepth, double totalTime,
+                                                      boolean searchSpaceCompleted) {
         System.out.println();
         Logger.appendPrintMessage(ANSI_CYAN_BACKGROUND + ANSI_BLACK + "================================="
                 + " MOVE %d ================================" + ANSI_RESET,
                 GameInstance.getMoveCount() + 1);
         printStatistics(depth, chosenMove, totalStates, leafStates, avgBranchingLastDepth,
-                avgBranching, timeForFullDepth, totalTime);
+                avgBranching, timeForFullDepth, totalTime, searchSpaceCompleted);
         printRules();
         printMetrics();
         Logger.appendPrintMessage(ANSI_CYAN_BACKGROUND + ANSI_BLACK
@@ -90,10 +92,13 @@ public class StatisticsUtil {
 
     public static void printStatistics(int depth, Move chosenMove, int totalStates, int leafStates,
                                        double avgBranchingLastDepth, double avgBranching,
-                                       double timeForFullDepth, double totalTime) {
+                                       double timeForFullDepth, double totalTime, boolean searchSpaceCompleted) {
         System.out.println();
         Logger.appendPrintMessage("= = = = = = = = = = = = = =" + ANSI_BLUE
                 + " STATISTICS DEPTH %d " + ANSI_RESET + "= = = = = = = = = = = = = =", depth);
+        if (searchSpaceCompleted) {
+            Logger.appendPrintMessage(ANSI_YELLOW + "Entire search space was explored!" + ANSI_RESET);
+        }
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 "Move number:",
                 GameInstance.getMoveCount() + 1);
@@ -171,22 +176,31 @@ public class StatisticsUtil {
 
     public static void printStatisticsWithEstimation(int depth, Move chosenMove, int totalStates, int leafStates,
                                                      double avgBranchingLastDepth, double avgBranching,
-                                                     double timeForFullDepth, double totalTime,
-                                                     long timeLeft, double estimatedTime) {
+                                                     double timeForFullDepth, double prevEstimatedTime,
+                                                     double totalTime, long timeLeft, double estimatedTime,
+                                                     boolean searchSpaceCompleted) {
         printStatistics(depth, chosenMove, totalStates, leafStates, avgBranchingLastDepth, avgBranching,
-                timeForFullDepth, totalTime);
-        System.out.println();
-        Logger.appendPrintMessage("- - - - - - - - - - - - - -" + ANSI_PURPLE
-                + " ESTIMATION DEPTH %d " + ANSI_RESET + "- - - - - - - - - - - - - -", depth + 1);
-        Logger.appendPrintMessage(STATS_PREFIX + "%d" + ANSI_RESET,
-                "Time left (ms):",
-                timeLeft);
-        Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
-                "Estimated (ms):",
-                DECIMAL_FORMAT.format(estimatedTime));
-        Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
-                "Average branching factor:",
-                DECIMAL_FORMAT.format(avgBranching));
-        Logger.appendPrintMessage("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
+                timeForFullDepth, totalTime, searchSpaceCompleted);
+        if (!searchSpaceCompleted) {
+            System.out.println();
+            Logger.appendPrintMessage("- - - - - - - - - - - - - -" + ANSI_PURPLE
+                    + " ESTIMATION DEPTH %d " + ANSI_RESET + "- - - - - - - - - - - - - -", depth + 1);
+            Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
+                    "Estimated time for previous depth (ms):",
+                    DECIMAL_FORMAT.format(prevEstimatedTime));
+            Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
+                    "Actual time for previous depth (ms):",
+                    DECIMAL_FORMAT.format(timeForFullDepth / 1_000_000));
+            Logger.appendPrintMessage(STATS_PREFIX + "%d" + ANSI_RESET,
+                    "Time left (ms):",
+                    timeLeft);
+            Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
+                    String.format("Estimated for depth %d (ms):", depth + 1),
+                    DECIMAL_FORMAT.format(estimatedTime));
+            Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
+                    "Average branching factor:",
+                    DECIMAL_FORMAT.format(avgBranching));
+            Logger.appendPrintMessage("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
+        }
     }
 }
