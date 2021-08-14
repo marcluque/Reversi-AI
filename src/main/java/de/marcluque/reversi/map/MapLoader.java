@@ -5,8 +5,10 @@ import de.marcluque.reversi.util.Transition;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
@@ -72,7 +74,7 @@ public class MapLoader {
         return new Map(map, overrideStones, numberOfStones, bombs);
     }
 
-    public static Map generateStringFromMapFile(String absoluteMapPath) {
+    public static Map generateMapFromMapFile(String absoluteMapPath) {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(absoluteMapPath))))) {
             return generateMapFromString(br.lines().collect(Collectors.joining("\n")));
         } catch (IOException e) {
@@ -81,5 +83,28 @@ public class MapLoader {
         }
 
         return null;
+    }
+
+    public static char[][] generateArrayFromMapFile(String pathToMapName) {
+        char[][] map = null;
+
+        try {
+            InputStream mapStream = Files.newInputStream(Path.of(pathToMapName).toAbsolutePath());
+            BufferedReader br = new BufferedReader(new InputStreamReader(mapStream));
+            String[] lines = br.lines().skip(3).toArray(String[]::new);
+
+            String[] s = lines[0].split(" ");
+            int mapHeight = Short.parseShort(s[0]);
+
+            map = new char[mapHeight][Short.parseShort(s[1])];
+            for (short i = 0; i < mapHeight; i++) {
+                char[] line = lines[i + 1].replaceAll(" ", "").toCharArray();
+                System.arraycopy(line, 0, map[i], 0, line.length);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return map;
     }
 }

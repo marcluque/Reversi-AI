@@ -192,4 +192,26 @@ public class MapUtil {
 
         return sb.toString();
     }
+
+    public static String compareMapTo(char[][] mapBefore, char[][] mapAfter) {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0, mapBeforeLength = mapBefore.length; i < mapBeforeLength; i++) {
+            char[] tA = mapBefore[i];
+            for (int j = 0, tALength = tA.length; j < tALength; j++) {
+                char t = tA[j];
+
+                if (t != mapAfter[i][j]) {
+                    sb.append("\u001B[31m").append(t).append("\u001B[0m");
+                } else {
+                    sb.append(t);
+                }
+                sb.append(" ");
+            }
+
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
 }

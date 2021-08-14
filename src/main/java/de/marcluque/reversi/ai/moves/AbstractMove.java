@@ -63,7 +63,7 @@ public abstract class AbstractMove {
             for (int direction = 0; direction < 8; direction++) {
                 // Walk along direction starting from (x,y)
                 Set<Coordinate> tempTiles = new HashSet<>();
-                boolean tempResult = !walkPath(map, x, y, direction, player, tempTiles).isEmpty();
+                boolean tempResult = walkPath(map, x, y, direction, player, tempTiles);
 
                 if (returnEarly && tempResult) {
                     return true;
@@ -87,10 +87,11 @@ public abstract class AbstractMove {
         }
     }
 
-    private static Set<Coordinate> walkPath(Map map, int startX, int startY, int direction, char player,
-                                    Set<Coordinate> tempTiles) {
+    private static boolean walkPath(Map map, int startX, int startY, int direction, char player, Set<Coordinate> tempTiles) {
         int x = startX;
         int y = startY;
+        tempTiles.add(new Coordinate(x, y));
+
         // Starts at -1 because the do while immediately adds the start tile, but the start tile doesn't count for a path
         int pathLength = -1;
         Transition transitionEnd;
@@ -128,7 +129,7 @@ public abstract class AbstractMove {
             tempTiles = new HashSet<>();
         }
 
-        return tempTiles;
+        return !tempTiles.isEmpty();
     }
 
     public static Move executeMove(Map map, int x, int y, int specialField, char player, List<Coordinate> capturableStones) {
