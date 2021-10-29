@@ -27,13 +27,13 @@ public class InputParser {
     public static void parse(String[] args) {
         for (String argument : args) {
             switch (argument) {
-                case "-brs" -> strategyType = Strategy.BRS;
-                case "-maxn" -> strategyType = Strategy.MAX_N;
-                case "-ab" -> strategyType = Strategy.AB;
-                case "-ab-move-sorting" -> strategyType = Strategy.AB_MOVE_SORTING;
-                case "-opps" -> strategyType = Strategy.OPPS;
-                case "-paranoid-ab" -> strategyType = Strategy.PARANOID_AB;
-                case "-paranoid" -> strategyType = Strategy.PARANOID;
+                case "-brs": strategyType = Strategy.BRS; break;
+                case "-maxn": strategyType = Strategy.MAX_N; break;
+                case "-ab": strategyType = Strategy.AB; break;
+                case "-ab-move-sorting": strategyType = Strategy.AB_MOVE_SORTING; break;
+                case "-opps": strategyType = Strategy.OPPS; break;
+                case "-paranoid-ab": strategyType = Strategy.PARANOID_AB; break;
+                case "-paranoid": strategyType = Strategy.PARANOID; break;
             }
         }
     }
@@ -48,17 +48,23 @@ public class InputParser {
 
     public static IterativeDeepening.SearchStrategy getUserStrategy(Map map) {
         switch (strategyType) {
-            case BRS -> userStrategy = (totalStates, depthLimit) -> BestReplySearch.search(map, depthLimit, totalStates);
-            case MAX_N -> userStrategy = (totalStates, depthLimit) -> MaxNSearch.search(map, depthLimit, totalStates);
-            case AB -> {
+            case BRS:
+                userStrategy = (totalStates, depthLimit) -> BestReplySearch.search(map, depthLimit, totalStates);
+                break;
+            case MAX_N:
+                userStrategy = (totalStates, depthLimit) -> MaxNSearch.search(map, depthLimit, totalStates);
+                break;
+            case AB:
                 AbstractSearch.MIN = AbstractSearch.MAX_NUMBER == 1 ? '2' : '1';
                 userStrategy = (totalStates, depthLimit) -> AlphaBeta.search(map, depthLimit, totalStates);
-            }
-            case AB_MOVE_SORTING -> {
+                break;
+            case AB_MOVE_SORTING:
                 AbstractSearch.MIN = AbstractSearch.MAX_NUMBER == 1 ? '2' : '1';
                 userStrategy = (totalStates, depthLimit) -> AlphaBetaMoveSorting.search(map, depthLimit, totalStates);
-            }
-            case OPPS -> userStrategy = (totalStates, depthLimit) -> OpponentPruningParanoidSearch.search(map, depthLimit, totalStates);
+                break;
+            case OPPS:
+                userStrategy = (totalStates, depthLimit) -> OpponentPruningParanoidSearch.search(map, depthLimit, totalStates);
+                break;
             //case PARANOID_AB -> userStrategy = (totalStates) -> ParanoidAlphaBetaSearch.search(map, depthLimit, totalStates);
             //case PARANOID -> userStrategy = (totalStates) -> ParanoidSearch.search(map, depthLimit, totalStates);
         }
