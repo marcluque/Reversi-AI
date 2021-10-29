@@ -80,16 +80,15 @@ public class Client {
 
                 // Message types
                 switch (type) {
-
                     // Sends map
-                    case 2 -> {
+                    case 2:
                         Logger.print("Game started!");
                         GameInstance.setMap(MapLoader.generateMapFromString(new String(byteBuffer.array())));
                         Logger.print("MAP:\n%s", new String(byteBuffer.array()));
-                    }
+                        break;
 
                     // Assigns player number
-                    case 3 -> {
+                    case 3:
                         AbstractSearch.MAX_NUMBER = byteBuffer.get();
                         Logger.print("We are player %s", AbstractSearch.MAX_NUMBER);
                         AbstractSearch.MAX = MapUtil.intToPlayer(AbstractSearch.MAX_NUMBER);
@@ -112,10 +111,10 @@ public class Client {
                         Metrics.initOverrideEffect();
 
                         StatisticsUtil.printInitialMetrics();
-                    }
+                        break;
 
                     // Requests move from player
-                    case 4 -> {
+                    case 4:
                         // Time limit is in milliseconds
                         // timeLimit == 0 -> no time limit
                         GameInstance.setTimeLimit(byteBuffer.getInt());
@@ -130,20 +129,20 @@ public class Client {
                         sendMoveResponse();
                         Logger.flushPrintMessage();
                         // TODO: Calculate everything for logging map here
-                    }
+                        break;
 
                     // Announces move of (an) opponent
-                    case 6 -> {
+                    case 6:
                         int x = byteBuffer.getShort();
                         int y = byteBuffer.getShort();
                         int specialField = byteBuffer.get();
                         char player = (char) ('0' + byteBuffer.get());
 
                         GameInstance.processMove(x, y, specialField, player);
-                    }
+                        break;
 
                     // Disqualification of a player
-                    case 7 -> {
+                    case 7:
                         int disqualifiedPlayer = byteBuffer.get();
                         if (disqualifiedPlayer == AbstractSearch.MAX_NUMBER) {
                             Logger.error("Client has been disqualified!");
@@ -152,22 +151,21 @@ public class Client {
                             AbstractSearch.ACTIVE_PLAYERS.remove(disqualifiedPlayer);
                             Logger.print("Player %d has been disqualified!%n", disqualifiedPlayer);
                         }
-                    }
+                        break;
 
                     // Announces first phase has ended
-                    case 8 -> {
+                    case 8:
                         Map.setPhase(2);
                         Logger.print("PHASE 2 BEGINS");
-                    }
+                        break;
 
                     // Second phase has ended (game ends)
-                    case 9 -> {
+                    case 9:
                         Logger.print("GAME DONE");
                         clientSocket.close();
                         return;
-                    }
 
-                    default -> Logger.error("Couldn't parse message type: %d%n", type);
+                    default: Logger.error("Couldn't parse message type: %d%n", type);
                 }
 
                 byteBuffer.clear();

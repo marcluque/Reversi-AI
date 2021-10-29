@@ -39,7 +39,7 @@ public abstract class BuildMove {
         // Check whether field is a special field
         int specialTile = 0;
         switch (map.getGameField()[y][x]) {
-            case 'c' -> {
+            case 'c':
                 map.getGameField()[y][x] = player;
 
                 // ASSUMPTION: we always pick the player with most stones
@@ -61,8 +61,8 @@ public abstract class BuildMove {
                         }
                     }
                 }
-            }
-            case 'i' -> {
+                break;
+            case 'i':
                 map.getGameField()[y][x] = player;
 
                 int[] tempStones = new int[map.getNumberOfStones().length];
@@ -82,8 +82,8 @@ public abstract class BuildMove {
                         }
                     }
                 }
-            }
-            case 'b' -> {
+                break;
+            case 'b':
                 map.getGameField()[y][x] = player;
 
                 if (specialField != 0) {
@@ -99,7 +99,7 @@ public abstract class BuildMove {
                 } else {
                     map.getBombs()[playerId]++;
                 }
-            }
+                break;
         }
 
         return new Move(x, y, specialTile);
