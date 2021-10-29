@@ -11,8 +11,13 @@
     <properties>
         <maven.compiler.source>14</maven.compiler.source>
         <maven.compiler.target>14</maven.compiler.target>
+             
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+             
         <junit.version>5.7.0</junit.version>
+             
+        <sonar.organization>marcluque</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <developers>
