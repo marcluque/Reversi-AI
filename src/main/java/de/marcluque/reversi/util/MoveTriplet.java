@@ -7,18 +7,10 @@ import java.util.Objects;
 /*
  * Created with <3 by marcluque, March 2021
  */
-public class MoveTriplet {
-
-    private final int x;
-
-    private final int y;
-
-    private final int specialTile;
+public class MoveTriplet extends Triplet {
 
     public MoveTriplet(int x, int y, int specialTile) {
-        this.x = x;
-        this.y = y;
-        this.specialTile = specialTile;
+        super(x, y, specialTile);
     }
 
     public int getX() {
@@ -30,16 +22,12 @@ public class MoveTriplet {
     }
 
     public int getSpecialTile() {
-        return specialTile;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y, specialTile);
+        return z;
     }
 
     @Override
     public String toString() {
+        int specialTile = z;
         if (specialTile != 0) {
             if (1 <= specialTile && specialTile <= Map.getNumberOfPlayers()) {
                 return String.format("(%d, %d) choice: Player %d", x, y, specialTile);
