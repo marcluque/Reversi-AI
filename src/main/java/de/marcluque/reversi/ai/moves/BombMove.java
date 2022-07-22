@@ -2,7 +2,7 @@ package de.marcluque.reversi.ai.moves;
 
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.MapUtil;
-import de.marcluque.reversi.util.Move;
+import de.marcluque.reversi.util.MoveTriplet;
 import de.marcluque.reversi.util.Transition;
 
 /*
@@ -34,8 +34,8 @@ public abstract class BombMove {
                 x = transitionEnd.getX();
                 y = transitionEnd.getY();
             } else {
-                x += AbstractMove.CORNERS[i][0];
-                y += AbstractMove.CORNERS[i][1];
+                x += Move.CORNERS[i][0];
+                y += Move.CORNERS[i][1];
             }
 
             if (MapUtil.isCoordinateInMap(x, y)) {
@@ -53,7 +53,7 @@ public abstract class BombMove {
         map.getGameField()[y][x] = '$';
     }
 
-    public static Move executeBombMove(Map map, int x, int y) {
+    public static MoveTriplet executeBombMove(Map map, int x, int y) {
         executeBombMoveRecursive(map, x, y, 0);
 
         for (int yMap = 0, height = Map.getMapHeight(); yMap < height; yMap++) {
@@ -64,6 +64,6 @@ public abstract class BombMove {
             }
         }
 
-        return new Move(x, y, 0);
+        return new MoveTriplet(x, y, 0);
     }
 }

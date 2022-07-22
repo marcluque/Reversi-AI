@@ -4,7 +4,7 @@ import de.marcluque.reversi.ai.evaluation.Rules;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.MapUtil;
-import de.marcluque.reversi.util.Move;
+import de.marcluque.reversi.util.MoveTriplet;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import java.util.List;
  */
 public abstract class BuildMove {
 
-    public static Move executeBuildMove(Map map, int x, int y, int specialField, char player,
-                                        List<Coordinate> capturableStones) {
+    public static MoveTriplet executeBuildMove(Map map, int x, int y, int specialField, char player,
+                                               List<Coordinate> capturableStones) {
         int playerId = Character.getNumericValue(player);
 
         if (MapUtil.isOccupied(map.getGameField()[y][x])) {
@@ -102,6 +102,6 @@ public abstract class BuildMove {
                 break;
         }
 
-        return new Move(x, y, specialTile);
+        return new MoveTriplet(x, y, specialTile);
     }
 }

@@ -55,7 +55,7 @@ public class StatisticsUtil {
         DECIMAL_FORMAT.setRoundingMode(RoundingMode.CEILING);
     }
 
-    public static void printAllStats(int depth, Move chosenMove, int totalStates, int leafStates,
+    public static void printAllStats(int depth, MoveTriplet chosenMoveTriplet, int totalStates, int leafStates,
                                      double avgBranchingLastDepth, double avgBranching,
                                      double timeForFullDepth, double prevEstimatedTime,
                                      double totalTime, long timeLeft, double estimatedTime,
@@ -64,7 +64,7 @@ public class StatisticsUtil {
         Logger.appendPrintMessage(ANSI_CYAN_BACKGROUND + ANSI_BLACK + "================================="
                         + " MOVE %d ================================" + ANSI_RESET,
                 GameInstance.getMoveCount() + 1);
-        printStatisticsWithEstimation(depth, chosenMove, totalStates, leafStates, avgBranchingLastDepth,
+        printStatisticsWithEstimation(depth, chosenMoveTriplet, totalStates, leafStates, avgBranchingLastDepth,
                 avgBranching, timeForFullDepth, prevEstimatedTime, totalTime, timeLeft, estimatedTime, searchSpaceCompleted);
         printRules();
         printMetrics();
@@ -73,7 +73,7 @@ public class StatisticsUtil {
         System.out.println();
     }
 
-    public static void printAllStatsWithoutEstimation(int depth, Move chosenMove, int totalStates, int leafStates,
+    public static void printAllStatsWithoutEstimation(int depth, MoveTriplet chosenMoveTriplet, int totalStates, int leafStates,
                                                       double avgBranchingLastDepth, double avgBranching,
                                                       double timeForFullDepth, double totalTime,
                                                       boolean searchSpaceCompleted) {
@@ -81,7 +81,7 @@ public class StatisticsUtil {
         Logger.appendPrintMessage(ANSI_CYAN_BACKGROUND + ANSI_BLACK + "================================="
                 + " MOVE %d ================================" + ANSI_RESET,
                 GameInstance.getMoveCount() + 1);
-        printStatistics(depth, chosenMove, totalStates, leafStates, avgBranchingLastDepth,
+        printStatistics(depth, chosenMoveTriplet, totalStates, leafStates, avgBranchingLastDepth,
                 avgBranching, timeForFullDepth, totalTime, searchSpaceCompleted);
         printRules();
         printMetrics();
@@ -90,7 +90,7 @@ public class StatisticsUtil {
         System.out.println();
     }
 
-    public static void printStatistics(int depth, Move chosenMove, int totalStates, int leafStates,
+    public static void printStatistics(int depth, MoveTriplet chosenMoveTriplet, int totalStates, int leafStates,
                                        double avgBranchingLastDepth, double avgBranching,
                                        double timeForFullDepth, double totalTime, boolean searchSpaceCompleted) {
         System.out.println();
@@ -104,7 +104,7 @@ public class StatisticsUtil {
                 GameInstance.getMoveCount() + 1);
         Logger.appendPrintMessage(STATS_PREFIX + "%s %s: %s" + ANSI_RESET,
                 "Chosen move:", "Player",
-                AbstractSearch.MAX, chosenMove);
+                AbstractSearch.MAX, chosenMoveTriplet);
         Logger.appendPrintMessage(STATS_PREFIX + "%d, %d, %d" + ANSI_RESET,
                 "Total-, Interior-, Leaf-nodes:",
                 totalStates, (totalStates - leafStates), leafStates);
@@ -174,12 +174,12 @@ public class StatisticsUtil {
         Logger.appendPrintMessage("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =\n");
     }
 
-    public static void printStatisticsWithEstimation(int depth, Move chosenMove, int totalStates, int leafStates,
+    public static void printStatisticsWithEstimation(int depth, MoveTriplet chosenMoveTriplet, int totalStates, int leafStates,
                                                      double avgBranchingLastDepth, double avgBranching,
                                                      double timeForFullDepth, double prevEstimatedTime,
                                                      double totalTime, long timeLeft, double estimatedTime,
                                                      boolean searchSpaceCompleted) {
-        printStatistics(depth, chosenMove, totalStates, leafStates, avgBranchingLastDepth, avgBranching,
+        printStatistics(depth, chosenMoveTriplet, totalStates, leafStates, avgBranchingLastDepth, avgBranching,
                 timeForFullDepth, totalTime, searchSpaceCompleted);
         if (!searchSpaceCompleted) {
             System.out.println();

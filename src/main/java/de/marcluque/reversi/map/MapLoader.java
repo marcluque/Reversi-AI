@@ -75,36 +75,33 @@ public class MapLoader {
     }
 
     public static Map generateMapFromMapFile(String absoluteMapPath) {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(absoluteMapPath))))) {
+        var mapPath = Paths.get(absoluteMapPath);
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(mapPath)))) {
             return generateMapFromString(br.lines().collect(Collectors.joining("\n")));
         } catch (IOException e) {
-            System.err.println("Couldn't read file.");
             e.printStackTrace();
+            return null;
         }
-
-        return null;
     }
 
     public static char[][] generateArrayFromMapFile(String pathToMapName) {
-        char[][] map = null;
-
-        try {
-            InputStream mapStream = Files.newInputStream(Path.of(pathToMapName).toAbsolutePath());
-            BufferedReader br = new BufferedReader(new InputStreamReader(mapStream));
+        var mapPath = Path.of(pathToMapName).toAbsolutePath();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(mapPath)))) {
             String[] lines = br.lines().skip(3).toArray(String[]::new);
 
             String[] s = lines[0].split(" ");
             int mapHeight = Short.parseShort(s[0]);
 
-            map = new char[mapHeight][Short.parseShort(s[1])];
+            var map = new char[mapHeight][Short.parseShort(s[1])];
             for (short i = 0; i < mapHeight; i++) {
                 char[] line = lines[i + 1].replaceAll(" ", "").toCharArray();
                 System.arraycopy(line, 0, map[i], 0, line.length);
             }
+
+            return map;
         } catch (IOException e) {
             e.printStackTrace();
+            return new char[][]{};
         }
-
-        return map;
     }
 }

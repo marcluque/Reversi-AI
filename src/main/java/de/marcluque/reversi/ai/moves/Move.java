@@ -4,24 +4,23 @@ import de.marcluque.reversi.ai.evaluation.Rules;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.MapUtil;
-import de.marcluque.reversi.util.Move;
+import de.marcluque.reversi.util.MoveTriplet;
 import de.marcluque.reversi.util.Transition;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.BiFunction;
 
 /*
  * Created with <3 by marcluque, March 2021
  */
-public abstract class AbstractMove {
+public abstract class Move {
 
     public static final int[][] CORNERS = {{0, -1}, {1, -1}, {1, 0},
             {1, 1}, {0, 1}, {-1, 1}, {-1, 0}, {-1, -1}};
 
-    private AbstractMove() {}
+    private Move() {}
 
     public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly,
                                       List<Coordinate> capturableTiles) {
@@ -132,7 +131,7 @@ public abstract class AbstractMove {
         return !tempTiles.isEmpty();
     }
 
-    public static Move executeMove(Map map, int x, int y, int specialField, char player, List<Coordinate> capturableStones) {
+    public static MoveTriplet executeMove(Map map, int x, int y, int specialField, char player, List<Coordinate> capturableStones) {
         if (Map.getPhase() == 1) {
             if (MapUtil.isTileFree(map.getGameField()[y][x])) {
                 map.decrementNumberFreeTiles();

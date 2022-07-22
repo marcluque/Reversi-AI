@@ -8,7 +8,7 @@ import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.map.MapLoader;
 import de.marcluque.reversi.util.Logger;
 import de.marcluque.reversi.util.MapUtil;
-import de.marcluque.reversi.util.Move;
+import de.marcluque.reversi.util.MoveTriplet;
 import de.marcluque.reversi.util.StatisticsUtil;
 
 import java.io.DataInputStream;
@@ -177,7 +177,7 @@ public class Client {
     }
 
     private void sendMoveResponse() {
-        Move responseMove = GameInstance.generateMoveResponse();
+        MoveTriplet responseMoveTriplet = GameInstance.generateMoveResponse();
 
         try {
             // Write type of message (1 Byte)
@@ -187,11 +187,11 @@ public class Client {
             outputStream.writeInt(5);
 
             // Send 2 Bytes for x-coord
-            outputStream.writeShort(responseMove.getX());
+            outputStream.writeShort(responseMoveTriplet.getX());
             // Send 2 Bytes for y-coord
-            outputStream.writeShort(responseMove.getY());
+            outputStream.writeShort(responseMoveTriplet.getY());
             // Send 1 Byte for special tile
-            outputStream.writeByte(responseMove.getSpecialTile());
+            outputStream.writeByte(responseMoveTriplet.getSpecialTile());
 
             outputStream.flush();
         } catch (IOException e) {

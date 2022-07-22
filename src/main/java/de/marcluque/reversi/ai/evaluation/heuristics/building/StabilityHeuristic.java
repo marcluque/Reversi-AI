@@ -3,7 +3,7 @@ package de.marcluque.reversi.ai.evaluation.heuristics.building;
 import de.marcluque.reversi.ai.evaluation.heuristics.AbstractHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.Heuristic;
 import de.marcluque.reversi.map.Map;
-import de.marcluque.reversi.ai.moves.AbstractMove;
+import de.marcluque.reversi.ai.moves.Move;
 import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.Transition;
@@ -37,13 +37,13 @@ public class StabilityHeuristic extends AbstractHeuristic implements Heuristic {
                         transition = Map.getTransitions().get(new Transition(x, y, k));
                         neighbour = (transition != null)
                                 ? new Coordinate(transition.getX(), transition.getY())
-                                : new Coordinate(x + AbstractMove.CORNERS[k][0], y + AbstractMove.CORNERS[k][1]);
+                                : new Coordinate(x + Move.CORNERS[k][0], y + Move.CORNERS[k][1]);
 
                         // Check the potential opposite neighbour in direction k + 4
                         transition = Map.getTransitions().get(new Transition(x, y, k + 4));
                         oppositeNeighbour = (transition != null)
                                 ? new Coordinate(transition.getX(), transition.getY())
-                                : new Coordinate(x + AbstractMove.CORNERS[k + 4][0], y + AbstractMove.CORNERS[k + 4][1]);
+                                : new Coordinate(x + Move.CORNERS[k + 4][0], y + Move.CORNERS[k + 4][1]);
 
                         if (!MapUtil.isCoordinateInMap(neighbour.getX(), neighbour.getY())
                                 || !MapUtil.isCoordinateInMap(oppositeNeighbour.getX(), oppositeNeighbour.getY())) {

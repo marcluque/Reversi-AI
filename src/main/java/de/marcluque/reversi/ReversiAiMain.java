@@ -8,16 +8,8 @@ import de.marcluque.reversi.ai.evaluation.heuristics.bombing.StrongestOpponentHe
 import de.marcluque.reversi.ai.evaluation.heuristics.bombing.SuccessorHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.building.*;
 import de.marcluque.reversi.ai.evaluation.Rules;
-import de.marcluque.reversi.ai.moves.AbstractMove;
-import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.network.Client;
-import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.InputParser;
-import de.marcluque.reversi.util.MapUtil;
-import de.marcluque.reversi.util.Move;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /*
  * Created with <3 by marcluque, March 2021

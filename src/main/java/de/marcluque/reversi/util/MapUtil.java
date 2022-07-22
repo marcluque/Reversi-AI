@@ -1,16 +1,12 @@
 package de.marcluque.reversi.util;
 
 import de.marcluque.reversi.ai.search.AbstractSearch;
-import de.marcluque.reversi.map.GameInstance;
 import de.marcluque.reversi.map.Map;
-import de.marcluque.reversi.ai.moves.AbstractMove;
+import de.marcluque.reversi.ai.moves.Move;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /*
  * Created with <3 by marcluque, March 2021
@@ -80,24 +76,24 @@ public class MapUtil {
 
         Transition transition;
         for (int k = 1; k < 8; k += 2) {
-            int firstX = x + AbstractMove.CORNERS[k - 1][0];
-            int firstY = y + AbstractMove.CORNERS[k - 1][1];
+            int firstX = x + Move.CORNERS[k - 1][0];
+            int firstY = y + Move.CORNERS[k - 1][1];
             transition = Map.getTransitions().get(new Transition(x, y, k - 1));
             if (transition != null) {
                 firstX = transition.getX();
                 firstY = transition.getY();
             }
 
-            int secondX = x + AbstractMove.CORNERS[k][0];
-            int secondY = y + AbstractMove.CORNERS[k][1];
+            int secondX = x + Move.CORNERS[k][0];
+            int secondY = y + Move.CORNERS[k][1];
             transition = Map.getTransitions().get(new Transition(x, y, k));
             if (transition != null) {
                 secondX = transition.getX();
                 secondY = transition.getY();
             }
 
-            int thirdX = x + AbstractMove.CORNERS[(k + 1) % 8][0];
-            int thirdY = y + AbstractMove.CORNERS[(k + 1) % 8][1];
+            int thirdX = x + Move.CORNERS[(k + 1) % 8][0];
+            int thirdY = y + Move.CORNERS[(k + 1) % 8][1];
             transition = Map.getTransitions().get(new Transition(x, y, k + 1));
             if (transition != null) {
                 thirdX = transition.getX();
@@ -126,7 +122,7 @@ public class MapUtil {
         }
 
         for (Coordinate freeTile : freeTiles) {
-            if (AbstractMove.isMoveValid(map, freeTile.getX(), freeTile.getY(), player, true)) {
+            if (Move.isMoveValid(map, freeTile.getX(), freeTile.getY(), player, true)) {
                 return false;
             }
         }
@@ -146,7 +142,7 @@ public class MapUtil {
 
         for (Coordinate freeTile : freeTiles) {
             for (Character activePlayer : AbstractSearch.ACTIVE_PLAYERS) {
-                if (AbstractMove.isMoveValid(map, freeTile.getX(), freeTile.getY(), activePlayer, true)) {
+                if (Move.isMoveValid(map, freeTile.getX(), freeTile.getY(), activePlayer, true)) {
                     return false;
                 }
             }

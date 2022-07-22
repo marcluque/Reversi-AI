@@ -6,7 +6,7 @@ import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.ai.search.MoveSorting;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.MapUtil;
-import de.marcluque.reversi.util.Move;
+import de.marcluque.reversi.util.MoveTriplet;
 import de.marcluque.reversi.util.SortNode;
 
 /*
@@ -21,8 +21,8 @@ public class OpponentPruningParanoidSearch extends AbstractSearch {
 
     private static final int BRANCHING_LIMIT_GROUP_TWO = 1;
 
-    public static Move search(Map map, int depth, int[] totalStates) {
-        Move bestMove = null;
+    public static MoveTriplet search(Map map, int depth, int[] totalStates) {
+        MoveTriplet bestMoveTriplet = null;
         double maxValue = Double.MIN_VALUE;
         totalStates[0]++;
 
@@ -40,12 +40,12 @@ public class OpponentPruningParanoidSearch extends AbstractSearch {
                     moveCount, totalStates);
 
             if (value > maxValue) {
-                bestMove = move.getMove();
+                bestMoveTriplet = move.getMove();
                 maxValue = value;
             }
         }
 
-        return bestMove;
+        return bestMoveTriplet;
     }
 
     private static double OPPS(Map map, int depth, int turn, int moveCount, int[] totalStates) {

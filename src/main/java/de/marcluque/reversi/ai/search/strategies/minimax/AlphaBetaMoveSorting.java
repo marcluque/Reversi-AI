@@ -6,7 +6,7 @@ import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.ai.search.MoveSorting;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.MapUtil;
-import de.marcluque.reversi.util.Move;
+import de.marcluque.reversi.util.MoveTriplet;
 import de.marcluque.reversi.util.SortNode;
 
 /*
@@ -14,8 +14,8 @@ import de.marcluque.reversi.util.SortNode;
  */
 public class AlphaBetaMoveSorting extends AbstractSearch {
 
-    public static Move search(Map map, int depth, int[] totalStates) {
-        Move bestMove = null;
+    public static MoveTriplet search(Map map, int depth, int[] totalStates) {
+        MoveTriplet bestMoveTriplet = null;
         double maxValue = Integer.MIN_VALUE;
         totalStates[0]++;
 
@@ -25,12 +25,12 @@ public class AlphaBetaMoveSorting extends AbstractSearch {
             double value = minValue(move.getMap(), Integer.MIN_VALUE, Integer.MAX_VALUE, depth - 1, totalStates);
 
             if (value > maxValue) {
-                bestMove = move.getMove();
+                bestMoveTriplet = move.getMove();
                 maxValue = value;
             }
         }
 
-        return bestMove;
+        return bestMoveTriplet;
     }
 
     private static double maxValue(Map map, double alpha, double beta, int depth, int[] totalStates) {

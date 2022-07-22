@@ -8,7 +8,7 @@ import de.marcluque.reversi.ai.search.IterativeDeepening;
 import de.marcluque.reversi.ai.search.strategies.brs.BestReplySearch;
 import de.marcluque.reversi.ai.search.strategies.maxn.MaxNSearch;
 import de.marcluque.reversi.ai.search.strategies.minimax.AlphaBetaMoveSorting;
-import de.marcluque.reversi.ai.moves.AbstractMove;
+import de.marcluque.reversi.ai.moves.Move;
 import de.marcluque.reversi.util.*;
 
 import java.util.ArrayList;
@@ -35,9 +35,9 @@ public class GameInstance {
         moveCount++;
         List<Coordinate> capturableTiles = new ArrayList<>();
         boolean allowOverrideStones = player != AbstractSearch.MAX_NUMBER || Rules.useOverrideStones;
-        boolean moveIsValid = AbstractMove.isMoveValid(map, x, y, player, false, allowOverrideStones, capturableTiles);
+        boolean moveIsValid = Move.isMoveValid(map, x, y, player, false, allowOverrideStones, capturableTiles);
         if (moveIsValid) {
-            AbstractMove.executeMove(map, x, y, specialField, player, capturableTiles);
+            Move.executeMove(map, x, y, specialField, player, capturableTiles);
         }
 
         if (player != AbstractSearch.MAX) {
@@ -70,8 +70,8 @@ public class GameInstance {
         }
     }
 
-    public static Move generateMoveResponse() {
-        Move responseMove;
+    public static MoveTriplet generateMoveResponse() {
+        MoveTriplet responseMoveTriplet;
         IterativeDeepening.SearchStrategy searchStrategy;
 
         // If we have a 2-Player map or only one opponent has moves available, we use classical MiniMax/Alpha-Beta
@@ -91,7 +91,7 @@ public class GameInstance {
         }
 
         if (timeLimit == 0) {
-            responseMove = IterativeDeepening.iterativeDeepeningDepthLimit(depthLimit, searchStrategy);
+            responseMoveTriplet = IterativeDeepening.iterativeDeepeningDepthLimit(depthLimit, searchStrategy);
 //            int[] totalStates = new int[1];
 //            long start = System.nanoTime();
 //            responseMove = searchStrategy.apply(totalStates, depthLimit);
@@ -102,10 +102,10 @@ public class GameInstance {
 //            System.out.println("TIME per state (µs): " + ((end - start) / 1_000d) / totalStates[0]);
 //            System.out.println();
         } else {
-            responseMove = IterativeDeepening.iterativeDeepeningTimeLimit(searchStrategy);
+            responseMoveTriplet = IterativeDeepening.iterativeDeepeningTimeLimit(searchStrategy);
         }
 
-        return responseMove;
+        return responseMoveTriplet;
     }
 
     public static long getLeftTime() {

@@ -3,7 +3,7 @@ package de.marcluque.reversi.ai.evaluation;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.GameInstance;
 import de.marcluque.reversi.map.Map;
-import de.marcluque.reversi.ai.moves.AbstractMove;
+import de.marcluque.reversi.ai.moves.Move;
 import de.marcluque.reversi.util.MapUtil;
 
 import java.util.ArrayList;
@@ -95,7 +95,7 @@ public class Metrics {
         // Otherwise, do a regular check for available moves
         for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
             for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
-                if (AbstractMove.isMoveValid(map, x, y, MapUtil.intToPlayer(player), true)) {
+                if (Move.isMoveValid(map, x, y, MapUtil.intToPlayer(player), true)) {
                     return true;
                 }
             }

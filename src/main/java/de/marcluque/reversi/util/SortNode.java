@@ -20,10 +20,10 @@ public class SortNode {
 
     private Map map;
 
-    public SortNode(Move move, Map mapClone) {
-        this.x = move.getX();
-        this.y = move.getY();
-        this.specialTile = move.getSpecialTile();
+    public SortNode(MoveTriplet moveTriplet, Map mapClone) {
+        this.x = moveTriplet.getX();
+        this.y = moveTriplet.getY();
+        this.specialTile = moveTriplet.getSpecialTile();
         // We always evaluate for MAX since MIN tries to play the worst possible move for MAX
         this.heuristicValue = HeuristicEvaluation.heuristicValue(mapClone);
         this.map = mapClone;
@@ -37,8 +37,8 @@ public class SortNode {
         return y;
     }
 
-    public Move getMove() {
-        return new Move(x, y, specialTile);
+    public MoveTriplet getMove() {
+        return new MoveTriplet(x, y, specialTile);
     }
 
     public double getHeuristicValue() {

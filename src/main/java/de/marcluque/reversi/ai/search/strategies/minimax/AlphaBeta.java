@@ -4,10 +4,10 @@ import de.marcluque.reversi.ai.evaluation.HeuristicEvaluation;
 import de.marcluque.reversi.ai.evaluation.TerminalEvaluation;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.Map;
-import de.marcluque.reversi.ai.moves.AbstractMove;
+import de.marcluque.reversi.ai.moves.Move;
 import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.MapUtil;
-import de.marcluque.reversi.util.Move;
+import de.marcluque.reversi.util.MoveTriplet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,28 +17,28 @@ import java.util.List;
  */
 public class AlphaBeta extends AbstractSearch {
 
-    public static Move search(Map map, int depth, int[] totalStates) {
-        final Move[] bestMove = {null};
+    public static MoveTriplet search(Map map, int depth, int[] totalStates) {
+        final MoveTriplet[] bestMoveTriplet = {null};
         final double[] maxValue = {Integer.MIN_VALUE};
         totalStates[0]++;
 
         for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
             for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
                 List<Coordinate> capturableTiles = new ArrayList<>();
-                if (AbstractMove.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
+                if (Move.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
                     Map mapClone = new Map(map);
-                    Move currentMove = AbstractMove.executeMove(mapClone, x, y, 0, MAX, capturableTiles);
+                    MoveTriplet currentMoveTriplet = Move.executeMove(mapClone, x, y, 0, MAX, capturableTiles);
 
                     double value = minValue(mapClone, Integer.MIN_VALUE, Integer.MAX_VALUE, depth - 1, totalStates);
                     if (value > maxValue[0]) {
                         maxValue[0] = value;
-                        bestMove[0] = currentMove;
+                        bestMoveTriplet[0] = currentMoveTriplet;
                     }
                 }
             }
         }
 
-        return bestMove[0];
+        return bestMoveTriplet[0];
     }
 
     private static double maxValue(Map map, double alpha, double beta, int depth, int[] totalStates) {
@@ -55,9 +55,9 @@ public class AlphaBeta extends AbstractSearch {
         for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
             for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
                 List<Coordinate> capturableTiles = new ArrayList<>();
-                if (AbstractMove.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
+                if (Move.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
                     Map mapClone = new Map(map);
-                    AbstractMove.executeMove(mapClone, x, y, 0, MAX, capturableTiles);
+                    Move.executeMove(mapClone, x, y, 0, MAX, capturableTiles);
 
                     value = Math.max(value, minValue(mapClone, alpha, beta, depth - 1, totalStates));
 
@@ -87,9 +87,9 @@ public class AlphaBeta extends AbstractSearch {
         for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
             for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
                 List<Coordinate> capturableTiles = new ArrayList<>();
-                if (AbstractMove.isMoveValid(map, x, y, MIN, false, capturableTiles)) {
+                if (Move.isMoveValid(map, x, y, MIN, false, capturableTiles)) {
                     Map mapClone = new Map(map);
-                    AbstractMove.executeMove(mapClone, x, y, 0, MIN, capturableTiles);
+                    Move.executeMove(mapClone, x, y, 0, MIN, capturableTiles);
 
                     value = Math.min(value, maxValue(mapClone, alpha, beta, depth - 1, totalStates));
 

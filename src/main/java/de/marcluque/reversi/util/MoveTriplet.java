@@ -7,7 +7,7 @@ import java.util.Objects;
 /*
  * Created with <3 by marcluque, March 2021
  */
-public class Move {
+public class MoveTriplet {
 
     private final int x;
 
@@ -15,7 +15,7 @@ public class Move {
 
     private final int specialTile;
 
-    public Move(int x, int y, int specialTile) {
+    public MoveTriplet(int x, int y, int specialTile) {
         this.x = x;
         this.y = y;
         this.specialTile = specialTile;

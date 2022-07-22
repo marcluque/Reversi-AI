@@ -1,8 +1,7 @@
 package de.marcluque.reversi.ai.search;
 
-import de.marcluque.reversi.ai.evaluation.Rules;
 import de.marcluque.reversi.map.GameInstance;
-import de.marcluque.reversi.util.Move;
+import de.marcluque.reversi.util.MoveTriplet;
 import de.marcluque.reversi.util.StatisticsUtil;
 
 /*
@@ -12,11 +11,11 @@ public class IterativeDeepening {
 
     @FunctionalInterface
     public interface SearchStrategy {
-        Move apply(int[] states, int depthLimit);
+        MoveTriplet apply(int[] states, int depthLimit);
     }
 
-    public static Move iterativeDeepeningDepthLimit(int depthLimit, SearchStrategy searchStrategy) {
-        Move chosenMove = null;
+    public static MoveTriplet iterativeDeepeningDepthLimit(int depthLimit, SearchStrategy searchStrategy) {
+        MoveTriplet chosenMoveTriplet = null;
         boolean searchSpaceCompleted = false;
         int currentDepth;
         int[] totalStatesUntilDepth = new int[1];
@@ -34,7 +33,7 @@ public class IterativeDeepening {
         for (currentDepth = 1; currentDepth <= depthLimit; currentDepth++) {
             totalStatesUntilDepth[0] = 0;
             long start = System.nanoTime();
-            chosenMove = searchStrategy.apply(totalStatesUntilDepth, currentDepth);
+            chosenMoveTriplet = searchStrategy.apply(totalStatesUntilDepth, currentDepth);
             timeUntilDepth = System.nanoTime() - start;
             totalTime += timeUntilDepth;
 
@@ -55,15 +54,15 @@ public class IterativeDeepening {
         }
 
         currentDepth--;
-        StatisticsUtil.printAllStatsWithoutEstimation(currentDepth, chosenMove, totalStatesUntilDepth[0], leafStates,
+        StatisticsUtil.printAllStatsWithoutEstimation(currentDepth, chosenMoveTriplet, totalStatesUntilDepth[0], leafStates,
                 lastBranchingFactor, summedBranching / currentDepth, timeUntilDepth, totalTime,
                 searchSpaceCompleted);
 
-        return chosenMove;
+        return chosenMoveTriplet;
     }
 
-    public static Move iterativeDeepeningTimeLimit(SearchStrategy searchStrategy) {
-        Move chosenMove = null;
+    public static MoveTriplet iterativeDeepeningTimeLimit(SearchStrategy searchStrategy) {
+        MoveTriplet chosenMoveTriplet = null;
         boolean searchSpaceCompleted = false;
         int currentDepth;
         int[] totalStatesUntilDepth = new int[1];
@@ -83,7 +82,7 @@ public class IterativeDeepening {
         for (currentDepth = 1; GameInstance.getLeftTime() >= estimatedTime; currentDepth++) {
             totalStatesUntilDepth[0] = 0;
             long start = System.nanoTime();
-            chosenMove = searchStrategy.apply(totalStatesUntilDepth, currentDepth);
+            chosenMoveTriplet = searchStrategy.apply(totalStatesUntilDepth, currentDepth);
             timeUntilDepth = System.nanoTime() - start;
             totalTime += timeUntilDepth;
 
@@ -113,10 +112,10 @@ public class IterativeDeepening {
         }
 
         currentDepth--;
-        StatisticsUtil.printAllStats(currentDepth, chosenMove, totalStatesUntilDepth[0], leafStates,
+        StatisticsUtil.printAllStats(currentDepth, chosenMoveTriplet, totalStatesUntilDepth[0], leafStates,
                 lastBranchingFactor, summedBranching / currentDepth, timeUntilDepth, prevEstimatedTime, totalTime,
                 GameInstance.getLeftTime(), estimatedTime, searchSpaceCompleted);
 
-        return chosenMove;
+        return chosenMoveTriplet;
     }
 }
