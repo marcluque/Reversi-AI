@@ -32,7 +32,10 @@ public class BombmoveTest {
                 Arguments.of(6, 2, 2, '1'),
                 Arguments.of(7, 0, 0, '1'),
                 Arguments.of(8, 0, 1, '1'),
-                Arguments.of(9, 0, 1, '1')
+                Arguments.of(9, 0, 1, '1'),
+                Arguments.of(10, 5, 5, '1'),
+                Arguments.of(11, 5, 5, '1'),
+                Arguments.of(12, 5, 5, '1')
         );
     }
 
@@ -47,14 +50,9 @@ public class BombmoveTest {
         Assertions.assertTrue(Move.isMoveValid(GameInstance.getMap(), x, y, player, false,
                 true, capturableTiles));
 
-        System.out.println(MapUtil.mapToPrintableString(GameInstance.getMap().getGameField()));
-
         Move.executeMove(GameInstance.getMap(), x, y, 0, player, capturableTiles);
 
-        System.out.println(MapUtil.mapToPrintableString(GameInstance.getMap().getGameField()));
-
         String afterMapPath = String.format("%s/bombmove_test%d_after.txt", BASE, testNumber);
-        System.out.println(MapUtil.mapToPrintableString(MapLoader.generateArrayFromMapFile(afterMapPath)));
         Assertions.assertTrue(TestUtils.mapEquals(GameInstance.getMap().getGameField(),
                 MapLoader.generateArrayFromMapFile(afterMapPath)));
     }
