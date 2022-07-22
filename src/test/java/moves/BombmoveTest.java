@@ -28,7 +28,11 @@ public class BombmoveTest {
                 Arguments.of(2, 0, 0, '1'),
                 Arguments.of(3, 5, 5, '1'),
                 Arguments.of(4, 2, 0, '1'),
-                Arguments.of(5, 2, 0, '1')
+                Arguments.of(5, 2, 0, '1'),
+                Arguments.of(6, 2, 2, '1'),
+                Arguments.of(7, 0, 0, '1'),
+                Arguments.of(8, 0, 1, '1'),
+                Arguments.of(9, 0, 1, '1')
         );
     }
 
