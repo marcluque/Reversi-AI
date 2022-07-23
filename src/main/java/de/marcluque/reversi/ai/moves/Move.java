@@ -44,7 +44,7 @@ public abstract class Move {
     private static boolean isMoveValidImpl(Map map, int x, int y, char player, boolean returnEarly,
                                            boolean allowOverrideStones, List<Coordinate> capturableTiles) {
         char currentTile = map.getGameField()[y][x];
-        int playerNumber = MapUtil.playerToInt(player);
+        int playerId = MapUtil.playerToInt(player);
         // Holes are not allowed, neither for building nor for bomb phase
         if (MapUtil.isTileHole(currentTile)) {
             return false;
@@ -53,7 +53,7 @@ public abstract class Move {
         else if (Map.getPhase() == 1) {
             // Tile may be occupied by player or expansion stone -> override stones must be allowed and available for player
             if (MapUtil.isOccupied(currentTile)
-                    && (!allowOverrideStones || map.getOverrideStones()[playerNumber] == 0)) {
+                    && (!allowOverrideStones || map.getOverrideStones()[playerId] == 0)) {
                 return false;
             }
 
@@ -66,7 +66,7 @@ public abstract class Move {
 
             // Iterate over all directions from start stone
             for (int direction = 0; direction < 8; direction++) {
-                // Walk along direction starting from (x,y)
+                // Walk along direction starting from (x, y)
                 Set<Coordinate> tempTiles = new HashSet<>();
                 boolean tempResult = walkPath(map, x, y, direction, player, tempTiles);
                 result |= tempResult;
@@ -84,7 +84,7 @@ public abstract class Move {
         } else {
             // Elimination phase
             // Check basic invalidity for elimination phase
-            return map.getBombs()[playerNumber] > 0;
+            return map.getBombs()[playerId] > 0;
         }
     }
 
@@ -110,15 +110,19 @@ public abstract class Move {
                 y += CORNERS[direction][1];
             }
 
-            // Stop if we make a 'loop' (i.e., we see a tile that we have seen before)
-            if (!tempTiles.add(new Coordinate(x, y))) {
-                break;
-            }
-
             pathLength += 1;
-        } while (MapUtil.isCoordinateInMap(x, y) && MapUtil.isCapturableStone(map, x, y, player));
+        // Check conditions:
+        // - tile is on map
+        // - stone may be captured by player
+        // - we make a 'loop' (i.e., we visit a tile that we have seen before)
+        } while (MapUtil.isCoordinateInMap(x, y) && MapUtil.isCapturableStone(map, x, y, player)
+                && tempTiles.add(new Coordinate(x, y)));
 
-        // Check whether the last tile of the path is in the map, not the start tile and has the player stone on it
+        // Check whether the last tile of the path:
+        // - is on the map
+        // - path is not just start tile
+        // - has the player's stone on it
+        // - not the start tile
         return MapUtil.isCoordinateInMap(x, y)
                 && pathLength > 0
                 && map.getGameField()[y][x] == player
