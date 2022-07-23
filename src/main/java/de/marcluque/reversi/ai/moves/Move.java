@@ -43,39 +43,40 @@ public abstract class Move {
 
     private static boolean isMoveValidImpl(Map map, int x, int y, char player, boolean returnEarly,
                                            boolean allowOverrideStones, List<Coordinate> capturableTiles) {
+        char currentTile = map.getGameField()[y][x];
         // Holes are not allowed, neither for building nor for bomb phase
-        if (MapUtil.isTileHole(map.getGameField()[y][x])) {
+        if (MapUtil.isTileHole(currentTile)) {
             return false;
         }
         // Building phase
         else if (Map.getPhase() == 1) {
             // Tile may be occupied by player or expansion stone -> override stones must be allowed and available for player
-            if (MapUtil.isOccupied(map.getGameField()[y][x])
+            if (MapUtil.isOccupied(currentTile)
                     && (!allowOverrideStones || map.getOverrideStones()[Character.getNumericValue(player)] == 0)) {
                 return false;
             }
 
             // Used for allowing an override action without actually enclosing a path on an expansion stone
-            boolean result = MapUtil.isTileExpansion(map.getGameField()[y][x]);
+            boolean result = MapUtil.isTileExpansion(currentTile);
+            // If we have an override stone, we can capture an expansion stone
+            if (result) {
+                capturableTiles.add(new Coordinate(x, y));
+            }
 
             // Iterate over all directions from start stone
             for (int direction = 0; direction < 8; direction++) {
                 // Walk along direction starting from (x,y)
                 Set<Coordinate> tempTiles = new HashSet<>();
                 boolean tempResult = walkPath(map, x, y, direction, player, tempTiles);
-
-                if (returnEarly && tempResult) {
-                    return true;
-                }
-
                 result |= tempResult;
+
                 if (tempResult) {
+                    if (returnEarly) {
+                        return true;
+                    }
+
                     capturableTiles.addAll(tempTiles);
                 }
-            }
-
-            if (result) {
-                capturableTiles.add(new Coordinate(x, y));
             }
 
             return result;
@@ -93,11 +94,9 @@ public abstract class Move {
 
         // Starts at -1 because the do while immediately adds the start tile, but the start tile doesn't count for a path
         int pathLength = -1;
-        Transition transitionEnd;
-        Coordinate newCoord;
 
         do {
-            transitionEnd = Map.getTransitions().get(new Transition(x, y, direction));
+            Transition transitionEnd = Map.getTransitions().get(new Transition(x, y, direction));
 
             // Follow the transition, if there is one and adapt its direction
             if (transitionEnd != null) {
@@ -111,13 +110,11 @@ public abstract class Move {
                 y += CORNERS[direction][1];
             }
 
-            newCoord = new Coordinate(x, y);
-            if (tempTiles.contains(newCoord)) {
+            if (!tempTiles.add(new Coordinate(x, y))) {
                 break;
+            } else {
+                pathLength += 1;
             }
-
-            pathLength++;
-            tempTiles.add(newCoord);
         } while (MapUtil.isCoordinateInMap(x, y) && MapUtil.isCapturableStone(map, x, y, player));
 
         // Check whether the last tile of the path is in the map, not the start tile and has the player stone on it

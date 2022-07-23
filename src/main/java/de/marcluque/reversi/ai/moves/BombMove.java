@@ -27,8 +27,8 @@ public abstract class BombMove {
         for (int i = 0; i < 8; ++i) {
             x = startX;
             y = startY;
-            Transition transitionEnd = Map.getTransitions().get(new Transition(x, y, i));
 
+            Transition transitionEnd = Map.getTransitions().get(new Transition(x, y, i));
             if (transitionEnd != null) {
                 x = transitionEnd.getX();
                 y = transitionEnd.getY();
@@ -44,7 +44,8 @@ public abstract class BombMove {
     }
 
     public static MoveTriplet executeBombMove(Map map, int x, int y) {
-        Set<Coordinate> visited = new HashSet<>();
+        int numberOfAffectedTiles = 2 * (2 * Map.getBombRadius() + 1) * (2 * Map.getBombRadius() + 1);
+        Set<Coordinate> visited = new HashSet<>(numberOfAffectedTiles);
         executeBombMoveDFS(map, visited, x, y, 0);
 
         for (Coordinate c : visited) {

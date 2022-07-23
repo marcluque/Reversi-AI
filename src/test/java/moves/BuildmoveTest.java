@@ -54,7 +54,7 @@ public class BuildmoveTest {
 
     @Test
     public void testOverrideStones() {
-        String beforeMapPath = String.format("%s/override_stone_test.txt", BASE);
+        String beforeMapPath = String.format("%s/override_stone_test0_before.txt", BASE);
 
         GameInstance.setMap(MapLoader.generateMapFromMapFile(beforeMapPath));
         Map.setPhase(1);
