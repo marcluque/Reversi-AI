@@ -50,9 +50,17 @@ public class BombmoveTest {
         Assertions.assertTrue(Move.isMoveValid(GameInstance.getMap(), x, y, player, false,
                 true, capturableTiles));
 
+        System.out.println(MapUtil.mapToPrintableString(GameInstance.getMap().getGameField()));
+
+        var s = System.nanoTime();
         Move.executeMove(GameInstance.getMap(), x, y, 0, player, capturableTiles);
+        var e = System.nanoTime();
+        System.out.println("TIME: " + ((e - s) / 1_000) + " µs");
+
+        System.out.println(MapUtil.mapToPrintableString(GameInstance.getMap().getGameField()));
 
         String afterMapPath = String.format("%s/bombmove_test%d_after.txt", BASE, testNumber);
+        System.out.println(MapUtil.mapToPrintableString(MapLoader.generateArrayFromMapFile(afterMapPath)));
         Assertions.assertTrue(TestUtils.mapEquals(GameInstance.getMap().getGameField(),
                 MapLoader.generateArrayFromMapFile(afterMapPath)));
     }
