@@ -7,7 +7,9 @@ import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.MoveTriplet;
 import de.marcluque.reversi.util.Transition;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /*
  * Created with <3 by marcluque, March 2021

@@ -1,11 +1,11 @@
 package de.marcluque.reversi.ai.evaluation.heuristics.building;
 
 import de.marcluque.reversi.ai.evaluation.Metrics;
+import de.marcluque.reversi.ai.evaluation.Rules;
 import de.marcluque.reversi.ai.evaluation.heuristics.AbstractHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.Heuristic;
-import de.marcluque.reversi.ai.evaluation.Rules;
-import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.ai.moves.Move;
+import de.marcluque.reversi.map.Map;
 
 /*
  * Created with <3 by marcluque, March 2021

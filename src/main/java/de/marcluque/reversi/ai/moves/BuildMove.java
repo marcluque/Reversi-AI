@@ -6,7 +6,6 @@ import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.MoveTriplet;
 
-import java.util.List;
 import java.util.Set;
 
 /*

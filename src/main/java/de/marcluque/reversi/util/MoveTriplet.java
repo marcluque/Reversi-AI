@@ -2,8 +2,6 @@ package de.marcluque.reversi.util;
 
 import de.marcluque.reversi.map.Map;
 
-import java.util.Objects;
-
 /*
  * Created with <3 by marcluque, March 2021
  */

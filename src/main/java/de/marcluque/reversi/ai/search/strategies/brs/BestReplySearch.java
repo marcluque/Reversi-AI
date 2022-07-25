@@ -2,16 +2,14 @@ package de.marcluque.reversi.ai.search.strategies.brs;
 
 import de.marcluque.reversi.ai.evaluation.HeuristicEvaluation;
 import de.marcluque.reversi.ai.evaluation.TerminalEvaluation;
+import de.marcluque.reversi.ai.moves.Move;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.Map;
-import de.marcluque.reversi.ai.moves.Move;
 import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.MoveTriplet;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /*

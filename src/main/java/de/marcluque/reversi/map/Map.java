@@ -3,7 +3,10 @@ package de.marcluque.reversi.map;
 import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.Transition;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 /*
  * Created with <3 by marcluque, March 2021

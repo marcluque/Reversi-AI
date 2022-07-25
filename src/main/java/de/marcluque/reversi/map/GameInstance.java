@@ -3,17 +3,18 @@ package de.marcluque.reversi.map;
 import de.marcluque.reversi.ai.evaluation.HeuristicEvaluation;
 import de.marcluque.reversi.ai.evaluation.Metrics;
 import de.marcluque.reversi.ai.evaluation.Rules;
+import de.marcluque.reversi.ai.moves.Move;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.ai.search.IterativeDeepening;
 import de.marcluque.reversi.ai.search.strategies.brs.BestReplySearch;
 import de.marcluque.reversi.ai.search.strategies.maxn.MaxNSearch;
 import de.marcluque.reversi.ai.search.strategies.minimax.AlphaBetaMoveSorting;
-import de.marcluque.reversi.ai.moves.Move;
-import de.marcluque.reversi.util.*;
+import de.marcluque.reversi.util.Coordinate;
+import de.marcluque.reversi.util.InputParser;
+import de.marcluque.reversi.util.Logger;
+import de.marcluque.reversi.util.MoveTriplet;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /*

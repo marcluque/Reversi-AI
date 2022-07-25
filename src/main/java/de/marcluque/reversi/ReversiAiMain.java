@@ -1,13 +1,13 @@
 package de.marcluque.reversi;
 
 import de.marcluque.reversi.ai.evaluation.HeuristicEvaluation;
+import de.marcluque.reversi.ai.evaluation.Rules;
 import de.marcluque.reversi.ai.evaluation.heuristics.StoneCountHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.StoneParityHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.bombing.PredecessorHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.bombing.StrongestOpponentHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.bombing.SuccessorHeuristic;
-import de.marcluque.reversi.ai.evaluation.heuristics.building.*;
-import de.marcluque.reversi.ai.evaluation.Rules;
+import de.marcluque.reversi.ai.evaluation.heuristics.building.CornerHeuristic;
 import de.marcluque.reversi.network.Client;
 import de.marcluque.reversi.util.InputParser;
 

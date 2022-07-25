@@ -1,9 +1,9 @@
 package de.marcluque.reversi.ai.evaluation;
 
+import de.marcluque.reversi.ai.moves.Move;
 import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.GameInstance;
 import de.marcluque.reversi.map.Map;
-import de.marcluque.reversi.ai.moves.Move;
 import de.marcluque.reversi.util.MapUtil;
 
 import java.util.ArrayList;

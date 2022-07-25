@@ -5,7 +5,8 @@ import de.marcluque.reversi.ai.search.AbstractSearch;
 import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.MapUtil;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * Created with <3 by marcluque, March 2021
