@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 
 public class BuildmoveTest {
 
-    private static final String BASE = "src/test/resources/maps/buildmoves";
+    private static final String BASE = "src/test/resources/buildmoves";
 
     private static Stream<Arguments> validBuildMapMovePlayer() {
         // Arguments follow the structure: (test-id, x-coordinate, y-coordinate, player-number)

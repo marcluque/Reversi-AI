@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 
 public class BombmoveTest {
 
-    private static final String BASE = "src/test/resources/maps/bombmoves";
+    private static final String BASE = "src/test/resources/bombmoves";
 
     private static Stream<Arguments> testBombMoveCorrectness() {
         // Arguments follow the structure: (test-id, x-coordinate, y-coordinate, player-number)
