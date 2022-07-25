@@ -13,7 +13,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 import shared.TestUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public class BombmoveTest {
@@ -46,14 +48,14 @@ public class BombmoveTest {
         GameInstance.setMap(MapLoader.generateMapFromMapFile(beforeMapPath));
         Map.setPhase(2);
 
-        List<Coordinate> capturableTiles = new ArrayList<>();
+        Set<Coordinate> capturableStones = new HashSet<>();
         Assertions.assertTrue(Move.isMoveValid(GameInstance.getMap(), x, y, player, false,
-                true, capturableTiles));
+                true, capturableStones));
 
         System.out.println(MapUtil.mapToPrintableString(GameInstance.getMap().getGameField()));
 
         var s = System.nanoTime();
-        Move.executeMove(GameInstance.getMap(), x, y, 0, player, capturableTiles);
+        Move.executeMove(GameInstance.getMap(), x, y, 0, player, capturableStones);
         var e = System.nanoTime();
         System.out.println("TIME: " + ((e - s) / 1_000) + " µs");
 
@@ -82,8 +84,8 @@ public class BombmoveTest {
         GameInstance.setMap(MapLoader.generateMapFromMapFile(beforeMapPath));
         Map.setPhase(2);
 
-        List<Coordinate> capturableTiles = new ArrayList<>();
+        Set<Coordinate> capturableStones = new HashSet<>();
         Assertions.assertEquals(Move.isMoveValid(GameInstance.getMap(), x, y, player, false,
-                true, capturableTiles), isValid);
+                true, capturableStones), isValid);
     }
 }

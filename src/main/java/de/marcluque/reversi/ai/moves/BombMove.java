@@ -18,10 +18,6 @@ public abstract class BombMove {
         int startY = y;
         visited.add(new Coordinate(x, y));
 
-        if (MapUtil.isPlayerTile(map.getGameField()[y][x])) {
-            map.getNumberOfStones()[MapUtil.playerToInt(map.getGameField()[y][x])] -= 1;
-        }
-
         if (depth == Map.getBombRadius()) {
             return;
         }
@@ -67,7 +63,7 @@ public abstract class BombMove {
                 continue;
             }
 
-            for (int i = 0; i < 8; ++i) {
+            for (int i = 0; i < 8; i++) {
                 x = t.getX();
                 y = t.getY();
                 Transition transitionEnd = Map.getTransitions().get(new Transition(x, y, i));
@@ -97,6 +93,10 @@ public abstract class BombMove {
             executeBombMoveDFS(map, visited, x, y, 0);
 
             for (Coordinate c : visited) {
+                char tile = map.getGameField()[c.getY()][c.getX()];
+                if (MapUtil.isPlayerTile(tile)) {
+                    map.getNumberOfStones()[MapUtil.playerToInt(tile)] -= 1;
+                }
                 map.getGameField()[c.getY()][c.getX()] = '-';
             }
         } else {

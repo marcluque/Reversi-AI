@@ -13,7 +13,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 import shared.TestUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public class BuildmoveTest {
@@ -41,11 +43,11 @@ public class BuildmoveTest {
         GameInstance.setMap(MapLoader.generateMapFromMapFile(beforeMapPath));
         Map.setPhase(1);
 
-        List<Coordinate> capturableTiles = new ArrayList<>();
+        Set<Coordinate> capturableStones = new HashSet<>();
         Assertions.assertTrue(Move.isMoveValid(GameInstance.getMap(), x, y, player,
-                false, true, capturableTiles));
+                false, true, capturableStones));
 
-        Move.executeMove(GameInstance.getMap(), x, y, 0, player, capturableTiles);
+        Move.executeMove(GameInstance.getMap(), x, y, 0, player, capturableStones);
 
         String mapPath = String.format("%s/buildmove_test%d_after.txt", BASE, testNumber);
         Assertions.assertTrue(TestUtils.mapEquals(MapLoader.generateArrayFromMapFile(mapPath), GameInstance.getMap().getGameField()
@@ -60,10 +62,10 @@ public class BuildmoveTest {
         Map.setPhase(1);
 
         // Player 1 overrides stone of player 2
-        List<Coordinate> capturableTiles = new ArrayList<>();
+        Set<Coordinate> capturableStones = new HashSet<>();
         Assertions.assertTrue(Move.isMoveValid(GameInstance.getMap(), 2, 1, '1',
-                false, true, capturableTiles));
-        Move.executeMove(GameInstance.getMap(), 2, 1, 0, '1', capturableTiles);
+                false, true, capturableStones));
+        Move.executeMove(GameInstance.getMap(), 2, 1, 0, '1', capturableStones);
         char[][] expected = {
                 {'0', '0', 'x'},
                 {'1', '1', '1'},
@@ -75,10 +77,10 @@ public class BuildmoveTest {
 
         // Player 1 overrides his own stone
         GameInstance.getMap().getGameField()[1][1] = '2';
-        capturableTiles = new ArrayList<>();
+        capturableStones = new HashSet<>();
         Assertions.assertTrue(Move.isMoveValid(GameInstance.getMap(), 2, 1, '1',
-                false, true, capturableTiles));
-        Move.executeMove(GameInstance.getMap(), 2, 1, 0, '1', capturableTiles);
+                false, true, capturableStones));
+        Move.executeMove(GameInstance.getMap(), 2, 1, 0, '1', capturableStones);
         char[][] expected2 = {
                 {'0', '0', 'x'},
                 {'1', '1', '1'},
@@ -89,10 +91,10 @@ public class BuildmoveTest {
         Assertions.assertEquals(1, GameInstance.getMap().getOverrideStones()[1]);
 
         // Player 1 overrides an expansion tile/stone, without enclosing a path (Expansion rule)
-        capturableTiles = new ArrayList<>();
+        capturableStones = new HashSet<>();
         Assertions.assertTrue(Move.isMoveValid(GameInstance.getMap(), 2, 0, '1',
-                false, true, capturableTiles));
-        Move.executeMove(GameInstance.getMap(), 2, 0, 0, '1', capturableTiles);
+                false, true, capturableStones));
+        Move.executeMove(GameInstance.getMap(), 2, 0, 0, '1', capturableStones);
         char[][] expected3 = {
                 {'0', '0', '1'},
                 {'1', '1', '1'},
@@ -101,10 +103,10 @@ public class BuildmoveTest {
 
         // Move should be invalid because no override stones are left
         GameInstance.getMap().getGameField()[1][1] = '2';
-        capturableTiles = new ArrayList<>();
+        capturableStones = new HashSet<>();
         Assertions.assertFalse(Move.isMoveValid(GameInstance.getMap(), 1, 1, '1',
-                false, true, capturableTiles));
-        Move.executeMove(GameInstance.getMap(), 1, 1, '1', '0', capturableTiles);
+                false, true, capturableStones));
+        Move.executeMove(GameInstance.getMap(), 1, 1, '1', '0', capturableStones);
         char[][] expected4 = {
                 {'0', '0', '1'},
                 {'1', '2', '1'},

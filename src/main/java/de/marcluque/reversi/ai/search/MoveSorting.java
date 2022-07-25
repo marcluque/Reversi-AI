@@ -5,9 +5,7 @@ import de.marcluque.reversi.map.Map;
 import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.SortNode;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /*
  * Created with <3 by marcluque, March 2021
@@ -20,7 +18,7 @@ public class MoveSorting {
         // We first add the elements, taking n steps and then sort with n * log(n) steps in the worst-case
         for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
             for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
-                List<Coordinate> capturableStones = new ArrayList<>();
+                Set<Coordinate> capturableStones = new HashSet<>();
                 if (Move.isMoveValid(map, x, y, player, false, capturableStones)) {
                     Map mapClone = new Map(map);
                     moves.add(new SortNode(Move.executeMove(mapClone, x, y, 0, player, capturableStones), mapClone));

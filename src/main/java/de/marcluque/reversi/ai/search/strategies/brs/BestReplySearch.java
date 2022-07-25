@@ -10,7 +10,9 @@ import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.MoveTriplet;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /*
  * Created with <3 by marcluque, March 2021
@@ -24,10 +26,10 @@ public class BestReplySearch extends AbstractSearch {
 
         for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
             for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
-                List<Coordinate> capturableTiles = new ArrayList<>();
-                if (Move.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
+                Set<Coordinate> capturableStones = new HashSet<>();
+                if (Move.isMoveValid(map, x, y, MAX, false, capturableStones)) {
                     Map mapClone = new Map(map);
-                    MoveTriplet currentMoveTriplet = Move.executeMove(mapClone, x, y, 0, MAX, capturableTiles);
+                    MoveTriplet currentMoveTriplet = Move.executeMove(mapClone, x, y, 0, MAX, capturableStones);
 
                     double value = BRS(map, Double.MIN_VALUE, Double.MAX_VALUE, depth - 1, MAX, totalStates);
                     if (value > maxValue[0]) {
@@ -67,10 +69,10 @@ public class BestReplySearch extends AbstractSearch {
     private static double BRSDoMoves(Map map, double alpha, double beta, int depth, char turn, int[] totalStates) {
         for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
             for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
-                List<Coordinate> capturableTiles = new ArrayList<>();
-                if (Move.isMoveValid(map, x, y, turn, false, capturableTiles)) {
+                Set<Coordinate> capturableStones = new HashSet<>();
+                if (Move.isMoveValid(map, x, y, turn, false, capturableStones)) {
                     Map mapClone = new Map(map);
-                    Move.executeMove(mapClone, x, y, 0, turn, capturableTiles);
+                    Move.executeMove(mapClone, x, y, 0, turn, capturableStones);
 
                     double value = -BRS(mapClone, -beta, -alpha, depth - 1,
                             (turn == MAX) ? OPPONENT : MAX, totalStates);

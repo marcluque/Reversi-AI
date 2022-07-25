@@ -9,9 +9,7 @@ import de.marcluque.reversi.util.Coordinate;
 import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.MoveTriplet;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /*
  * Created with <3 by marcluque, March 2021
@@ -26,10 +24,10 @@ public class MaxNSearch extends AbstractSearch {
 
         for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
             for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
-                List<Coordinate> capturableTiles = new ArrayList<>();
-                if (Move.isMoveValid(map, x, y, MAX, false, capturableTiles)) {
+                Set<Coordinate> capturableStones = new HashSet<>();
+                if (Move.isMoveValid(map, x, y, MAX, false, capturableStones)) {
                     Map mapClone = new Map(map);
-                    MoveTriplet currentMoveTriplet = Move.executeMove(mapClone, x, y, 0, MAX, capturableTiles);
+                    MoveTriplet currentMoveTriplet = Move.executeMove(mapClone, x, y, 0, MAX, capturableStones);
 
                     double value = maxValue(map, depth - 1, MapUtil.nextPlayer(MAX_INT), totalStates)[MAX_INT];
                     if (value > maxValue[0]) {
@@ -57,10 +55,10 @@ public class MaxNSearch extends AbstractSearch {
 
         for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
             for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
-                List<Coordinate> capturableTiles = new ArrayList<>();
-                if (Move.isMoveValid(map, x, y, MapUtil.intToPlayer(player), false, capturableTiles)) {
+                Set<Coordinate> capturableStones = new HashSet<>();
+                if (Move.isMoveValid(map, x, y, MapUtil.intToPlayer(player), false, capturableStones)) {
                     Map mapClone = new Map(map);
-                    Move.executeMove(mapClone, x, y, 0, MapUtil.intToPlayer(player), capturableTiles);
+                    Move.executeMove(mapClone, x, y, 0, MapUtil.intToPlayer(player), capturableStones);
                     totalStates[0]++;
 
                     double[] value = maxValue(mapClone, depth - 1, MapUtil.nextPlayer(player), totalStates);

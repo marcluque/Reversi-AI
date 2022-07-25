@@ -12,7 +12,9 @@ import de.marcluque.reversi.ai.moves.Move;
 import de.marcluque.reversi.util.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /*
  * Created with <3 by marcluque, March 2021
@@ -33,11 +35,11 @@ public class GameInstance {
 
     public static void processMove(int x, int y, int specialField, char player) {
         moveCount++;
-        List<Coordinate> capturableTiles = new ArrayList<>();
+        Set<Coordinate> capturableStones = new HashSet<>();
         boolean allowOverrideStones = player != AbstractSearch.MAX_NUMBER || Rules.useOverrideStones;
-        boolean moveIsValid = Move.isMoveValid(map, x, y, player, false, allowOverrideStones, capturableTiles);
+        boolean moveIsValid = Move.isMoveValid(map, x, y, player, false, allowOverrideStones, capturableStones);
         if (moveIsValid) {
-            Move.executeMove(map, x, y, specialField, player, capturableTiles);
+            Move.executeMove(map, x, y, specialField, player, capturableStones);
         }
 
         if (player != AbstractSearch.MAX) {

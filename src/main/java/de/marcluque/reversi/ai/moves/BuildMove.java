@@ -7,6 +7,7 @@ import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.MoveTriplet;
 
 import java.util.List;
+import java.util.Set;
 
 /*
  * Created with <3 by marcluque, March 2021
@@ -14,8 +15,8 @@ import java.util.List;
 public abstract class BuildMove {
 
     public static MoveTriplet executeBuildMove(Map map, int x, int y, int specialField, char player,
-                                               List<Coordinate> capturableStones) {
-        int playerId = Character.getNumericValue(player);
+                                               Set<Coordinate> capturableStones) {
+        int playerId = MapUtil.playerToInt(player);
 
         if (MapUtil.isOccupied(map.getGameField()[y][x])) {
             map.getOverrideStones()[playerId]--;
@@ -29,7 +30,7 @@ public abstract class BuildMove {
                 map.getNumberOfStones()[playerId]++;
                 continue;
             } else if (MapUtil.isPlayerTile(tile)) {
-                map.getNumberOfStones()[Character.getNumericValue(tile)]--;
+                map.getNumberOfStones()[MapUtil.playerToInt(tile)]--;
             }
 
             map.getNumberOfStones()[playerId]++;

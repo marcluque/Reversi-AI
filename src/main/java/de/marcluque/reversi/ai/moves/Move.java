@@ -20,13 +20,13 @@ public abstract class Move {
     private Move() {}
 
     public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly,
-                                      List<Coordinate> capturableTiles) {
-        return isMoveValid(map, x, y, player, returnEarly, Rules.useOverrideStones, capturableTiles);
+                                      Set<Coordinate> capturableStones) {
+        return isMoveValid(map, x, y, player, returnEarly, Rules.useOverrideStones, capturableStones);
     }
 
     public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly,
-                                      boolean allowOverrideStones, List<Coordinate> capturableTiles) {
-        return isMoveValidImpl(map, x, y, player, returnEarly, allowOverrideStones, capturableTiles);
+                                      boolean allowOverrideStones, Set<Coordinate> capturableStones) {
+        return isMoveValidImpl(map, x, y, player, returnEarly, allowOverrideStones, capturableStones);
     }
 
     public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly) {
@@ -35,11 +35,11 @@ public abstract class Move {
 
     public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly,
                                       boolean allowOverrideStones) {
-        return isMoveValidImpl(map, x, y, player, returnEarly, allowOverrideStones, new ArrayList<>());
+        return isMoveValidImpl(map, x, y, player, returnEarly, allowOverrideStones, new HashSet<>());
     }
 
     private static boolean isMoveValidImpl(Map map, int x, int y, char player, boolean returnEarly,
-                                           boolean allowOverrideStones, List<Coordinate> capturableTiles) {
+                                           boolean allowOverrideStones, Set<Coordinate> capturableStones) {
         char currentTile = map.getGameField()[y][x];
         int playerId = MapUtil.playerToInt(player);
         // Holes are not allowed, neither for building nor for bomb phase
@@ -58,7 +58,7 @@ public abstract class Move {
             boolean result = MapUtil.isTileExpansion(currentTile);
             // If we have an override stone, we can capture an expansion stone
             if (result) {
-                capturableTiles.add(new Coordinate(x, y));
+                capturableStones.add(new Coordinate(x, y));
             }
 
             // Iterate over all directions from start stone
@@ -73,7 +73,7 @@ public abstract class Move {
                         return true;
                     }
 
-                    capturableTiles.addAll(tempTiles.keySet());
+                    capturableStones.addAll(tempTiles.keySet());
                 }
             }
 
@@ -132,7 +132,7 @@ public abstract class Move {
                 && (startX != x || startY != y);
     }
 
-    public static MoveTriplet executeMove(Map map, int x, int y, int specialField, char player, List<Coordinate> capturableStones) {
+    public static MoveTriplet executeMove(Map map, int x, int y, int specialField, char player, Set<Coordinate> capturableStones) {
         if (Map.getPhase() == 1) {
             if (MapUtil.isTileFree(map.getGameField()[y][x])) {
                 map.decrementNumberFreeTiles();

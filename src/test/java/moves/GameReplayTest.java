@@ -19,8 +19,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class GameReplayTest {
@@ -83,12 +84,15 @@ public class GameReplayTest {
                         moveNumber = 1;
                     } else if (line.startsWith("Player") && line.contains("overrides") && line.contains("bombs")) {
                         int player = Integer.parseInt(line.split("layer ")[1].split(" has")[0]);
+
                         numberOfOverrides = Integer.parseInt(line.split(" overrides")[0].split("has ")[1]);
                         int finalMoveNumberTemp = moveNumber;
                         Assertions.assertEquals(numberOfOverrides, GameInstance.getMap().getOverrideStones()[player],
                                 () -> "Move: " + finalMoveNumberTemp);
+
                         numberOfBombs = Integer.parseInt(line.split(" bombs")[0].split("and ")[1]);
-                        Assertions.assertEquals(numberOfBombs, GameInstance.getMap().getBombs()[player]);
+                        Assertions.assertEquals(numberOfBombs, GameInstance.getMap().getBombs()[player],
+                                () -> "Move: " + finalMoveNumberTemp);
                     }
 
                     line = br.readLine();
@@ -120,34 +124,38 @@ public class GameReplayTest {
 
                 moveNumber += 1;
 
+                // Parse move triplet (x, y, special-field)
                 String[] s = line.split("\\(")[2].split(",");
                 int x = Integer.parseInt(s[0]);
                 int y = Integer.parseInt(s[1]);
                 int specialField = Integer.parseInt(s[2].split("\\)")[0]);
 
                 // Test move validity
-                List<Coordinate> capturableTiles = new ArrayList<>();
+                Set<Coordinate> capturableStones = new HashSet<>();
                 int finalMoveNumber = moveNumber;
                 boolean isMoveValidActual = Move.isMoveValid(GameInstance.getMap(), x, y, player,
-                        false, true, capturableTiles);
+                        false, true, capturableStones);
 
+                // Not checked by Move.isMoveValid because not relevant for move correctness while move generation
                 if (specialField == 20 || specialField == 21) {
                     isMoveValidActual &= MapUtil.isTileBonus(GameInstance.getMap().getGameField()[y][x]);
                 }
 
+                // Not checked by Move.isMoveValid because not relevant for move correctness while move generation
                 if (specialField >= 1 && specialField <= Map.getNumberOfPlayers()) {
                     isMoveValidActual &= GameInstance.getMap().getGameField()[y][x] == 'c';
                 }
 
                 Assertions.assertEquals(isMoveValidExpected, isMoveValidActual, () -> "Move: " + finalMoveNumber);
 
+                // When an invalid move was done, the board is printed twice -> skip first board
                 if (skipFirstBoard) {
                     //noinspection StatementWithEmptyBody
                     while ((line = br.readLine()) != null && !line.startsWith("Board:"));
                     br.readLine();
                 }
 
-                // We skip lines until we read Board
+                // We skip lines until we read 'Board'
                 //noinspection StatementWithEmptyBody
                 while ((line = br.readLine()) != null && !line.startsWith("Board:"));
 
@@ -155,8 +163,7 @@ public class GameReplayTest {
                     break;
                 }
 
-
-                // read map
+                // Read map
                 char[][] expected = new char[Map.getMapHeight()][Map.getMapWidth()];
                 for (int i = 0; i < Map.getMapHeight(); i++) {
                     char[] mapLine = br.readLine().toCharArray();
@@ -164,15 +171,40 @@ public class GameReplayTest {
                 }
 
                 if (isMoveValidExpected) {
-                    Move.executeMove(GameInstance.getMap(), x, y, specialField, player, capturableTiles);
+                    Move.executeMove(GameInstance.getMap(), x, y, specialField, player, capturableStones);
 
                     Assertions.assertTrue(TestUtils.mapEquals(expected, GameInstance.getMap().getGameField()), () -> "Move: " + finalMoveNumber);
+                }
+
+                // Assert that tracked player stone's count is same as by counting map
+                for (int i = 1; i <= Map.getNumberOfPlayers(); i++) {
+                    char finalI = (char) (i + '0');
+                    long expectedPlayerStones = Arrays.stream(expected)
+                            .flatMap(a -> IntStream.range(0, a.length).mapToObj(j -> a[j]))
+                            .filter(c -> c == finalI)
+                            .count();
+                    int finalMoveNumberTemp = moveNumber;
+                    Assertions.assertEquals(expectedPlayerStones, GameInstance.getMap().getNumberOfStones()[i],
+                            () -> "Player: " + finalI + " Move: " + finalMoveNumberTemp
+                                    + " Map:\n" + MapUtil.mapToPrintableString(GameInstance.getMap().getGameField()));
                 }
 
                 br.readLine();
                 line = br.readLine();
                 if (line.startsWith("Terminal state reached")) {
-                    // TODO Check scores
+                    //noinspection StatementWithEmptyBody
+                    while ((line = br.readLine()) != null && !line.startsWith("Scores"));
+
+                    for (int i = 1; i <= Map.getNumberOfPlayers(); i++) {
+                        line = br.readLine();
+                        if (line.contains("disqualified")) {
+                            continue;
+                        }
+                        int expectedPlayerStones = Integer.parseInt(line.split(": ")[1].split(" points")[0]);
+                        int finalI = i;
+                        Assertions.assertEquals(expectedPlayerStones, GameInstance.getMap().getNumberOfStones()[i],
+                                () -> "Player: " + finalI);
+                    }
 
                     //noinspection StatementWithEmptyBody
                     while ((line = br.readLine()) != null && !line.contains("bombs"));
@@ -184,7 +216,19 @@ public class GameReplayTest {
                     Map.setPhase(2);
                     moveNumber = Math.max(moveNumber, 1);
                 } else if (line.startsWith("Final state reached")) {
-                    // TODO Check scores
+                    //noinspection StatementWithEmptyBody
+                    while ((line = br.readLine()) != null && !line.startsWith("Scores"));
+
+                    for (int i = 1; i <= Map.getNumberOfPlayers(); i++) {
+                        line = br.readLine();
+                        if (line.contains("disqualified")) {
+                            continue;
+                        }
+                        int expectedPlayerStones = Integer.parseInt(line.split(": ")[1].split(" points")[0]);
+                        int finalI = i;
+                        Assertions.assertEquals(expectedPlayerStones, GameInstance.getMap().getNumberOfStones()[i],
+                                () -> "Player: " + finalI);
+                    }
 
                     break;
                 }
