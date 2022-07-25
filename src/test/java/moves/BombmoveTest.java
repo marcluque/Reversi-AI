@@ -61,8 +61,8 @@ public class BombmoveTest {
 
         String afterMapPath = String.format("%s/bombmove_test%d_after.txt", BASE, testNumber);
         System.out.println(MapUtil.mapToPrintableString(MapLoader.generateArrayFromMapFile(afterMapPath)));
-        Assertions.assertTrue(TestUtils.mapEquals(GameInstance.getMap().getGameField(),
-                MapLoader.generateArrayFromMapFile(afterMapPath)));
+        Assertions.assertTrue(TestUtils.mapEquals(MapLoader.generateArrayFromMapFile(afterMapPath), GameInstance.getMap().getGameField()
+        ));
     }
 
     private static Stream<Arguments> testBombMoveValidity() {

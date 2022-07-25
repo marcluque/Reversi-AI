@@ -48,8 +48,8 @@ public class BuildmoveTest {
         Move.executeMove(GameInstance.getMap(), x, y, 0, player, capturableTiles);
 
         String mapPath = String.format("%s/buildmove_test%d_after.txt", BASE, testNumber);
-        Assertions.assertTrue(TestUtils.mapEquals(GameInstance.getMap().getGameField(),
-                MapLoader.generateArrayFromMapFile(mapPath)));
+        Assertions.assertTrue(TestUtils.mapEquals(MapLoader.generateArrayFromMapFile(mapPath), GameInstance.getMap().getGameField()
+        ));
     }
 
     @Test
@@ -68,7 +68,7 @@ public class BuildmoveTest {
                 {'0', '0', 'x'},
                 {'1', '1', '1'},
                 {'0', '0', '0'}};
-        Assertions.assertTrue(TestUtils.mapEquals(GameInstance.getMap().getGameField(), expected));
+        Assertions.assertTrue(TestUtils.mapEquals(expected, GameInstance.getMap().getGameField()));
 
         // Check whether the number of override stones left is correct
         Assertions.assertEquals(2, GameInstance.getMap().getOverrideStones()[1]);
@@ -83,7 +83,7 @@ public class BuildmoveTest {
                 {'0', '0', 'x'},
                 {'1', '1', '1'},
                 {'0', '0', '0'}};
-        Assertions.assertTrue(TestUtils.mapEquals(GameInstance.getMap().getGameField(), expected2));
+        Assertions.assertTrue(TestUtils.mapEquals(expected2, GameInstance.getMap().getGameField()));
 
         // Check whether the number of override stones left is correct
         Assertions.assertEquals(1, GameInstance.getMap().getOverrideStones()[1]);
@@ -97,7 +97,7 @@ public class BuildmoveTest {
                 {'0', '0', '1'},
                 {'1', '1', '1'},
                 {'0', '0', '0'}};
-        Assertions.assertTrue(TestUtils.mapEquals(GameInstance.getMap().getGameField(), expected3));
+        Assertions.assertTrue(TestUtils.mapEquals(expected3, GameInstance.getMap().getGameField()));
 
         // Move should be invalid because no override stones are left
         GameInstance.getMap().getGameField()[1][1] = '2';
@@ -109,7 +109,7 @@ public class BuildmoveTest {
                 {'0', '0', '1'},
                 {'1', '2', '1'},
                 {'0', '0', '0'}};
-        Assertions.assertTrue(TestUtils.mapEquals(GameInstance.getMap().getGameField(), expected4));
+        Assertions.assertTrue(TestUtils.mapEquals(expected4, GameInstance.getMap().getGameField()));
 
         // Check whether the number of override stones left is correct
         Assertions.assertEquals(0, GameInstance.getMap().getOverrideStones()[1]);

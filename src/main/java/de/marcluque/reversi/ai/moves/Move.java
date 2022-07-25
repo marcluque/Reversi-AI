@@ -7,10 +7,7 @@ import de.marcluque.reversi.util.MapUtil;
 import de.marcluque.reversi.util.MoveTriplet;
 import de.marcluque.reversi.util.Transition;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /*
  * Created with <3 by marcluque, March 2021
@@ -67,7 +64,7 @@ public abstract class Move {
             // Iterate over all directions from start stone
             for (int direction = 0; direction < 8; direction++) {
                 // Walk along direction starting from (x, y)
-                Set<Coordinate> tempTiles = new HashSet<>();
+                java.util.Map<Coordinate, Integer> tempTiles = new HashMap<>();
                 boolean tempResult = walkPath(map, x, y, direction, player, tempTiles);
                 result |= tempResult;
 
@@ -76,7 +73,7 @@ public abstract class Move {
                         return true;
                     }
 
-                    capturableTiles.addAll(tempTiles);
+                    capturableTiles.addAll(tempTiles.keySet());
                 }
             }
 
@@ -88,14 +85,15 @@ public abstract class Move {
         }
     }
 
-    private static boolean walkPath(Map map, int startX, int startY, int direction, char player, Set<Coordinate> tempTiles) {
+    private static boolean walkPath(Map map, int startX, int startY, int direction, char player, java.util.Map<Coordinate, Integer> tempTiles) {
         int x = startX;
         int y = startY;
-        tempTiles.add(new Coordinate(x, y));
+        tempTiles.put(new Coordinate(x, y), direction);
 
         // Starts at -1 because the do while immediately adds the start tile, but the start tile doesn't count for a path
         int pathLength = -1;
 
+        Integer value;
         do {
             Transition transitionEnd = Map.getTransitions().get(new Transition(x, y, direction));
             // Follow the transition (if there is one) and adapt its direction
@@ -111,12 +109,17 @@ public abstract class Move {
             }
 
             pathLength += 1;
-        // Check conditions:
-        // - tile is on map
-        // - stone may be captured by player
-        // - we make a 'loop' (i.e., we visit a tile that we have seen before)
-        } while (MapUtil.isCoordinateInMap(x, y) && MapUtil.isCapturableStone(map, x, y, player)
-                && tempTiles.add(new Coordinate(x, y)));
+            value = tempTiles.putIfAbsent(new Coordinate(x, y), direction);
+
+            // Check conditions:
+            // - tile is on map
+            // - stone can be captured by player
+            // - we don't make a 'loop' (i.e., we visit a tile with the same direction that we have seen before)
+            // - we don't pass the start tile
+        } while (MapUtil.isCoordinateInMap(x, y)
+                && MapUtil.isCapturableStone(map, x, y, player)
+                && (value == null || value != direction)
+                && (x != startX || y != startY));
 
         // Check whether the last tile of the path:
         // - is on the map

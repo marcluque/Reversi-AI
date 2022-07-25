@@ -48,7 +48,7 @@ public class MapLoader {
 
         // Game map
         char[][] map = new char[Map.getMapHeight()][Map.getMapWidth()];
-        for (short i = 0; i < Map.getMapHeight(); i++) {
+        for (int i = 0; i < Map.getMapHeight(); i++) {
             char[] line = mapLines[4 + i].replace(" ", "").toCharArray();
             for (int j = 0; j < line.length; j++) {
                 map[i][j] = line[j];
