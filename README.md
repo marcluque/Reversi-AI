@@ -1,4 +1,21 @@
 # Reversi-AI
+[![BCH compliance](https://bettercodehub.com/edge/badge/marcluque/Reversi-AI?branch=master)](https://bettercodehub.com/)
+[![Build Status](https://github.com/marcluque/Reversi-AI/actions/workflows/sonarcloud.yml/badge.svg)](https://github.com/marcluque/Reversi-AI/actions/workflows/sonarcloud.yml)
+
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/summary/new_code?id=marcluque_Reversi-AI)    
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=marcluque_Reversi-AI&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=marcluque_Reversi-AI)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=marcluque_Reversi-AI&metric=coverage)](https://sonarcloud.io/summary/new_code?id=marcluque_Reversi-AI)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=marcluque_Reversi-AI&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=marcluque_Reversi-AI)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=marcluque_Reversi-AI&metric=bugs)](https://sonarcloud.io/summary/new_code?id=marcluque_Reversi-AI)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=marcluque_Reversi-AI&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=marcluque_Reversi-AI)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=marcluque_Reversi-AI&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=marcluque_Reversi-AI)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=marcluque_Reversi-AI&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=marcluque_Reversi-AI)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=marcluque_Reversi-AI&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=marcluque_Reversi-AI)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=marcluque_Reversi-AI&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=marcluque_Reversi-AI)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=marcluque_Reversi-AI&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=marcluque_Reversi-AI)
+
+[![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)
+
 This piece of software implements artificial intelligence that is based on informed search MiniMax algorithms and their extensions.
 The game played is Reversi. However, this version of Reversi is tweaked to be harder and not playable for humans.
 This poses a greater challenge for AI. The exact rules of the tweaked Reversi game are explained in the [Game](#game) section.
