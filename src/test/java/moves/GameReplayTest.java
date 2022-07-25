@@ -37,34 +37,34 @@ public class GameReplayTest {
         start = System.nanoTime();
     }
 
-    private static Stream<Arguments> match0Replay() {
+    private static Stream<Arguments> matchReplay() {
         List<Arguments> arguments = new ArrayList<>();
         // Match 0
         for (int i = 0; i < 504; i++) {
             // Arguments follow the structure: (server-log-path, map-path)
             arguments.add(Arguments.of(String.format("%s/match0/matchpoint-1597941208976-%d-server-out", LOG_BASE, i),
-                    String.format("%s/match0/map%d.map", MAP_BASE, i / 9)));
+                    String.format("%s/map%d.map", MAP_BASE, i / 9)));
         }
 
         // Match 1
         for (int i = 0; i < 448; i++) {
             // Arguments follow the structure: (server-log-path, map-path)
             arguments.add(Arguments.of(String.format("%s/match1/matchpoint-1597838003363-%d-server-out", LOG_BASE, i),
-                    String.format("%s/match0/map%d.map", MAP_BASE, i / 8)));
+                    String.format("%s/map%d.map", MAP_BASE, i / 8)));
         }
 
         // Match 2
         for (int i = 0; i < 448; i++) {
             // Arguments follow the structure: (server-log-path, map-path)
             arguments.add(Arguments.of(String.format("%s/match2/matchpoint-1597852326864-%d-server-out", LOG_BASE, i),
-                    String.format("%s/match0/map%d.map", MAP_BASE, i / 8)));
+                    String.format("%s/map%d.map", MAP_BASE, i / 8)));
         }
 
         return arguments.stream();
     }
 
     @ParameterizedTest
-    @MethodSource("match0Replay")
+    @MethodSource("matchReplay")
     public void testGameReplay(String serverLogPath, String mapPath) {
         GameInstance.setMap(MapLoader.generateMapFromMapFile(mapPath));
         Map.setPhase(1);
