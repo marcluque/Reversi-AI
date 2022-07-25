@@ -1,0 +1,192 @@
+game id is 261
+set baseport to 7777
+set baseport to 7777
+Search depth is 0
+Starting Server.
+Loading board from file "/home/spielkiste/reversiXT/orga/maps/2019compMaps/2019_comp_5_2p.map"... OK
+Opening port...OK. Port number is 7777.
+This is a 2-player map.
+Waiting client 1 to connect...OK
+Waiting for group id of client 1...OK. Group ID is 9.
+Waiting client 2 to connect...OK
+Waiting for group id of client 2...OK. Group ID is 4.
+Sending data to client 1...OK
+Sending data to client 2...OK
+[14:59:39] Game started.
+Board:
+--------------------
+00000000000000000000
+00000000000000000000
+00000000----00000000
+00000000-cc-00000000
+00000000-cc-00000000
+00000000----00000000
+00000000xxxx00000000
+00012000xxxx00021000
+00021000xxxx00012000
+00000000xxxx00000000
+00000000----00000000
+00000000-bb-00000000
+00000000-bb-00000000
+00000000----00000000
+00000000000000000000
+00000000000000000000
+--------------------
+
+
+Player 1 has 0 overrides and 1 bombs.
+Sending move request to player 1 with depth 0, time left: 2000 msecs.
+Answer from player 1 for move 0 was (x,y,c) = (5,8,0); time left: 997 msecs.
+Board:
+--------------------
+00000000000000000000
+00000000000000000000
+00000000----00000000
+00000000-cc-00000000
+00000000-cc-00000000
+00000000----00000000
+00000000xxxx00000000
+00011100xxxx00021000
+00021000xxxx00012000
+00000000xxxx00000000
+00000000----00000000
+00000000-bb-00000000
+00000000-bb-00000000
+00000000----00000000
+00000000000000000000
+00000000000000000000
+--------------------
+
+
+Player 2 has 0 overrides and 1 bombs.
+Sending move request to player 2 with depth 0, time left: 2000 msecs.
+Answer from player 2 for move 1 was (x,y,c) = (16,7,0); time left: 1062 msecs.
+Board:
+--------------------
+00000000000000000000
+00000000000000000000
+00000000----00000000
+00000000-cc-00000000
+00000000-cc-00000000
+00000000----00000000
+00000000xxxx00002000
+00011100xxxx00022000
+00021000xxxx00012000
+00000000xxxx00000000
+00000000----00000000
+00000000-bb-00000000
+00000000-bb-00000000
+00000000----00000000
+00000000000000000000
+00000000000000000000
+--------------------
+
+
+Player 1 has 0 overrides and 1 bombs.
+Sending move request to player 1 with depth 0, time left: 2997 msecs.
+Answer from player 1 for move 2 was (x,y,c) = (3,10,0); time left: 999 msecs.
+Board:
+--------------------
+00000000000000000000
+00000000000000000000
+00000000----00000000
+00000000-cc-00000000
+00000000-cc-00000000
+00000000----00000000
+00000000xxxx00002000
+00011100xxxx00022000
+00011000xxxx00012000
+00010000xxxx00000000
+00000000----00000000
+00000000-bb-00000000
+00000000-bb-00000000
+00000000----00000000
+00000000000000000000
+00000000000000000000
+--------------------
+
+
+Player 2 has 0 overrides and 1 bombs.
+Sending move request to player 2 with depth 0, time left: 3062 msecs.
+Answer from player 2 for move 3 was (x,y,c) = (14,9,0); time left: 3059 msecs.
+Board:
+--------------------
+00000000000000000000
+00000000000000000000
+00000000----00000000
+00000000-cc-00000000
+00000000-cc-00000000
+00000000----00000000
+00000000xxxx00002000
+00011100xxxx00022000
+00011000xxxx00222000
+00010000xxxx00000000
+00000000----00000000
+00000000-bb-00000000
+00000000-bb-00000000
+00000000----00000000
+00000000000000000000
+00000000000000000000
+--------------------
+
+Terminal state reached.
+
+
+Scores:
+Player 1: 6 points
+Player 2: 6 points
+
+Player 1 has 0 overrides and 1 bombs.
+Sending move request to player 1 with depth 0, time left: 2999 msecs.
+Answer from player 1 for move 4 was (x,y,c) = (0,1,0); time left: 2999 msecs.
+Board:
+--------------------
+---00000000000000000
+---00000000000000000
+---00000----00000000
+00000000-cc-00000000
+00000000-cc-00000000
+00000000----00000000
+00000000xxxx00002000
+00011100xxxx00022000
+00011000xxxx00222000
+00010000xxxx00000000
+00000000----00000000
+00000000-bb-00000000
+00000000-bb-00000000
+00000000----00000000
+00000000000000000000
+00000000000000000000
+--------------------
+
+
+Player 2 has 0 overrides and 1 bombs.
+Sending move request to player 2 with depth 0, time left: 5059 msecs.
+Answer from player 2 for move 5 was (x,y,c) = (3,8,0); time left: 5048 msecs.
+Board:
+--------------------
+---00000000000000000
+---00000000000000000
+---00000----00000000
+00000000-cc-00000000
+00000000-cc-00000000
+0-----00----00000000
+0-----00xxxx00002000
+0-----00xxxx00022000
+0-----00xxxx00222000
+0-----00xxxx00000000
+00000000----00000000
+00000000-bb-00000000
+00000000-bb-00000000
+00000000----00000000
+00000000000000000000
+00000000000000000000
+--------------------
+
+Final state reached.
+
+
+Scores:
+Player 1: 0 points
+Player 2: 6 points
+bye bye.

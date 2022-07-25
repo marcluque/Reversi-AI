@@ -1,0 +1,1674 @@
+game id is 211
+set baseport to 7777
+set baseport to 7777
+Search depth is 0
+Starting Server.
+Loading board from file "/home/spielkiste/reversiXT/orga/maps/2019compMaps/2019_comp_1_2p.map"... OK
+Opening port...OK. Port number is 7777.
+This is a 2-player map.
+Waiting client 1 to connect...OK
+Waiting for group id of client 1...OK. Group ID is 4.
+Waiting client 2 to connect...OK
+Waiting for group id of client 2...OK. Group ID is 5.
+Sending data to client 1...OK
+Sending data to client 2...OK
+[14:46:08] Game started.
+Board:
+----110000
+22-------1
+100000022-
+----110000
+000022---1
+1000000000
+022-110000
+1bb2000022
+1100001bb2
+000022-110
+0000000002
+2---110000
+000022----
+-110000002
+2-------11
+000022----
+
+
+Player 1 has 0 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 2000 msecs.
+Answer from player 1 for move 0 was (x,y,c) = (6,13,0); time left: 1513 msecs.
+Board:
+----110000
+22-------1
+100000022-
+----110000
+000022---1
+1000000000
+022-110000
+1bb2000022
+1100001bb2
+000022-110
+0000000002
+2---110000
+000021----
+-110001002
+2-------11
+000022----
+
+
+Player 2 has 0 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 2000 msecs.
+Answer from player 2 for move 1 was (x,y,c) = (2,12,0); time left: 2000 msecs.
+Board:
+----110000
+22-------1
+100000022-
+----110000
+000022---1
+1000000000
+022-110000
+1bb2000022
+1100001bb2
+000022-110
+0000000002
+2---110000
+002021----
+-210001002
+2-------11
+000022----
+
+
+Player 1 has 0 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 3513 msecs.
+Answer from player 1 for move 2 was (x,y,c) = (4,13,0); time left: 1963 msecs.
+Board:
+----110000
+22-------1
+100000022-
+----110000
+000022---1
+1000000000
+022-110000
+1bb2000022
+1100001bb2
+000022-110
+0000000002
+2---110000
+002011----
+-210101002
+2-------11
+000022----
+
+
+Player 2 has 0 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 4000 msecs.
+Answer from player 2 for move 3 was (x,y,c) = (7,8,21); time left: 4000 msecs.
+Board:
+----110000
+22-------1
+100000022-
+----110000
+000022---1
+1000000000
+022-110000
+1bb2000022
+11000012b2
+000022-120
+0000000002
+2---110000
+002011----
+-210101002
+2-------11
+000022----
+
+
+Player 1 has 0 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 3963 msecs.
+Answer from player 1 for move 4 was (x,y,c) = (2,7,21); time left: 2930 msecs.
+Board:
+----110000
+22-------1
+100000022-
+----110000
+000022---1
+1000000000
+012-110000
+1b12000022
+11000012b2
+000022-120
+0000000002
+2---110000
+002011----
+-210101002
+2-------11
+000022----
+
+
+Player 2 has 1 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 6000 msecs.
+Answer from player 2 for move 5 was (x,y,c) = (1,7,21); time left: 6000 msecs.
+Board:
+----110000
+22-------1
+100000022-
+----110000
+000022---1
+1000000000
+012-110000
+1222000022
+11000012b2
+000022-120
+0000000002
+2---110000
+002011----
+-210101002
+2-------11
+000022----
+
+
+Player 1 has 1 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 4930 msecs.
+Answer from player 1 for move 6 was (x,y,c) = (8,8,21); time left: 4557 msecs.
+Board:
+----110000
+22-------1
+100000022-
+----110000
+000022---1
+1000000000
+012-110000
+1222000022
+1100001112
+000022-120
+0000000002
+2---110000
+002011----
+-210101002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 8000 msecs.
+Answer from player 2 for move 7 was (x,y,c) = (3,13,0); time left: 8000 msecs.
+Board:
+----110000
+22-------1
+100000022-
+----110000
+000022---1
+1000000000
+012-110000
+1222000022
+1100001112
+000022-120
+0000000002
+2---110000
+002011----
+-222101002
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 6557 msecs.
+Answer from player 1 for move 8 was (x,y,c) = (3,5,0); time left: 5710 msecs.
+Board:
+----110000
+22-------1
+100000022-
+----110000
+000012---1
+1001000000
+011-110000
+1122000022
+1100001112
+000022-120
+0000000002
+2---110000
+002011----
+-222101002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 10000 msecs.
+Answer from player 2 for move 9 was (x,y,c) = (5,13,0); time left: 10000 msecs.
+Board:
+----110000
+22-------1
+100000022-
+----110000
+000012---1
+1001000000
+011-110000
+1122000022
+1100001112
+000022-120
+0000000002
+2---110000
+002011----
+-222221002
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 7710 msecs.
+Answer from player 1 for move 10 was (x,y,c) = (5,5,0); time left: 3501 msecs.
+Board:
+----110000
+22-------1
+100000022-
+----110000
+000011---1
+1001010000
+011-110000
+1122000022
+1100001112
+000022-120
+0000000002
+2---110000
+002011----
+-222221002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 12000 msecs.
+Answer from player 2 for move 11 was (x,y,c) = (2,5,0); time left: 12000 msecs.
+Board:
+----110000
+22-------1
+100000022-
+----110000
+000011---1
+1021010000
+012-110000
+1122000022
+1100001112
+000022-120
+0000000002
+2---110000
+002011----
+-222221002
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 5501 msecs.
+Answer from player 1 for move 12 was (x,y,c) = (7,3,0); time left: 3765 msecs.
+Board:
+----110000
+22-------1
+100000021-
+----110100
+000011---1
+1021010000
+012-110000
+1122000022
+1100001112
+000022-120
+0000000002
+2---110000
+002011----
+-222221002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 14000 msecs.
+Answer from player 2 for move 13 was (x,y,c) = (4,5,0); time left: 14000 msecs.
+Board:
+----110000
+22-------1
+100000021-
+----110100
+000011---1
+1022210000
+012-110000
+1122000022
+1100001112
+000022-120
+0000000002
+2---110000
+002011----
+-222221002
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 5765 msecs.
+Answer from player 1 for move 14 was (x,y,c) = (2,4,0); time left: 4966 msecs.
+Board:
+----110000
+22-------1
+100000021-
+----110100
+001011---1
+1021210000
+012-110000
+1122000022
+1100001112
+000022-120
+0000000002
+2---110000
+002011----
+-222221002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 16000 msecs.
+Answer from player 2 for move 15 was (x,y,c) = (6,5,0); time left: 15999 msecs.
+Board:
+----110000
+22-------1
+100000021-
+----110100
+001011---1
+1021222000
+012-110000
+1122000022
+1100001112
+000022-120
+0000000002
+2---110000
+002011----
+-222221002
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 6966 msecs.
+Answer from player 1 for move 16 was (x,y,c) = (7,5,0); time left: 6304 msecs.
+Board:
+----110000
+22-------1
+100000021-
+----110100
+001011---1
+1021111100
+012-110000
+1122000022
+1100001112
+000022-120
+0000000002
+2---110000
+002011----
+-222221002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 17999 msecs.
+Answer from player 2 for move 17 was (x,y,c) = (8,5,0); time left: 17999 msecs.
+Board:
+----110000
+22-------1
+100000021-
+----110100
+001011---1
+1022222220
+012-110000
+1122000022
+1100001112
+000022-120
+0000000002
+2---110000
+002011----
+-222221002
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 8304 msecs.
+Answer from player 1 for move 18 was (x,y,c) = (2,8,0); time left: 7348 msecs.
+Board:
+----110000
+22-------1
+100000021-
+----110100
+001011---1
+1012222220
+011-110000
+1111000022
+1110001112
+000022-120
+0000000002
+2---110000
+002011----
+-222221002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 19999 msecs.
+Answer from player 2 for move 19 was (x,y,c) = (1,5,0); time left: 19999 msecs.
+Board:
+----110000
+22-------1
+100000021-
+----110100
+001011---1
+1222222220
+011-110000
+1111000022
+1110001112
+000022-120
+0000000002
+2---110000
+002011----
+-222221002
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 9348 msecs.
+Answer from player 1 for move 20 was (x,y,c) = (9,5,0); time left: 8508 msecs.
+Board:
+----110000
+22-------1
+100000021-
+----110100
+001011---1
+1111111111
+011-110000
+1111000022
+1110001112
+000022-120
+0000000002
+2---110000
+002011----
+-222221002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 21999 msecs.
+Answer from player 2 for move 21 was (x,y,c) = (6,11,0); time left: 21999 msecs.
+Board:
+----110000
+22-------1
+100000021-
+----110100
+001011---1
+1111111111
+011-110000
+1111000022
+1110001112
+000022-120
+0000000002
+2---112000
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 10508 msecs.
+Answer from player 1 for move 22 was (x,y,c) = (6,2,0); time left: 500 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----110100
+001011---1
+1111111111
+011-110000
+1111000022
+1110001112
+000022-120
+0000000002
+2---112000
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 23999 msecs.
+Answer from player 2 for move 23 was (x,y,c) = (7,7,0); time left: 23999 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----110100
+001011---1
+1111111111
+011-110000
+1111000222
+1110002112
+000022-120
+0000000002
+2---112000
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 2500 msecs.
+Answer from player 1 for move 24 was (x,y,c) = (8,6,0); time left: 640 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----110100
+001011---1
+1111111111
+011-110010
+1111000212
+1110002112
+000022-120
+0000000002
+2---112000
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 25999 msecs.
+Answer from player 2 for move 25 was (x,y,c) = (6,7,0); time left: 25999 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----110100
+001011---1
+1111111111
+011-110010
+1111002212
+1110002212
+000022-120
+0000000002
+2---112000
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 2640 msecs.
+Answer from player 1 for move 26 was (x,y,c) = (5,8,0); time left: 500 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----110100
+001011---1
+1111111111
+011-110010
+1111002212
+1110011112
+000022-120
+0000000002
+2---112000
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 27999 msecs.
+Answer from player 2 for move 27 was (x,y,c) = (5,7,0); time left: 27999 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----110100
+001011---1
+1111111111
+011-110010
+1111022212
+1110021112
+000022-120
+0000000002
+2---112000
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 2500 msecs.
+Answer from player 1 for move 28 was (x,y,c) = (4,10,0); time left: 2223 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----110100
+001011---1
+1111111111
+011-110010
+1111022212
+1110021112
+000021-120
+0000100002
+2---112000
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 29999 msecs.
+Answer from player 2 for move 29 was (x,y,c) = (3,4,0); time left: 29999 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----110100
+001211---1
+1111211111
+011-120010
+1111022212
+1110021112
+000021-120
+0000100002
+2---112000
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 4223 msecs.
+Answer from player 1 for move 30 was (x,y,c) = (3,9,0); time left: 500 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----110100
+001211---1
+1111211111
+011-120010
+1111022212
+1110021112
+000111-120
+0000100002
+2---112000
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 31999 msecs.
+Answer from player 2 for move 31 was (x,y,c) = (1,4,0); time left: 31998 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----110100
+022211---1
+1111211111
+011-120010
+1111022212
+1110021112
+000111-120
+0000100002
+2---112000
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 2500 msecs.
+Answer from player 1 for move 32 was (x,y,c) = (9,9,0); time left: 2239 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----110100
+022211---1
+1111211111
+011-120010
+1111022212
+1110021112
+000111-111
+0000100002
+2---112000
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 33998 msecs.
+Answer from player 2 for move 33 was (x,y,c) = (0,6,0); time left: 33997 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----110100
+022211---1
+1211211111
+211-120010
+1111022212
+1110021112
+000111-111
+0000100002
+2---112000
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 4239 msecs.
+Answer from player 1 for move 34 was (x,y,c) = (9,6,0); time left: 500 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----110100
+022211---1
+1211211111
+211-120011
+1111022211
+1110021111
+000111-111
+0000100002
+2---112000
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 35997 msecs.
+Answer from player 2 for move 35 was (x,y,c) = (6,3,0); time left: 35995 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----112100
+022212---1
+1211211111
+211-120011
+1111022211
+1110021111
+000111-111
+0000100002
+2---112000
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 2500 msecs.
+Answer from player 1 for move 36 was (x,y,c) = (9,11,0); time left: 2054 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----112100
+022212---1
+1211211111
+211-120011
+1111022211
+1110021111
+000111-111
+0000100001
+2---112001
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 37995 msecs.
+Answer from player 2 for move 37 was (x,y,c) = (7,6,0); time left: 37994 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----112100
+022212---1
+1211212111
+211-120211
+1111022211
+1110021111
+000111-111
+0000100001
+2---112001
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 4054 msecs.
+Answer from player 1 for move 38 was (x,y,c) = (4,8,0); time left: 500 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----112100
+022212---1
+1211212111
+211-120211
+1111022211
+1110111111
+000111-111
+0000100001
+2---112001
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 39994 msecs.
+Answer from player 2 for move 39 was (x,y,c) = (8,3,0); time left: 39993 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----112220
+022212---1
+1211212111
+211-120211
+1111022211
+1110111111
+000111-111
+0000100001
+2---112001
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 2500 msecs.
+Answer from player 1 for move 40 was (x,y,c) = (6,6,0); time left: 500 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----112220
+022212---1
+1211212111
+211-111111
+1111011111
+1110111111
+000111-111
+0000100001
+2---112001
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 41993 msecs.
+Answer from player 2 for move 41 was (x,y,c) = (3,10,0); time left: 41992 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----112220
+022212---1
+1211212111
+211-111111
+1111011111
+1110111111
+000111-111
+0002100001
+2---212001
+002012----
+-222221002
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 2500 msecs.
+Answer from player 1 for move 42 was (x,y,c) = (2,9,0); time left: 500 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----112220
+022212---1
+1211212111
+211-111111
+1111011111
+1110111111
+001111-111
+0001100001
+2---112001
+002011----
+-222221002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 43992 msecs.
+Answer from player 2 for move 43 was (x,y,c) = (0,4,0); time left: 43991 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----112220
+222212---1
+2211212111
+211-111111
+1111011111
+1110111111
+001111-111
+0001100001
+2---112001
+002011----
+-222221002
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 2500 msecs.
+Answer from player 1 for move 44 was (x,y,c) = (9,3,0); time left: 908 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----111111
+222212---1
+2211212111
+211-111111
+1111011111
+1110111111
+001111-111
+0001100001
+2---112001
+002011----
+-222221002
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 45991 msecs.
+Answer from player 2 for move 45 was (x,y,c) = (7,13,0); time left: 45990 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----111111
+222212---1
+2211212111
+211-111111
+1111011111
+1110111111
+001111-111
+0001100001
+2---112001
+002011----
+-222222202
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 2908 msecs.
+Answer from player 1 for move 46 was (x,y,c) = (7,10,0); time left: 499 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----111111
+222212---1
+2211212111
+211-111111
+1111011111
+1110111111
+001111-111
+0001100101
+2---111001
+002011----
+-222222202
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 47990 msecs.
+Answer from player 2 for move 47 was (x,y,c) = (3,8,0); time left: 47989 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----111111
+222212---1
+2211212111
+221-111111
+1121011111
+1112111111
+001111-111
+0001100101
+2---111001
+002011----
+-222222202
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 2499 msecs.
+Answer from player 1 for move 48 was (x,y,c) = (4,7,0); time left: 1091 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----111111
+222212---1
+2211212111
+221-111111
+1121111111
+1111111111
+001111-111
+0001100101
+2---111001
+002011----
+-222222202
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 49989 msecs.
+Answer from player 2 for move 49 was (x,y,c) = (2,10,0); time left: 49988 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----111111
+222212---1
+2211212111
+221-111111
+1121111111
+1121111111
+002111-111
+0021100101
+2---111001
+002011----
+-222222202
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 3091 msecs.
+Answer from player 1 for move 50 was (x,y,c) = (1,10,0); time left: 1339 msecs.
+Board:
+----110000
+22-------1
+100000111-
+----111111
+222212---1
+2211212111
+221-111111
+1121111111
+1121111111
+001111-111
+0111100101
+2---111001
+002011----
+-222222202
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 51988 msecs.
+Answer from player 2 for move 51 was (x,y,c) = (3,2,0); time left: 51987 msecs.
+Board:
+----110000
+22-------1
+100200111-
+----211111
+222212---1
+2211212111
+221-111111
+1121111111
+1121111111
+001111-111
+0111100101
+2---111001
+002011----
+-222222202
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 3339 msecs.
+Answer from player 1 for move 52 was (x,y,c) = (4,2,0); time left: 1967 msecs.
+Board:
+----110000
+22-------1
+100210111-
+----111111
+222212---1
+2211212111
+221-111111
+1121111111
+1121111111
+001111-111
+0111100101
+2---111001
+002011----
+-222222202
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 53987 msecs.
+Answer from player 2 for move 53 was (x,y,c) = (1,9,0); time left: 53986 msecs.
+Board:
+----110000
+22-------1
+100210111-
+----111111
+222212---1
+2211212111
+221-111111
+1221111111
+1221111111
+021111-111
+0111100101
+2---111001
+002011----
+-222222202
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 3967 msecs.
+Answer from player 1 for move 54 was (x,y,c) = (2,2,0); time left: 2061 msecs.
+Board:
+----110000
+22-------1
+101110111-
+----111111
+222212---1
+2211212111
+221-111111
+1221111111
+1221111111
+021111-111
+0111100101
+2---111001
+002011----
+-222222202
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 55986 msecs.
+Answer from player 2 for move 55 was (x,y,c) = (0,9,0); time left: 55985 msecs.
+Board:
+----110000
+22-------1
+101110111-
+----111111
+222212---1
+2211212111
+221-111111
+2221111111
+2221111111
+221111-111
+0111100101
+2---111001
+002011----
+-222222202
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 4061 msecs.
+Answer from player 1 for move 56 was (x,y,c) = (0,10,0); time left: 1502 msecs.
+Board:
+----110000
+22-------1
+101110111-
+----111111
+222212---1
+2211212111
+221-111111
+2221111111
+2211111111
+211111-111
+1111100101
+2---111001
+002011----
+-222222202
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 57985 msecs.
+Answer from player 2 for move 57 was (x,y,c) = (5,2,0); time left: 57984 msecs.
+Board:
+----110000
+22-------1
+101112111-
+----221111
+222212---1
+2211212111
+221-111111
+2221111111
+2211111111
+211111-111
+1111100101
+2---111001
+002011----
+-222222202
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 3502 msecs.
+Answer from player 1 for move 58 was (x,y,c) = (0,12,0); time left: 912 msecs.
+Board:
+----110000
+22-------1
+101112111-
+----221111
+222212---1
+2211212111
+221-111111
+2221111111
+2211111111
+211111-111
+1111100101
+1---111001
+102011----
+-222222202
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 59984 msecs.
+Answer from player 2 for move 59 was (x,y,c) = (1,2,0); time left: 59983 msecs.
+Board:
+----110000
+22-------1
+122222111-
+----221111
+222212---1
+2211212111
+221-111111
+2221111111
+2211111111
+211111-111
+1111100101
+1---111001
+102011----
+-222222202
+2-------11
+000022----
+
+
+Player 1 has 2 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 2912 msecs.
+Answer from player 1 for move 60 was (x,y,c) = (0,4,0); time left: 2555 msecs.
+Board:
+----110000
+22-------1
+122222111-
+----221111
+111112---1
+1111212111
+121-111111
+1221111111
+1211111111
+111111-111
+1111100101
+1---111001
+102011----
+-222222202
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 61983 msecs.
+Answer from player 2 for move 61 was (x,y,c) = (5,10,0); time left: 61983 msecs.
+Board:
+----110000
+22-------1
+122222111-
+----221111
+111112---1
+1111222111
+121-121111
+1221121111
+1212121111
+111122-111
+1111120101
+1---121001
+102012----
+-222222202
+2-------11
+000022----
+
+
+Player 1 has 1 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 4555 msecs.
+Answer from player 1 for move 62 was (x,y,c) = (6,10,0); time left: 3692 msecs.
+Board:
+----110000
+22-------1
+122222111-
+----221111
+111112---1
+1111222111
+121-121111
+1221121111
+1212121111
+111121-111
+1111111101
+1---111001
+102012----
+-222222202
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 63983 msecs.
+Answer from player 2 for move 63 was (x,y,c) = (8,10,0); time left: 63983 msecs.
+Board:
+----110000
+22-------1
+122222111-
+----221111
+111112---1
+1111222111
+121-121111
+1221121111
+1212122111
+111121-211
+1111111121
+1---111001
+102012----
+-222222202
+2-------11
+000022----
+
+
+Player 1 has 1 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 5692 msecs.
+Answer from player 1 for move 64 was (x,y,c) = (7,11,0); time left: 2955 msecs.
+Board:
+----110000
+22-------1
+122222111-
+----221111
+111112---1
+1111222111
+121-121111
+1221121111
+1212122111
+111121-211
+1111111111
+1---111101
+102012----
+-222222202
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 65983 msecs.
+Answer from player 2 for move 65 was (x,y,c) = (3,12,0); time left: 65983 msecs.
+Board:
+----110000
+22-------1
+122222111-
+----221111
+111112---1
+1111222111
+121-121111
+1221121111
+1212122111
+111121-211
+1111111111
+1---111101
+102222----
+-222222202
+2-------11
+000022----
+
+
+Player 1 has 1 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 4955 msecs.
+Answer from player 1 for move 66 was (x,y,c) = (3,2,0); time left: 1838 msecs.
+Board:
+----110000
+22-------1
+111111111-
+----121111
+111111---1
+1111221111
+121-121111
+1221121111
+1212122111
+111121-211
+1111111111
+1---111101
+102222----
+-222222202
+2-------11
+000022----
+
+
+Player 2 has 2 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 67983 msecs.
+Answer from player 2 for move 67 was (x,y,c) = (5,11,0); time left: 67976 msecs.
+Board:
+----110000
+22-------1
+111111111-
+----121111
+111111---1
+1111221111
+121-121111
+1221121111
+1222122111
+111222-211
+1111222111
+1---121101
+102222----
+-222222202
+2-------11
+000022----
+
+
+Player 2 has 1 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 69976 msecs.
+Answer from player 2 for move 68 was (x,y,c) = (8,11,0); time left: 69976 msecs.
+Board:
+----110000
+22-------1
+111111111-
+----121111
+111111---1
+1111221111
+121-121111
+1221121111
+1222122111
+111222-211
+1111222111
+1---122221
+102222----
+-222222202
+2-------11
+000022----
+
+
+Player 2 has 1 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 71976 msecs.
+Answer from player 2 for move 69 was (x,y,c) = (8,5,0); time left: 71968 msecs.
+Board:
+----110000
+22-------1
+111111111-
+----121111
+111111---1
+1111222221
+121-121221
+1221122121
+1222122121
+111222-221
+1111222121
+1---122221
+102222----
+-222222202
+2-------11
+000022----
+
+Terminal state reached.
+
+
+Scores:
+Player 1: 59 points
+Player 2: 51 points
+
+Player 1 has 0 overrides and 2 bombs.
+Sending move request to player 1 with depth 0, time left: 3838 msecs.
+Answer from player 1 for move 70 was (x,y,c) = (6,11,0); time left: 3834 msecs.
+Board:
+----110000
+22-------1
+111111111-
+----121111
+111111---1
+1111222221
+121-121221
+1221122121
+1222122121
+1112-----1
+1111-----1
+1--------1
+1022------
+-222---202
+2-------11
+000022----
+
+
+Player 2 has 0 overrides and 2 bombs.
+Sending move request to player 2 with depth 0, time left: 73968 msecs.
+Answer from player 2 for move 71 was (x,y,c) = (4,0,0); time left: 73966 msecs.
+Board:
+-------000
+22-------1
+111111111-
+----121111
+111111---1
+1111222221
+121-121221
+1221122121
+1222122121
+1112-----1
+1111-----1
+1--------1
+1022------
+-222---202
+2-------11
+000022----
+
+
+Player 1 has 0 overrides and 1 bombs.
+Sending move request to player 1 with depth 0, time left: 5834 msecs.
+Answer from player 1 for move 72 was (x,y,c) = (6,7,0); time left: 5833 msecs.
+Board:
+-------000
+22-------1
+111111111-
+----121111
+111111---1
+1111-----1
+121------1
+1221-----1
+1222-----1
+1112-----1
+1111-----1
+1--------1
+1022------
+-222---202
+2-------11
+000022----
+
+
+Player 2 has 0 overrides and 1 bombs.
+Sending move request to player 2 with depth 0, time left: 75966 msecs.
+Answer from player 2 for move 73 was (x,y,c) = (7,0,0); time left: 75965 msecs.
+Board:
+----------
+22--------
+111111111-
+----121111
+111111---1
+1111-----1
+121------1
+1221-----1
+1222-----1
+1112-----1
+1111-----1
+1--------1
+1022------
+-222---202
+2-------11
+000022----
+
+Final state reached.
+
+
+Scores:
+Player 1: 48 points
+Player 2: 20 points
+bye bye.

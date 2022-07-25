@@ -1,0 +1,79 @@
+game id is 113
+set baseport to 7777
+set baseport to 7777
+Search depth is 0
+Starting Server.
+Loading board from file "/home/spielkiste/reversiXT/orga/maps/2019compMaps/2019_comp_03_2p.map"... OK
+Opening port...OK. Port number is 7777.
+This is a 2-player map.
+Waiting client 1 to connect...OK
+Waiting for group id of client 1...OK. Group ID is 4.
+Waiting client 2 to connect...OK
+Waiting for group id of client 2...OK. Group ID is 6.
+Sending data to client 1...OK
+Sending data to client 2...OK
+[14:10:59] Game started.
+Board:
+12121212121212121212
+21212121212121212121
+12121212121212121212
+21212121212121212121
+12121212121212121212
+21212121212121212121
+12121212121212121212
+21212121212121212121
+12121212121212121212
+21212121212121212121
+12121212121212121212
+21212121212121212121
+12121212121212121212
+21212121212121212121
+12121212121212121212
+21212121212121212121
+12121212121212121212
+21212121212121212121
+12121212121212121212
+21212121212121212121
+
+
+Player 1 has 100 overrides and 1 bombs.
+Sending move request to player 1 with depth 0, time left: 2000 msecs.
+receive_msg(): error during reading hdr: Transport endpoint is not connected
+Failed to receive message.
+Player 1 disqualified (receive failed).
+send_msg(): failed to send payload
+Failed to propagate disqualification to player 1
+send_msg(): failed to send header
+Failed to propagate disqualification to player 2
+Player 2 disqualified (send failed).
+send_msg(): failed to send header
+Failed to propagate disqualification to player 2
+Board:
+12121212121212121212
+21212121212121212121
+12121212121212121212
+21212121212121212121
+12121212121212121212
+21212121212121212121
+12121212121212121212
+21212121212121212121
+12121212121212121212
+21212121212121212121
+12121212121212121212
+21212121212121212121
+12121212121212121212
+21212121212121212121
+12121212121212121212
+21212121212121212121
+12121212121212121212
+21212121212121212121
+12121212121212121212
+21212121212121212121
+
+Final state reached, sole remaining player is winner.
+
+
+Scores:
+Player 1: disqualified
+Player 2: disqualified
+bye bye.

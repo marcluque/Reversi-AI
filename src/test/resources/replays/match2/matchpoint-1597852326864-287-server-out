@@ -1,0 +1,211 @@
+game id is 287
+set baseport to 7777
+set baseport to 7777
+Search depth is 0
+Starting Server.
+Loading board from file "/home/spielkiste/reversiXT/orga/maps/2019compMaps/2017_comp_01_2p.map"... OK
+Opening port...OK. Port number is 7777.
+This is a 2-player map.
+Waiting client 1 to connect...OK
+Waiting for group id of client 1...OK. Group ID is 6.
+Waiting client 2 to connect...OK
+Waiting for group id of client 2...OK. Group ID is 2.
+Sending data to client 1...OK
+Sending data to client 2...OK
+[19:19:35] Game started.
+Board:
+-------------------
+-------------------
+---x1xxxxxxxxxxxx2x
+---1xxxxxxxxxxxxxx2
+---xxxxxxxxxxxxxxxx
+---xxbbxxxxxxxxbbxx
+---xxbbxxxxxxxxbbxx
+---xxxxxxxxxxxxxxxx
+---xxxxxxxxxxxxxxxx
+---xxxxxxxbbxxxxxxx
+---xxxxxxxbbxxxxxxx
+---xxxxxxxxxxxxxxxx
+---xxxxxxxxxxxxxxxx
+---xxbbxxxxxxxxbbxx
+---xxbbxxxxxxxxbbxx
+---xxxxxxxxxxxxxxxx
+---2xxxxxxxxxxxxxx1
+---x2xxxxxxxxxxxx1x
+
+
+Player 1 has 15 overrides and 0 bombs.
+Sending move request to player 1 with depth 0, time left: 2000 msecs.
+Answer from player 1 for move 0 was (x,y,c) = (3,2,0); time left: 1970 msecs.
+Board:
+-------------------
+-------------------
+---1111111111111111
+---1xxxxxxxxxxxxxx2
+---1xxxxxxxxxxxxxxx
+---1xbbxxxxxxxxbbxx
+---1xbbxxxxxxxxbbxx
+---1xxxxxxxxxxxxxxx
+---1xxxxxxxxxxxxxxx
+---1xxxxxxbbxxxxxxx
+---1xxxxxxbbxxxxxxx
+---1xxxxxxxxxxxxxxx
+---1xxxxxxxxxxxxxxx
+---1xbbxxxxxxxxbbxx
+---1xbbxxxxxxxxbbxx
+---1xxxxxxxxxxxxxxx
+---1xxxxxxxxxxxxxx1
+---12xxxxxxxxxxxx1x
+
+
+Player 2 has 15 overrides and 0 bombs.
+Sending move request to player 2 with depth 0, time left: 2000 msecs.
+Answer from player 2 for move 1 was (x,y,c) = (16,13,21); time left: 199 msecs.
+Board:
+-------------------
+-------------------
+---1121111111111111
+---1xx2xxxxxxxxxxx2
+---1xxx2xxxxxxxxxxx
+---1xbbx2xxxxxxbbxx
+---1xbbxx2xxxxxbbxx
+---1xxxxxx2xxxxxxxx
+---1xxxxxxx2xxxxxxx
+---1xxxxxxbb2xxxxxx
+---1xxxxxxbbx2xxxxx
+---1xxxxxxxxxx2xxxx
+---1xxxxxxxxxxx2xxx
+---1xbbxxxxxxxxb2xx
+---1xbbxxxxxxxxbb2x
+---1xxxxxxxxxxxxxx2
+---2xxxxxxxxxxxxxx1
+---12xxxxxxxxxxxx1x
+
+
+Player 1 has 14 overrides and 0 bombs.
+Sending move request to player 1 with depth 0, time left: 3970 msecs.
+Answer from player 1 for move 2 was (x,y,c) = (3,15,0); time left: 3963 msecs.
+Board:
+-------------------
+-------------------
+---1121111111111111
+---1xx21xxxxxxxxxx2
+---1xxx21xxxxxxxxxx
+---1xbbx21xxxxxbbxx
+---1xbbxx21xxxxbbxx
+---1xxxxxx21xxxxxxx
+---1xxxxxxx21xxxxxx
+---1xxxxxxbb21xxxxx
+---1xxxxxxbbx21xxxx
+---1xxxxxxxxxx21xxx
+---1xxxxxxxxxxx21xx
+---1xbbxxxxxxxxb21x
+---1xbbxxxxxxxxbb21
+---1xxxxxxxxxxxxxx2
+---11xxxxxxxxxxxxx1
+---121xxxxxxxxxxx1x
+
+
+Player 2 has 16 overrides and 0 bombs.
+Sending move request to player 2 with depth 0, time left: 2199 msecs.
+Answer from player 2 for move 3 was (x,y,c) = (5,5,21); time left: 200 msecs.
+Board:
+-------------------
+-------------------
+---1121111111111111
+---1x221xxxxxxxxxx2
+---1x2x21xxxxxxxxxx
+---1x2bx21xxxxxbbxx
+---1xbbxx21xxxxbbxx
+---1xxxxxx21xxxxxxx
+---1xxxxxxx21xxxxxx
+---1xxxxxxbb21xxxxx
+---1xxxxxxbbx21xxxx
+---1xxxxxxxxxx21xxx
+---1xxxxxxxxxxx21xx
+---1xbbxxxxxxxxb21x
+---1xbbxxxxxxxxbb21
+---1xxxxxxxxxxxxxx2
+---11xxxxxxxxxxxxx1
+---121xxxxxxxxxxx1x
+
+
+Player 1 has 13 overrides and 0 bombs.
+Sending move request to player 1 with depth 0, time left: 5963 msecs.
+Answer from player 1 for move 4 was (x,y,c) = (5,16,0); time left: 197 msecs.
+Board:
+-------------------
+-------------------
+---1121111111111111
+---1x221xxxxxxxxxx2
+---1x2x21xxxxxxxxxx
+---1x2bx21xxxxxbbxx
+---1xbbxx21xxxxbbxx
+---1xxxxxx21xxxxxxx
+---1xxxxxxx21xxxxxx
+---1xxxxxxbb21xxxxx
+---1xxxxxxbbx21xxxx
+---1xxxxxxxxxx21xxx
+---1xxxxxxxxxxx21xx
+---1xbbxxxxxxxxb21x
+---1xbbxxxxxxxxbb21
+---11xxxxxxxxxxxxx2
+---1111111111111111
+---1111xxxxxxxxxx1x
+
+
+Player 2 has 17 overrides and 0 bombs.
+Sending move request to player 2 with depth 0, time left: 2200 msecs.
+Answer from player 2 for move 5 was (x,y,c) = (6,5,21); time left: 200 msecs.
+Board:
+-------------------
+-------------------
+---1121111111111111
+---1x221xxxxxxxxxx2
+---1x2221xxxxxxxxxx
+---1x22221xxxxxbbxx
+---1xbbxx21xxxxbbxx
+---1xxxxxx21xxxxxxx
+---1xxxxxxx21xxxxxx
+---1xxxxxxbb21xxxxx
+---1xxxxxxbbx21xxxx
+---1xxxxxxxxxx21xxx
+---1xxxxxxxxxxx21xx
+---1xbbxxxxxxxxb21x
+---1xbbxxxxxxxxbb21
+---11xxxxxxxxxxxxx2
+---1111111111111111
+---1111xxxxxxxxxx1x
+
+
+Player 1 has 12 overrides and 0 bombs.
+Sending move request to player 1 with depth 0, time left: 2197 msecs.
+timeout detected! (poll timeout)
+Player 1 disqualified (timeout during move).
+Board:
+-------------------
+-------------------
+---1121111111111111
+---1x221xxxxxxxxxx2
+---1x2221xxxxxxxxxx
+---1x22221xxxxxbbxx
+---1xbbxx21xxxxbbxx
+---1xxxxxx21xxxxxxx
+---1xxxxxxx21xxxxxx
+---1xxxxxxbb21xxxxx
+---1xxxxxxbbx21xxxx
+---1xxxxxxxxxx21xxx
+---1xxxxxxxxxxx21xx
+---1xbbxxxxxxxxb21x
+---1xbbxxxxxxxxbb21
+---11xxxxxxxxxxxxx2
+---1111111111111111
+---1111xxxxxxxxxx1x
+
+Final state reached, sole remaining player is winner.
+
+
+Scores:
+Player 1: disqualified
+Player 2: 21 points
+bye bye.

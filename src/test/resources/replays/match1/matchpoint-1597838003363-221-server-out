@@ -1,0 +1,149 @@
+game id is 221
+set baseport to 7777
+set baseport to 7777
+Search depth is 0
+Starting Server.
+Loading board from file "/home/spielkiste/reversiXT/orga/maps/2019compMaps/2019_comp_6_2p.map"... OK
+Opening port...OK. Port number is 7777.
+This is a 2-player map.
+Waiting client 1 to connect...OK
+Waiting for group id of client 1...OK. Group ID is 6.
+Waiting client 2 to connect...OK
+Waiting for group id of client 2...OK. Group ID is 9.
+Sending data to client 1...OK
+Sending data to client 2...OK
+[14:48:23] Game started.
+Board:
+c00020212x00i11221-0
+202100221-2c12001122
+c0b201110xb2200002x2
+x121c-0bxb10b2100012
+c02b-222110022001020
+c00021xxi2i1112b0c21
+12--ix2111i0x22102-2
+00x1b1222000i1c1x2c0
+12010002200122ccc-ix
+10i1i-012001b020b2-1
+c0010202-0i0x211c-22
+2001icb201ix-1101210
+22b10110-000i001200c
+c0x-111i20020i011-12
+120010ix0x01b22c01b1
+001-122cc2x20-0ci021
+0i1b2--x21001201i212
+100cci00220-2-2201ic
+00120011i0121000bc0x
+0b1xb0x00i20xi0cib-c
+
+
+Player 1 has 26 overrides and 5 bombs.
+Sending move request to player 1 with depth 0, time left: 2000 msecs.
+Answer from player 1 for move 0 was (x,y,c) = (7,15,2); time left: 1419 msecs.
+Board:
+c00010121x00i22112-0
+101200112-1c21002211
+c0b102220xb1100001x1
+x212c-0bxb20b1200021
+c01b-111220011002010
+c00012xxi1i2221b0c12
+21--ix1222i0x11201-1
+00x2b2111000i2c2x1c0
+21020001100211ccc-ix
+20i2i-021002b010b1-2
+c0020101-0i0x122c-11
+1002icb102ix-2202120
+11b20220-000i002100c
+c0x-222i10010i022-21
+210020ix0x02b11c02b2
+002-2222c1x10-0ci012
+0i2b1--x22002102i121
+200cci00120-1-1102ic
+00210022i0212000bc0x
+0b2xb0x00i10xi0cib-c
+
+
+Player 2 has 26 overrides and 5 bombs.
+Sending move request to player 2 with depth 0, time left: 2000 msecs.
+Answer from player 2 for move 1 was (x,y,c) = (12,3,21); time left: 998 msecs.
+Board:
+c00010121200i22112-0
+101200112-2c21002211
+c0b102220xb2200001x1
+x212c-0bxb2022200021
+c01b-111220022002010
+c00012xxi1i2222b0c12
+21--ix1222i0x11201-1
+00x2b2111000i2c2x1c0
+21020001100211ccc-ix
+20i2i-021002b010b1-2
+c0020101-0i0x122c-11
+1002icb102ix-2202120
+11b20220-000i002100c
+c0x-222i10010i022-21
+210020ix0x02b11c02b2
+002-2222c1x10-0ci012
+0i2b1--x22002102i121
+200cci00120-1-1102ic
+00210022i0212000bc0x
+0b2xb0x00i10xi0cib-c
+
+
+Player 1 has 26 overrides and 5 bombs.
+Sending move request to player 1 with depth 0, time left: 3419 msecs.
+Answer from player 1 for move 2 was (x,y,c) = (17,16,0); time left: 3021 msecs.
+Board:
+c00010121200i22112-0
+101200112-2c21002211
+c0b102220xb2200001x1
+x212c-0bxb2022200021
+c01b-111220022002010
+c00012xxi1i2222b0c12
+21--ix1222i0x11201-1
+00x2b2111000i2c2x1c0
+21020001100211ccc-ix
+20i2i-021002b010b1-2
+c0020101-0i0x122c-11
+1002icb102ix-2202120
+11b20220-000i002100c
+c0x-222i10010i022-21
+210020ix0x02b11c02b2
+002-2222c1x10-0ci012
+0i2b1--x22002102i111
+200cci00120-1-1102ic
+00210022i0212000bc0x
+0b2xb0x00i10xi0cib-c
+
+
+Player 2 has 27 overrides and 5 bombs.
+Sending move request to player 2 with depth 0, time left: 2998 msecs.
+[;1;31minvalid choice for plain or inversion move: 21[m
+Player 2 disqualified (invalid move: (5,6,21). time left: 997 msecs).
+Board:
+c00010121200i22112-0
+101200112-2c21002211
+c0b102220xb2200001x1
+x212c-0bxb2022200021
+c01b-111220022002010
+c00012xxi1i2222b0c12
+21--ix1222i0x11201-1
+00x2b2111000i2c2x1c0
+21020001100211ccc-ix
+20i2i-021002b010b1-2
+c0020101-0i0x122c-11
+1002icb102ix-2202120
+11b20220-000i002100c
+c0x-222i10010i022-21
+210020ix0x02b11c02b2
+002-2222c1x10-0ci012
+0i2b1--x22002102i111
+200cci00120-1-1102ic
+00210022i0212000bc0x
+0b2xb0x00i10xi0cib-c
+
+Final state reached, sole remaining player is winner.
+
+
+Scores:
+Player 1: 75 points
+Player 2: disqualified
+bye bye.
