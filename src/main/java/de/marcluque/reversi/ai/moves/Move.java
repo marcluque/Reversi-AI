@@ -16,7 +16,7 @@ import java.util.Set;
  */
 public class Move {
 
-    public static final int[][] CORNERS = {{0, -1}, {1, -1}, {1, 0},
+    private static final int[][] CORNERS = {{0, -1}, {1, -1}, {1, 0},
             {1, 1}, {0, 1}, {-1, 1}, {-1, 0}, {-1, -1}};
 
     private Move() {}
@@ -145,5 +145,9 @@ public class Move {
             map.getBombs()[MapUtil.playerToInt(player)]--;
             return BombMove.executeBombMove(map, x, y);
         }
+    }
+
+    public static int[][] getCORNERS() {
+        return CORNERS;
     }
 }

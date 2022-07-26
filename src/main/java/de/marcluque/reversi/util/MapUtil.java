@@ -76,24 +76,24 @@ public class MapUtil {
 
         Transition transition;
         for (int k = 1; k < 8; k += 2) {
-            int firstX = x + Move.CORNERS[k - 1][0];
-            int firstY = y + Move.CORNERS[k - 1][1];
+            int firstX = x + Move.getCORNERS()[k - 1][0];
+            int firstY = y + Move.getCORNERS()[k - 1][1];
             transition = Map.getTransitions().get(new Transition(x, y, k - 1));
             if (transition != null) {
                 firstX = transition.getX();
                 firstY = transition.getY();
             }
 
-            int secondX = x + Move.CORNERS[k][0];
-            int secondY = y + Move.CORNERS[k][1];
+            int secondX = x + Move.getCORNERS()[k][0];
+            int secondY = y + Move.getCORNERS()[k][1];
             transition = Map.getTransitions().get(new Transition(x, y, k));
             if (transition != null) {
                 secondX = transition.getX();
                 secondY = transition.getY();
             }
 
-            int thirdX = x + Move.CORNERS[(k + 1) % 8][0];
-            int thirdY = y + Move.CORNERS[(k + 1) % 8][1];
+            int thirdX = x + Move.getCORNERS()[(k + 1) % 8][0];
+            int thirdY = y + Move.getCORNERS()[(k + 1) % 8][1];
             transition = Map.getTransitions().get(new Transition(x, y, k + 1));
             if (transition != null) {
                 thirdX = transition.getX();

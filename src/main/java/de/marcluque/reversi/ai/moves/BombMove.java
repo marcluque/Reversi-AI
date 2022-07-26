@@ -33,8 +33,8 @@ public class BombMove {
                 x = transitionEnd.getX();
                 y = transitionEnd.getY();
             } else {
-                x += Move.CORNERS[i][0];
-                y += Move.CORNERS[i][1];
+                x += Move.getCORNERS()[i][0];
+                y += Move.getCORNERS()[i][1];
             }
 
             if (MapUtil.isCoordinateInMap(x, y) && !MapUtil.isTileHole(map.getGameField()[y][x])) {
@@ -74,8 +74,8 @@ public class BombMove {
                     x = transitionEnd.getX();
                     y = transitionEnd.getY();
                 } else {
-                    x += Move.CORNERS[i][0];
-                    y += Move.CORNERS[i][1];
+                    x += Move.getCORNERS()[i][0];
+                    y += Move.getCORNERS()[i][1];
                 }
 
                 Coordinate c = new Coordinate(x, y);
