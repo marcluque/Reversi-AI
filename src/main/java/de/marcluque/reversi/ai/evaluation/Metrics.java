@@ -14,15 +14,17 @@ import java.util.List;
  */
 public class Metrics {
 
-    public static int maximalBombEffect;
+    private Metrics() {}
 
-    public static int maximalBombPower;
+    private static int maximalBombEffect;
 
-    public static int maximalOverrideEffect;
+    private static int maximalBombPower;
 
-    public static int numberPlayableTiles;
+    private static int maximalOverrideEffect;
 
-    public static List<Character> opponentsWithMoves;
+    private static int numberPlayableTiles;
+
+    private static List<Character> opponentsWithMoves;
 
     public static void initNumberMetrics() {
         Map map = GameInstance.getMap();
@@ -76,7 +78,6 @@ public class Metrics {
 
     public static void updateOpponentsWithMoves() {
         opponentsWithMoves = new ArrayList<>(Map.getNumberOfPlayers() - 1);
-
         for (int player = 1, numberOfPlayers = Map.getNumberOfPlayers(); player <= numberOfPlayers; player++) {
             if (player != AbstractSearch.MAX && playerHasMove(player)) {
                 opponentsWithMoves.add(MapUtil.intToPlayer(player));
@@ -102,5 +103,25 @@ public class Metrics {
         }
 
         return false;
+    }
+
+    public static int getMaximalBombEffect() {
+        return maximalBombEffect;
+    }
+
+    public static int getMaximalBombPower() {
+        return maximalBombPower;
+    }
+
+    public static int getMaximalOverrideEffect() {
+        return maximalOverrideEffect;
+    }
+
+    public static int getNumberPlayableTiles() {
+        return numberPlayableTiles;
+    }
+
+    public static List<Character> getOpponentsWithMoves() {
+        return opponentsWithMoves;
     }
 }

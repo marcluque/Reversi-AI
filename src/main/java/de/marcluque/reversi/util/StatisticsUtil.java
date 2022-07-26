@@ -132,16 +132,16 @@ public class StatisticsUtil {
                 + " RULES MOVE %d " + ANSI_RESET + "= = = = = = = = = = = = = = =", GameInstance.getMoveCount() + 1);
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 "Use stone maximizing heuristics:",
-                Rules.useStoneMaximization);
+                Rules.isUseStoneMaximization());
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 "Override stones allowed:",
-                Rules.useOverrideStones);
+                Rules.isUseOverrideStones());
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 "Pick override stones over bombs:",
-                Rules.pickOverrideStoneOverBomb);
+                Rules.isPickOverrideStoneOverBomb());
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 "Try to search entire tree:",
-                Rules.useFullGameTreeSearch);
+                Rules.isUseFullGameTreeSearch());
         Logger.appendPrintMessage("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =\n");
     }
 
@@ -151,16 +151,16 @@ public class StatisticsUtil {
                 + " INITIAL METRICS " + ANSI_RESET + "= = = = = = = = = = = = = =");
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 "Number of playable tiles:",
-                Metrics.numberPlayableTiles);
+                Metrics.getNumberPlayableTiles());
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 "Maximal bomb effect (tile area):",
-                Metrics.maximalBombEffect);
+                Metrics.getMaximalBombEffect());
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 "Maximal bomb power (area * #bombs):",
-                Metrics.maximalBombPower);
+                Metrics.getMaximalBombPower());
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 "Maximal override effect (maxLength * #override):",
-                Metrics.maximalOverrideEffect);
+                Metrics.getMaximalOverrideEffect());
         Logger.appendPrintMessage("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =\n");
     }
 
@@ -170,7 +170,7 @@ public class StatisticsUtil {
                 + " METRICS MOVE %d " + ANSI_RESET + "= = = = = = = = = = = = = =", GameInstance.getMoveCount() + 1);
         Logger.appendPrintMessage(STATS_PREFIX + "%s" + ANSI_RESET,
                 "Players with at least one move:",
-                Metrics.opponentsWithMoves);
+                Metrics.getOpponentsWithMoves());
         Logger.appendPrintMessage("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =\n");
     }
 

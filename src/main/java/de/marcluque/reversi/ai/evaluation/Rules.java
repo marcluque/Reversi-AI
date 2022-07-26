@@ -11,15 +11,17 @@ import java.util.Arrays;
  */
 public class Rules {
 
-    public static boolean useOverrideStones = false;
+    private Rules() {}
 
-    public static boolean useStoneMaximization = false;
+    private static boolean useOverrideStones = false;
 
-    public static boolean useFullGameTreeSearch = false;
+    private static boolean useStoneMaximization = false;
 
-    public static int moveThresholdFullGameTreeSearch = -1;
+    private static boolean useFullGameTreeSearch = false;
 
-    public static boolean pickOverrideStoneOverBomb;
+    private static int moveThresholdFullGameTreeSearch = -1;
+
+    private static boolean pickOverrideStoneOverBomb;
 
     public static void updateOverrideStoneRule() {
         useOverrideStones = GameInstance.getMap().getNumberFreeTiles() == 0
@@ -38,6 +40,30 @@ public class Rules {
 
     public static void updateOverrideOverBombRule() {
         // We pick override stones over bombs while bomb power does not exceed power of destroying half the playable tiles
-        pickOverrideStoneOverBomb = Metrics.maximalOverrideEffect >= Metrics.maximalBombPower;
+        pickOverrideStoneOverBomb = Metrics.getMaximalOverrideEffect() >= Metrics.getMaximalBombPower();
+    }
+
+    public static boolean isUseOverrideStones() {
+        return useOverrideStones;
+    }
+
+    public static boolean isUseStoneMaximization() {
+        return useStoneMaximization;
+    }
+
+    public static boolean isUseFullGameTreeSearch() {
+        return useFullGameTreeSearch;
+    }
+
+    public static int getMoveThresholdFullGameTreeSearch() {
+        return moveThresholdFullGameTreeSearch;
+    }
+
+    public static void setMoveThresholdFullGameTreeSearch(int moveThresholdFullGameTreeSearch) {
+        Rules.moveThresholdFullGameTreeSearch = moveThresholdFullGameTreeSearch;
+    }
+
+    public static boolean isPickOverrideStoneOverBomb() {
+        return pickOverrideStoneOverBomb;
     }
 }

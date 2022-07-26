@@ -15,18 +15,23 @@ public class StoneParityHeuristic extends AbstractHeuristic implements Heuristic
     }
 
     @Override
-    public void initHeuristic(Map map) {}
+    public void initHeuristic(Map map) {
+        // Heuristic has no state, so no initialization required
+    }
 
     @Override
     public double executeHeuristic(Map map, char player) {
         int coinParity = 0;
         int[] num = map.getNumberOfStones();
+        int sum = 0;
+        int playerId = MapUtil.playerToInt(player);
 
         for (int j = 1; j < num.length; j++) {
-            coinParity += num[MapUtil.playerToInt(player)] - num[j];
+            coinParity += num[playerId] - num[j];
+            sum += num[j];
         }
 
-        return coinParity / ((double) Arrays.stream(num).sum() * num.length);
+        return coinParity / ((double) sum * (num.length - 1));
     }
 
     @Override

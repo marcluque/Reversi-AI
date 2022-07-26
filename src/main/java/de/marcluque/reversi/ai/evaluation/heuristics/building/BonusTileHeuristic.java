@@ -38,7 +38,7 @@ public class BonusTileHeuristic extends AbstractHeuristic implements Heuristic {
             }
         }
 
-        return bonusTiles.size() == 0 ? 0 : count / bonusTiles.size();
+        return count / Math.max(bonusTiles.size(), 1);
     }
 
     @Override

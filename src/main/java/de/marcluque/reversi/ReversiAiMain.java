@@ -49,7 +49,7 @@ public class ReversiAiMain {
         HeuristicEvaluation.addBombingHeuristic(new StrongestOpponentHeuristic(0.15));
         HeuristicEvaluation.addBombingHeuristic(new SuccessorHeuristic(0.15));
 
-        Rules.moveThresholdFullGameTreeSearch = 10;
+        Rules.setMoveThresholdFullGameTreeSearch(10);
 
         new Client("127.0.0.1", 8080).start();
     }

@@ -18,7 +18,7 @@ public class StoneCountHeuristic extends AbstractHeuristic implements Heuristic 
 
     @Override
     public double executeHeuristic(Map map, char player) {
-        return map.getNumberOfStones()[MapUtil.playerToInt(player)] / (double) Metrics.numberPlayableTiles;
+        return map.getNumberOfStones()[MapUtil.playerToInt(player)] / (double) Metrics.getNumberPlayableTiles();
     }
 
     @Override

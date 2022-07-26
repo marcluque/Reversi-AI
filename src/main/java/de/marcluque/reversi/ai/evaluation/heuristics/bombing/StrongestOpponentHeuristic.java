@@ -17,7 +17,9 @@ public class StrongestOpponentHeuristic extends AbstractHeuristic implements Heu
     }
 
     @Override
-    public void initHeuristic(Map map) {}
+    public void initHeuristic(Map map) {
+        // Heuristic has no state, so no initialization required
+    }
 
     @Override
     public double executeHeuristic(Map map, char player) {

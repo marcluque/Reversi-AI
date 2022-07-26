@@ -11,7 +11,9 @@ import java.util.Set;
 /*
  * Created with <3 by marcluque, March 2021
  */
-public abstract class BuildMove {
+public class BuildMove {
+
+    private BuildMove() {}
 
     public static MoveTriplet executeBuildMove(Map map, int x, int y, int specialField, char player,
                                                Set<Coordinate> capturableStones) {
@@ -88,7 +90,7 @@ public abstract class BuildMove {
 
                 if (specialField != 0) {
                     specialTile = specialField;
-                } else if (Rules.pickOverrideStoneOverBomb) {
+                } else if (Rules.isPickOverrideStoneOverBomb()) {
                     specialTile = 21;
                 } else {
                     specialTile = 20;

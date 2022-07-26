@@ -37,7 +37,7 @@ A 2-player game allows for the commonly known MiniMax algorithm that assumes two
 However, an n-player scenario is more difficult than that. More players allow for more intricate situations than just one opponent.
 Just consider the idea of a coalition that your opponents could form.  
 The [2-Player Algorithms](#2-player-algorithms) section below presents MiniMax and its extensions.  
-The [Multi-Player Algorithms](#multi-player-algorithms) section presents various algorithms for multi-player scenarios.
+The [Multi-Player Algorithms](#multi-player-algorithms) section presents various algorithms for multiplayer scenarios.
 
 ### 2-Player Algorithms
 The 2-player algorithms use the classical scenario for the MiniMax algorithm and its extensions.
@@ -70,7 +70,7 @@ The values are usually retrieved from the previous iteration of the search.
 However, when picking a too narrow window, the best move might be missed.
 
 ### Multi-Player Algorithms
-The following algorithms try several approaches for multi-player situations.
+The following algorithms try several approaches for multiplayer situations.
 The implementations do not rely on a book, like the standard MiniMax and its extensions. 
 Instead, the algorithms are implemented with the help of their respective papers, all the papers are linked in their respective sections.   
 

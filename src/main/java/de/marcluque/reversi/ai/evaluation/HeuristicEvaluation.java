@@ -13,6 +13,8 @@ import java.util.List;
  */
 public class HeuristicEvaluation {
 
+    private HeuristicEvaluation() {}
+
     private static List<Heuristic> buildingHeuristics = new ArrayList<>();
 
     private static final List<Heuristic> MAXIMIZATION_HEURISTICS = new ArrayList<>();

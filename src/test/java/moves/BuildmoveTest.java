@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
-public class BuildmoveTest {
+class BuildmoveTest {
 
     private static final String BASE = "src/test/resources/buildmoves";
 
@@ -35,7 +35,7 @@ public class BuildmoveTest {
 
     @ParameterizedTest
     @MethodSource("validBuildMapMovePlayer")
-    public void testValidBuildMoves(int testNumber, int x, int y, char player) {
+    void testValidBuildMoves(int testNumber, int x, int y, char player) {
         String beforeMapPath = String.format("%s/buildmove_test%d_before.txt", BASE, testNumber);
 
         GameInstance.setMap(MapLoader.generateMapFromMapFile(beforeMapPath));
@@ -53,7 +53,7 @@ public class BuildmoveTest {
     }
 
     @Test
-    public void testOverrideStones() {
+    void testOverrideStones() {
         String beforeMapPath = String.format("%s/override_stone_test0_before.txt", BASE);
 
         GameInstance.setMap(MapLoader.generateMapFromMapFile(beforeMapPath));

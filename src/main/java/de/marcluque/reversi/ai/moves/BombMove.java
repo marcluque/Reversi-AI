@@ -11,7 +11,9 @@ import java.util.Set;
 /*
  * Created with <3 by marcluque, March 2021
  */
-public abstract class BombMove {
+public class BombMove {
+
+    private BombMove() {}
 
     private static void executeBombMoveDFS(Map map, Set<Coordinate> visited, int x, int y, int depth) {
         int startX = x;

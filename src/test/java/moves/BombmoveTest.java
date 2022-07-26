@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
-public class BombmoveTest {
+class BombmoveTest {
 
     private static final String BASE = "src/test/resources/bombmoves";
 
@@ -41,7 +41,7 @@ public class BombmoveTest {
 
     @ParameterizedTest
     @MethodSource("testBombMoveCorrectness")
-    public void testBombMove(int testNumber, int x, int y, char player) {
+    void testBombMove(int testNumber, int x, int y, char player) {
         String beforeMapPath = String.format("%s/bombmove_test%d_before.txt", BASE, testNumber);
         GameInstance.setMap(MapLoader.generateMapFromMapFile(beforeMapPath));
         Map.setPhase(2);
@@ -77,7 +77,7 @@ public class BombmoveTest {
 
     @ParameterizedTest
     @MethodSource("testBombMoveValidity")
-    public void testBombMoveValidity(int testNumber, int x, int y, char player, boolean isValid) {
+    void testBombMoveValidity(int testNumber, int x, int y, char player, boolean isValid) {
         String beforeMapPath = String.format("%s/bombmove_test%d_before.txt", BASE, testNumber);
         GameInstance.setMap(MapLoader.generateMapFromMapFile(beforeMapPath));
         Map.setPhase(2);

@@ -37,7 +37,7 @@ public class GameInstance {
     public static void processMove(int x, int y, int specialField, char player) {
         moveCount++;
         Set<Coordinate> capturableStones = new HashSet<>();
-        boolean allowOverrideStones = player != AbstractSearch.MAX_NUMBER || Rules.useOverrideStones;
+        boolean allowOverrideStones = player != AbstractSearch.MAX_NUMBER || Rules.isUseOverrideStones();
         boolean moveIsValid = Move.isMoveValid(map, x, y, player, false, allowOverrideStones, capturableStones);
         if (moveIsValid) {
             Move.executeMove(map, x, y, specialField, player, capturableStones);
@@ -68,7 +68,7 @@ public class GameInstance {
         Rules.updateFullGameTreeSearch();
         Rules.updateOverrideOverBombRule();
 
-        if (Rules.useStoneMaximization) {
+        if (Rules.isUseStoneMaximization()) {
             HeuristicEvaluation.activateStoneMaximization();
         }
     }
@@ -80,12 +80,12 @@ public class GameInstance {
         // If we have a 2-Player map or only one opponent has moves available, we use classical MiniMax/Alpha-Beta
         if (InputParser.isUserChoice()) {
             searchStrategy = InputParser.getUserStrategy(map);
-        } else if (Map.getNumberOfPlayers() == 2 || Metrics.opponentsWithMoves.size() == 1) {
-            AbstractSearch.MIN = Metrics.opponentsWithMoves.get(0);
+        } else if (Map.getNumberOfPlayers() == 2 || Metrics.getOpponentsWithMoves().size() == 1) {
+            AbstractSearch.MIN = Metrics.getOpponentsWithMoves().get(0);
             searchStrategy = (totalStates, depthLimit) -> AlphaBetaMoveSorting.search(map, depthLimit, totalStates);
         }
         // We don't have a two player game, but are close to the end, so start doing a full tree search
-        else if (Rules.useFullGameTreeSearch) {
+        else if (Rules.isUseFullGameTreeSearch()) {
             searchStrategy = (totalStates, depthLimit) -> MaxNSearch.search(map, depthLimit, totalStates);
         }
         // We are mid-game, so just do the search that the user picked

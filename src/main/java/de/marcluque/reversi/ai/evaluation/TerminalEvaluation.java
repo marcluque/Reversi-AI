@@ -11,6 +11,8 @@ import java.util.Arrays;
  */
 public class TerminalEvaluation {
 
+    private TerminalEvaluation() {}
+
     public static double utility(Map map) {
         return (double) map.getNumberOfStones()[AbstractSearch.MAX_NUMBER] / Arrays.stream(map.getNumberOfStones()).sum();
     }

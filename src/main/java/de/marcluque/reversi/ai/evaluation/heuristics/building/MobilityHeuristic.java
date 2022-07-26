@@ -17,7 +17,9 @@ public class MobilityHeuristic extends AbstractHeuristic implements Heuristic {
     }
 
     @Override
-    public void initHeuristic(Map map) {}
+    public void initHeuristic(Map map) {
+        // Heuristic has no state, so no initialization required
+    }
 
     @Override
     public double executeHeuristic(Map map, char player) {
@@ -25,13 +27,13 @@ public class MobilityHeuristic extends AbstractHeuristic implements Heuristic {
 
         for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
             for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
-                if (Move.isMoveValid(map, x, y, player, true, Rules.useOverrideStones)) {
+                if (Move.isMoveValid(map, x, y, player, true, Rules.isUseOverrideStones())) {
                     numberOfMoves[0]++;
                 }
             }
         }
 
-        return numberOfMoves[0] / Metrics.numberPlayableTiles;
+        return numberOfMoves[0] / Metrics.getNumberPlayableTiles();
     }
 
     @Override

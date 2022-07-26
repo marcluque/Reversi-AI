@@ -22,7 +22,7 @@ import java.util.*;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class GameReplayTest {
+class GameReplayTest {
 
     private static final String LOG_BASE = "src/test/resources/replays";
 
@@ -65,7 +65,7 @@ public class GameReplayTest {
 
     @ParameterizedTest
     @MethodSource("matchReplay")
-    public void testGameReplay(String serverLogPath, String mapPath) {
+    void testGameReplay(String serverLogPath, String mapPath) {
         GameInstance.setMap(MapLoader.generateMapFromMapFile(mapPath));
         Map.setPhase(1);
 

@@ -14,7 +14,7 @@ import java.util.Set;
 /*
  * Created with <3 by marcluque, March 2021
  */
-public abstract class Move {
+public class Move {
 
     public static final int[][] CORNERS = {{0, -1}, {1, -1}, {1, 0},
             {1, 1}, {0, 1}, {-1, 1}, {-1, 0}, {-1, -1}};
@@ -23,7 +23,7 @@ public abstract class Move {
 
     public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly,
                                       Set<Coordinate> capturableStones) {
-        return isMoveValid(map, x, y, player, returnEarly, Rules.useOverrideStones, capturableStones);
+        return isMoveValid(map, x, y, player, returnEarly, Rules.isUseOverrideStones(), capturableStones);
     }
 
     public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly,
@@ -32,7 +32,7 @@ public abstract class Move {
     }
 
     public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly) {
-        return isMoveValid(map, x, y, player, returnEarly, Rules.useOverrideStones);
+        return isMoveValid(map, x, y, player, returnEarly, Rules.isUseOverrideStones());
     }
 
     public static boolean isMoveValid(Map map, int x, int y, char player, boolean returnEarly,
