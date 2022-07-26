@@ -189,6 +189,7 @@ public class MapUtil {
         return sb.toString();
     }
 
+    @SuppressWarnings("squid:S00112")
     public static String compareMapTo(char[][] mapBefore, char[][] mapAfter) {
         StringBuilder sb = new StringBuilder();
 

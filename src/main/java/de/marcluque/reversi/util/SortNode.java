@@ -59,6 +59,19 @@ public class SortNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SortNode)) return false;
+
+        SortNode sortNode = (SortNode) o;
+
+        if (x != sortNode.x) return false;
+        if (y != sortNode.y) return false;
+        if (specialTile != sortNode.specialTile) return false;
+        return Double.compare(sortNode.heuristicValue, heuristicValue) != 0;
+    }
+
+    @Override
     public String toString() {
         return "[x=" + x + ", y=" + y + "]";
     }

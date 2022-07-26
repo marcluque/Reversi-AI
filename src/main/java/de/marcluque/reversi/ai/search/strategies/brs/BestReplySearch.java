@@ -53,11 +53,9 @@ public class BestReplySearch extends AbstractSearch {
         double maxAlpha = alpha;
         if (turn == MAX) {
             maxAlpha = Math.max(maxAlpha, BRSDoMoves(map, alpha, beta, depth, MAX, totalStates));
-            return maxAlpha;
         } else {
             for (char opponent : OPPONENTS) {
                 maxAlpha = Math.max(maxAlpha, BRSDoMoves(map, alpha, beta, depth, opponent, totalStates));
-                return maxAlpha;
             }
         }
 

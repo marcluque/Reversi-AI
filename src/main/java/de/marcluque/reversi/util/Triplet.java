@@ -16,11 +16,6 @@ public class Triplet {
         this.z = z;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y, z);
-    }
-
     public int getX() {
         return x;
     }
@@ -31,5 +26,22 @@ public class Triplet {
 
     public int getZ() {
         return z;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, z);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Triplet)) return false;
+
+        Triplet triplet = (Triplet) o;
+
+        if (x != triplet.x) return false;
+        if (y != triplet.y) return false;
+        return z == triplet.z;
     }
 }
