@@ -11,10 +11,12 @@ public class MoveTriplet extends Triplet {
         super(x, y, specialTile);
     }
 
+    @Override
     public int getX() {
         return x;
     }
 
+    @Override
     public int getY() {
         return y;
     }
