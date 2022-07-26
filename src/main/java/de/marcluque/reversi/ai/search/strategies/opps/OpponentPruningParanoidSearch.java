@@ -48,6 +48,7 @@ public class OpponentPruningParanoidSearch extends AbstractSearch {
         return bestMoveTriplet;
     }
 
+    @SuppressWarnings("java:S100") // Allow BRS as name
     private static double OPPS(Map map, int depth, int turn, int moveCount, int[] totalStates) {
         totalStates[0]++;
 

@@ -41,6 +41,8 @@ public class BestReplySearch extends AbstractSearch {
         return bestMoveTriplet[0];
     }
 
+
+    @SuppressWarnings("java:S100") // Allow BRS as name
     private static double BRS(Map map, double alpha, double beta, int depth, char turn, int[] totalStates) {
         totalStates[0]++;
 
@@ -62,6 +64,7 @@ public class BestReplySearch extends AbstractSearch {
         return maxAlpha;
     }
 
+    @SuppressWarnings("java:S100") // Allow BRS in name
     private static double BRSDoMoves(Map map, double alpha, double beta, int depth, char turn, int[] totalStates) {
         for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
             for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
