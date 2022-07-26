@@ -131,19 +131,14 @@ public class MapUtil {
     }
 
     public static boolean noMovesPossible(Map map) {
-        List<Coordinate> freeTiles = new ArrayList<>();
         for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
             for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
                 if (isTileFree(map.getGameField()[y][x])) {
-                    freeTiles.add(new Coordinate(x, y));
-                }
-            }
-        }
-
-        for (Coordinate freeTile : freeTiles) {
-            for (Character activePlayer : AbstractSearch.getActivePlayers()) {
-                if (Move.isMoveValid(map, freeTile.getX(), freeTile.getY(), activePlayer, true)) {
-                    return false;
+                    for (Character activePlayer : AbstractSearch.getActivePlayers()) {
+                        if (Move.isMoveValid(map, x, y, activePlayer, true)) {
+                            return false;
+                        }
+                    }
                 }
             }
         }
@@ -154,7 +149,7 @@ public class MapUtil {
     public static boolean isTerminal(Map map) {
         // When no free tiles are left and no player has any more override stones, we are in a terminal state
         return Map.getPhase() == 1
-                ? Arrays.stream(map.getOverrideStones()).sum() <= 0 && noMovesPossible(map)
+                ? Arrays.stream(map.getOverrideStones()).sum() <= 0 && map.getNumberFreeTiles() <= 0 && noMovesPossible(map)
                 : Arrays.stream(map.getBombs()).sum() <= 0;
     }
 
