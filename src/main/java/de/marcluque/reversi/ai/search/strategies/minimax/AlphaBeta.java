@@ -25,9 +25,9 @@ public class AlphaBeta extends AbstractSearch {
         for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
             for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
                 Set<Coordinate> capturableStones = new HashSet<>();
-                if (Move.isMoveValid(map, x, y, MAX, false, capturableStones)) {
+                if (Move.isMoveValid(map, x, y, getMax(), false, capturableStones)) {
                     Map mapClone = new Map(map);
-                    MoveTriplet currentMoveTriplet = Move.executeMove(mapClone, x, y, 0, MAX, capturableStones);
+                    MoveTriplet currentMoveTriplet = Move.executeMove(mapClone, x, y, 0, getMax(), capturableStones);
 
                     double value = minValue(mapClone, Integer.MIN_VALUE, Integer.MAX_VALUE, depth - 1, totalStates);
                     if (value > maxValue[0]) {
@@ -55,9 +55,9 @@ public class AlphaBeta extends AbstractSearch {
         for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
             for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
                 Set<Coordinate> capturableStones = new HashSet<>();
-                if (Move.isMoveValid(map, x, y, MAX, false, capturableStones)) {
+                if (Move.isMoveValid(map, x, y, getMax(), false, capturableStones)) {
                     Map mapClone = new Map(map);
-                    Move.executeMove(mapClone, x, y, 0, MAX, capturableStones);
+                    Move.executeMove(mapClone, x, y, 0, getMax(), capturableStones);
 
                     value = Math.max(value, minValue(mapClone, alpha, beta, depth - 1, totalStates));
 
@@ -87,9 +87,9 @@ public class AlphaBeta extends AbstractSearch {
         for (int y = 0, mapHeight = Map.getMapHeight(); y < mapHeight; y++) {
             for (int x = 0, mapWidth = Map.getMapWidth(); x < mapWidth; x++) {
                 Set<Coordinate> capturableStones = new HashSet<>();
-                if (Move.isMoveValid(map, x, y, MIN, false, capturableStones)) {
+                if (Move.isMoveValid(map, x, y, getMin(), false, capturableStones)) {
                     Map mapClone = new Map(map);
-                    Move.executeMove(mapClone, x, y, 0, MIN, capturableStones);
+                    Move.executeMove(mapClone, x, y, 0, getMin(), capturableStones);
 
                     value = Math.min(value, maxValue(mapClone, alpha, beta, depth - 1, totalStates));
 

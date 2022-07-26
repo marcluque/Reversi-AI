@@ -141,7 +141,7 @@ public class MapUtil {
         }
 
         for (Coordinate freeTile : freeTiles) {
-            for (Character activePlayer : AbstractSearch.ACTIVE_PLAYERS) {
+            for (Character activePlayer : AbstractSearch.getActivePlayers()) {
                 if (Move.isMoveValid(map, freeTile.getX(), freeTile.getY(), activePlayer, true)) {
                     return false;
                 }

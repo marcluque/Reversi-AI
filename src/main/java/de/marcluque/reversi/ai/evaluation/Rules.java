@@ -25,7 +25,7 @@ public class Rules {
 
     public static void updateOverrideStoneRule() {
         useOverrideStones = GameInstance.getMap().getNumberFreeTiles() == 0
-                || MapUtil.noMovesPossibleForPlayer(GameInstance.getMap(), AbstractSearch.MAX);
+                || MapUtil.noMovesPossibleForPlayer(GameInstance.getMap(), AbstractSearch.getMax());
     }
 
     public static void updateStoneMaximizationRule() {

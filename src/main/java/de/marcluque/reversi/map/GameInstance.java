@@ -22,6 +22,8 @@ import java.util.Set;
  */
 public class GameInstance {
 
+    private GameInstance() {}
+
     private static Map map;
 
     private static int depthLimit;
@@ -37,13 +39,13 @@ public class GameInstance {
     public static void processMove(int x, int y, int specialField, char player) {
         moveCount++;
         Set<Coordinate> capturableStones = new HashSet<>();
-        boolean allowOverrideStones = player != AbstractSearch.MAX_NUMBER || Rules.isUseOverrideStones();
+        boolean allowOverrideStones = player != AbstractSearch.getMaxId() || Rules.isUseOverrideStones();
         boolean moveIsValid = Move.isMoveValid(map, x, y, player, false, allowOverrideStones, capturableStones);
         if (moveIsValid) {
             Move.executeMove(map, x, y, specialField, player, capturableStones);
         }
 
-        if (player != AbstractSearch.MAX) {
+        if (player != AbstractSearch.getMax()) {
             if (moveIsValid) {
                 Logger.print("ANNOUNCED MOVE " + moveCount + ": (" + x + "," + y + ") with special " + specialField
                         + " by player " + player);
@@ -81,7 +83,7 @@ public class GameInstance {
         if (InputParser.isUserChoice()) {
             searchStrategy = InputParser.getUserStrategy(map);
         } else if (Map.getNumberOfPlayers() == 2 || Metrics.getOpponentsWithMoves().size() == 1) {
-            AbstractSearch.MIN = Metrics.getOpponentsWithMoves().get(0);
+            AbstractSearch.setMin(Metrics.getOpponentsWithMoves().get(0));
             searchStrategy = (totalStates, depthLimit) -> AlphaBetaMoveSorting.search(map, depthLimit, totalStates);
         }
         // We don't have a two player game, but are close to the end, so start doing a full tree search

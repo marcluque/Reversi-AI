@@ -13,6 +13,8 @@ import java.text.DecimalFormat;
  */
 public class StatisticsUtil {
 
+    private StatisticsUtil() {}
+
     private static final String ANSI_RESET = "\u001B[0m";
 
     private static final String ANSI_RED = "\u001B[31m";
@@ -104,7 +106,7 @@ public class StatisticsUtil {
                 GameInstance.getMoveCount() + 1);
         Logger.appendPrintMessage(STATS_PREFIX + "%s %s: %s" + ANSI_RESET,
                 "Chosen move:", "Player",
-                AbstractSearch.MAX, chosenMoveTriplet);
+                AbstractSearch.getMax(), chosenMoveTriplet);
         Logger.appendPrintMessage(STATS_PREFIX + "%d, %d, %d" + ANSI_RESET,
                 "Total-, Interior-, Leaf-nodes:",
                 totalStates, (totalStates - leafStates), leafStates);

@@ -25,11 +25,11 @@ public class BestReplySearch extends AbstractSearch {
         for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
             for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
                 Set<Coordinate> capturableStones = new HashSet<>();
-                if (Move.isMoveValid(map, x, y, MAX, false, capturableStones)) {
+                if (Move.isMoveValid(map, x, y, getMax(), false, capturableStones)) {
                     Map mapClone = new Map(map);
-                    MoveTriplet currentMoveTriplet = Move.executeMove(mapClone, x, y, 0, MAX, capturableStones);
+                    MoveTriplet currentMoveTriplet = Move.executeMove(mapClone, x, y, 0, getMax(), capturableStones);
 
-                    double value = BRS(map, Double.MIN_VALUE, Double.MAX_VALUE, depth - 1, MAX, totalStates);
+                    double value = BRS(map, Double.MIN_VALUE, Double.MAX_VALUE, depth - 1, getMax(), totalStates);
                     if (value > maxValue[0]) {
                         maxValue[0] = value;
                         bestMoveTriplet[0] = currentMoveTriplet;
@@ -51,10 +51,10 @@ public class BestReplySearch extends AbstractSearch {
         }
 
         double maxAlpha = alpha;
-        if (turn == MAX) {
-            maxAlpha = Math.max(maxAlpha, BRSDoMoves(map, alpha, beta, depth, MAX, totalStates));
+        if (turn == getMax()) {
+            maxAlpha = Math.max(maxAlpha, BRSDoMoves(map, alpha, beta, depth, getMax(), totalStates));
         } else {
-            for (char opponent : OPPONENTS) {
+            for (char opponent : getOPPONENTS()) {
                 maxAlpha = Math.max(maxAlpha, BRSDoMoves(map, alpha, beta, depth, opponent, totalStates));
             }
         }
@@ -71,7 +71,7 @@ public class BestReplySearch extends AbstractSearch {
                     Move.executeMove(mapClone, x, y, 0, turn, capturableStones);
 
                     double value = -BRS(mapClone, -beta, -alpha, depth - 1,
-                            (turn == MAX) ? OPPONENT : MAX, totalStates);
+                            (turn == getMax()) ? getOPPONENT() : getMax(), totalStates);
 
                     if (value >= beta) {
                         return value;

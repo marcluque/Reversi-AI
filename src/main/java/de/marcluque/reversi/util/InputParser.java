@@ -15,14 +15,12 @@ import de.marcluque.reversi.map.Map;
 public class InputParser {
 
     enum Strategy {
-        BRS, MAX_N, AB, AB_MOVE_SORTING, OPPS, PARANOID_AB, PARANOID;
+        BRS, MAX_N, AB, AB_MOVE_SORTING, OPPS, PARANOID_AB, PARANOID
     }
 
     private static boolean userChoice;
 
     private static Strategy strategyType;
-
-    private static IterativeDeepening.SearchStrategy userStrategy;
 
     public static void parse(String[] args) {
         for (String argument : args) {
@@ -34,6 +32,8 @@ public class InputParser {
                 case "-opps": strategyType = Strategy.OPPS; break;
                 case "-paranoid-ab": strategyType = Strategy.PARANOID_AB; break;
                 case "-paranoid": strategyType = Strategy.PARANOID; break;
+                default:
+                    throw new UnsupportedOperationException(String.format("Unknown option: %s", argument));
             }
         }
     }
@@ -47,6 +47,7 @@ public class InputParser {
     }
 
     public static IterativeDeepening.SearchStrategy getUserStrategy(Map map) {
+        IterativeDeepening.SearchStrategy userStrategy;
         switch (strategyType) {
             case BRS:
                 userStrategy = (totalStates, depthLimit) -> BestReplySearch.search(map, depthLimit, totalStates);
@@ -55,11 +56,11 @@ public class InputParser {
                 userStrategy = (totalStates, depthLimit) -> MaxNSearch.search(map, depthLimit, totalStates);
                 break;
             case AB:
-                AbstractSearch.MIN = AbstractSearch.MAX_NUMBER == 1 ? '2' : '1';
+                AbstractSearch.setMin(AbstractSearch.getMaxId() == 1 ? '2' : '1');
                 userStrategy = (totalStates, depthLimit) -> AlphaBeta.search(map, depthLimit, totalStates);
                 break;
             case AB_MOVE_SORTING:
-                AbstractSearch.MIN = AbstractSearch.MAX_NUMBER == 1 ? '2' : '1';
+                AbstractSearch.setMin(AbstractSearch.getMaxId() == 1 ? '2' : '1');
                 userStrategy = (totalStates, depthLimit) -> AlphaBetaMoveSorting.search(map, depthLimit, totalStates);
                 break;
             case OPPS:
@@ -67,6 +68,8 @@ public class InputParser {
                 break;
             //case PARANOID_AB -> userStrategy = (totalStates) -> ParanoidAlphaBetaSearch.search(map, depthLimit, totalStates);
             //case PARANOID -> userStrategy = (totalStates) -> ParanoidSearch.search(map, depthLimit, totalStates);
+            default:
+                throw new IllegalStateException(String.format("Unknown strategy: %s", strategyType));
         }
 
         return userStrategy;

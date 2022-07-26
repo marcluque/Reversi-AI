@@ -84,7 +84,8 @@ public class IterativeDeepening {
             totalStatesUntilDepth[0] = 0;
             long start = System.nanoTime();
             chosenMoveTriplet = searchStrategy.apply(totalStatesUntilDepth, currentDepth);
-            timeUntilDepth = System.nanoTime() - start;
+            long end = System.nanoTime();
+            timeUntilDepth = end - start;
             totalTime += timeUntilDepth;
 
             if (totalStatesUntilDepth[0] - prevStatesPerDepth == 0) {

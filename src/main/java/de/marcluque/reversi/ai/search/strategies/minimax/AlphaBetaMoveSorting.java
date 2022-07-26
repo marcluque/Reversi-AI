@@ -19,7 +19,7 @@ public class AlphaBetaMoveSorting extends AbstractSearch {
         double maxValue = Integer.MIN_VALUE;
         totalStates[0]++;
 
-        var sortedMoves = MoveSorting.sortMoves(map, AbstractSearch.MAX);
+        var sortedMoves = MoveSorting.sortMoves(map, AbstractSearch.getMax());
 
         for (SortNode move : sortedMoves) {
             double value = minValue(move.getMap(), Integer.MIN_VALUE, Integer.MAX_VALUE, depth - 1, totalStates);
@@ -42,7 +42,7 @@ public class AlphaBetaMoveSorting extends AbstractSearch {
             return HeuristicEvaluation.utility(map);
         }
 
-        var sortedMoves = MoveSorting.sortMoves(map, AbstractSearch.MAX);
+        var sortedMoves = MoveSorting.sortMoves(map, AbstractSearch.getMax());
         double value = Integer.MIN_VALUE;
 
         for (SortNode move : sortedMoves) {
@@ -67,7 +67,7 @@ public class AlphaBetaMoveSorting extends AbstractSearch {
             return HeuristicEvaluation.utility(map);
         }
 
-        var sortedMoves = MoveSorting.sortMoves(map, AbstractSearch.MIN);
+        var sortedMoves = MoveSorting.sortMoves(map, AbstractSearch.getMin());
         double value = Integer.MAX_VALUE;
 
         for (SortNode move : sortedMoves) {

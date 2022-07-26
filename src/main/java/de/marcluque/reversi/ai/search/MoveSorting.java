@@ -12,6 +12,8 @@ import java.util.*;
  */
 public class MoveSorting {
 
+    private MoveSorting() {}
+
     public static List<SortNode> sortMoves(Map map, char player) {
         List<SortNode> moves = new ArrayList<>();
 
@@ -26,7 +28,7 @@ public class MoveSorting {
             }
         }
 
-        if (player == AbstractSearch.MAX) {
+        if (player == AbstractSearch.getMax()) {
             // Descending order (maximum first)
             moves.sort(Comparator.comparingDouble(SortNode::getHeuristicValue).reversed());
         } else {

@@ -21,17 +21,17 @@ public class MaxNSearch extends AbstractSearch {
     public static MoveTriplet search(Map map, int depth, int[] totalStates) {
         final MoveTriplet[] bestMoveTriplet = {null};
         final double[] maxValue = {Double.MIN_VALUE};
-        int MAX_INT = MapUtil.playerToInt(MAX);
+        final int maxId = AbstractSearch.getMaxId();
         totalStates[0]++;
 
         for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
             for (int x = 0, width = Map.getMapWidth(); x < width; x++) {
                 Set<Coordinate> capturableStones = new HashSet<>();
-                if (Move.isMoveValid(map, x, y, MAX, false, capturableStones)) {
+                if (Move.isMoveValid(map, x, y, getMax(), false, capturableStones)) {
                     Map mapClone = new Map(map);
-                    MoveTriplet currentMoveTriplet = Move.executeMove(mapClone, x, y, 0, MAX, capturableStones);
+                    MoveTriplet currentMoveTriplet = Move.executeMove(mapClone, x, y, 0, getMax(), capturableStones);
 
-                    double value = maxValue(map, depth - 1, MapUtil.nextPlayer(MAX_INT), totalStates)[MAX_INT];
+                    double value = maxValue(map, depth - 1, MapUtil.nextPlayer(maxId), totalStates)[maxId];
                     if (value > maxValue[0]) {
                         maxValue[0] = value;
                         bestMoveTriplet[0] = currentMoveTriplet;
@@ -53,7 +53,7 @@ public class MaxNSearch extends AbstractSearch {
         }
 
         double[] maxValue = new double[Map.getNumberOfPlayers() + 1];
-        Arrays.fill(maxValue, player == MAX ? Double.MIN_VALUE : Double.MAX_VALUE);
+        Arrays.fill(maxValue, player == getMax() ? Double.MIN_VALUE : Double.MAX_VALUE);
 
         for (int y = 0, height = Map.getMapHeight(); y < height; y++) {
             for (int x = 0, width = Map.getMapWidth(); x < width; x++) {

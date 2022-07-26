@@ -16,7 +16,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 /*
@@ -89,19 +88,17 @@ public class Client {
 
                     // Assigns player number
                     case 3:
-                        AbstractSearch.MAX_NUMBER = byteBuffer.get();
-                        Logger.print("We are player %s", AbstractSearch.MAX_NUMBER);
-                        AbstractSearch.MAX = MapUtil.intToPlayer(AbstractSearch.MAX_NUMBER);
+                        AbstractSearch.setMaxId(byteBuffer.get());
+                        Logger.print("We are player %s", AbstractSearch.getMaxId());
+                        AbstractSearch.setMax(MapUtil.intToPlayer(AbstractSearch.getMaxId()));
                         Logger.print("We have %d opponent(s) in total", Map.getNumberOfPlayers() - 1);
 
-                        AbstractSearch.OPPONENTS = new ArrayList<>();
                         IntStream.rangeClosed(1, Map.getNumberOfPlayers())
-                                .filter(i -> i != AbstractSearch.MAX_NUMBER)
-                                .forEach(i -> AbstractSearch.OPPONENTS.add(MapUtil.intToPlayer(i)));
+                                .filter(i -> i != AbstractSearch.getMaxId())
+                                .forEach(i -> AbstractSearch.getOPPONENTS().add(MapUtil.intToPlayer(i)));
 
-                        AbstractSearch.ACTIVE_PLAYERS = new ArrayList<>();
                         IntStream.rangeClosed(1, Map.getNumberOfPlayers())
-                                .forEach(i -> AbstractSearch.ACTIVE_PLAYERS.add(MapUtil.intToPlayer(i)));
+                                .forEach(i -> AbstractSearch.getActivePlayers().add(MapUtil.intToPlayer(i)));
 
                         HeuristicEvaluation.initHeuristics(GameInstance.getMap());
                         Metrics.initNumberMetrics();
@@ -144,11 +141,11 @@ public class Client {
                     // Disqualification of a player
                     case 7:
                         int disqualifiedPlayer = byteBuffer.get();
-                        if (disqualifiedPlayer == AbstractSearch.MAX_NUMBER) {
+                        if (disqualifiedPlayer == AbstractSearch.getMaxId()) {
                             Logger.error("Client has been disqualified!");
                         } else {
-                            AbstractSearch.OPPONENTS.remove(disqualifiedPlayer);
-                            AbstractSearch.ACTIVE_PLAYERS.remove(disqualifiedPlayer);
+                            AbstractSearch.getOPPONENTS().remove(disqualifiedPlayer);
+                            AbstractSearch.getActivePlayers().remove(disqualifiedPlayer);
                             Logger.print("Player %d has been disqualified!%n", disqualifiedPlayer);
                         }
                         break;

@@ -15,7 +15,7 @@ public class BuildMove {
 
     private BuildMove() {}
 
-    public static MoveTriplet executeBuildMove(Map map, int x, int y, int specialField, char player,
+    public static MoveTriplet executeBuildMove(Map map, int x, int y, int specialFieldChoice, char player,
                                                Set<Coordinate> capturableStones) {
         int playerId = MapUtil.playerToInt(player);
 
@@ -38,14 +38,21 @@ public class BuildMove {
             map.getGameField()[coordinate.getY()][coordinate.getX()] = player;
         }
 
+        int specialTile = checkForSpecialTile(map, x, y, specialFieldChoice, player);
+
+        return new MoveTriplet(x, y, specialTile);
+    }
+
+    private static int checkForSpecialTile(Map map, int x, int y, int specialFieldChoice, char player) {
         // Check whether field is a special field
         int specialTile = 0;
+        int playerId = MapUtil.playerToInt(player);
         switch (map.getGameField()[y][x]) {
             case 'c':
                 map.getGameField()[y][x] = player;
 
                 // ASSUMPTION: we always pick the player with most stones
-                specialTile = specialField == 0 ? MapUtil.playerWithMaxStones(map) : specialField;
+                specialTile = specialFieldChoice == 0 ? MapUtil.playerWithMaxStones(map) : specialFieldChoice;
 
                 // Switch stones of the player in numberOfStones array
                 int temp = map.getNumberOfStones()[specialTile];
@@ -88,8 +95,8 @@ public class BuildMove {
             case 'b':
                 map.getGameField()[y][x] = player;
 
-                if (specialField != 0) {
-                    specialTile = specialField;
+                if (specialFieldChoice != 0) {
+                    specialTile = specialFieldChoice;
                 } else if (Rules.isPickOverrideStoneOverBomb()) {
                     specialTile = 21;
                 } else {
@@ -102,8 +109,10 @@ public class BuildMove {
                     map.getBombs()[playerId]++;
                 }
                 break;
+            default:
+                // Fall-through since we do not have a special tile
         }
 
-        return new MoveTriplet(x, y, specialTile);
+        return specialTile;
     }
 }

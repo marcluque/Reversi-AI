@@ -93,7 +93,7 @@ public class MapLoader {
 
             var map = new char[mapHeight][Short.parseShort(s[1])];
             for (short i = 0; i < mapHeight; i++) {
-                char[] line = lines[i + 1].replaceAll(" ", "").toCharArray();
+                char[] line = lines[i + 1].replace(" ", "").toCharArray();
                 System.arraycopy(line, 0, map[i], 0, line.length);
             }
 

@@ -55,12 +55,12 @@ public class Metrics {
     }
 
     public static void initBombPower() {
-        maximalBombPower = (GameInstance.getMap().getBombs()[AbstractSearch.MAX_NUMBER] + Map.getNumberOfBonusTiles())
+        maximalBombPower = (GameInstance.getMap().getBombs()[AbstractSearch.getMaxId()] + Map.getNumberOfBonusTiles())
                 * maximalBombEffect;
     }
 
     public static void initOverrideEffect() {
-        maximalOverrideEffect = (GameInstance.getMap().getOverrideStones()[AbstractSearch.MAX_NUMBER] + Map.getNumberOfBonusTiles())
+        maximalOverrideEffect = (GameInstance.getMap().getOverrideStones()[AbstractSearch.getMaxId()] + Map.getNumberOfBonusTiles())
                 * Math.max(Map.getMapWidth(), Map.getMapHeight());
     }
 
@@ -79,7 +79,7 @@ public class Metrics {
     public static void updateOpponentsWithMoves() {
         opponentsWithMoves = new ArrayList<>(Map.getNumberOfPlayers() - 1);
         for (int player = 1, numberOfPlayers = Map.getNumberOfPlayers(); player <= numberOfPlayers; player++) {
-            if (player != AbstractSearch.MAX && playerHasMove(player)) {
+            if (player != AbstractSearch.getMax() && playerHasMove(player)) {
                 opponentsWithMoves.add(MapUtil.intToPlayer(player));
             }
         }

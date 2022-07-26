@@ -3,7 +3,6 @@ package de.marcluque.reversi;
 import de.marcluque.reversi.ai.evaluation.HeuristicEvaluation;
 import de.marcluque.reversi.ai.evaluation.Rules;
 import de.marcluque.reversi.ai.evaluation.heuristics.StoneCountHeuristic;
-import de.marcluque.reversi.ai.evaluation.heuristics.StoneParityHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.bombing.PredecessorHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.bombing.StrongestOpponentHeuristic;
 import de.marcluque.reversi.ai.evaluation.heuristics.bombing.SuccessorHeuristic;
@@ -44,7 +43,6 @@ public class ReversiAiMain {
 
         // BOMBING
         HeuristicEvaluation.addBombingHeuristic(new StoneCountHeuristic(0.15));
-        HeuristicEvaluation.addBombingHeuristic(new StoneParityHeuristic(0.4));
         HeuristicEvaluation.addBombingHeuristic(new PredecessorHeuristic(0.15));
         HeuristicEvaluation.addBombingHeuristic(new StrongestOpponentHeuristic(0.15));
         HeuristicEvaluation.addBombingHeuristic(new SuccessorHeuristic(0.15));

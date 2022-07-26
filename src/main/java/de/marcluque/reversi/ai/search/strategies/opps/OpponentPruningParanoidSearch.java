@@ -26,7 +26,7 @@ public class OpponentPruningParanoidSearch extends AbstractSearch {
         double maxValue = Double.MIN_VALUE;
         totalStates[0]++;
 
-        var sortedMoves = MoveSorting.sortMoves(map, AbstractSearch.MAX);
+        var sortedMoves = MoveSorting.sortMoves(map, AbstractSearch.getMax());
         int moveCount = 0;
 
         for (int i = 0, sortedMovesSize = sortedMoves.size(); i < sortedMovesSize; i++) {
@@ -36,7 +36,7 @@ public class OpponentPruningParanoidSearch extends AbstractSearch {
                 moveCount++;
             }
 
-            double value = OPPS(move.getMap(), depth - 1, MapUtil.nextPlayer(MapUtil.playerToInt(MAX)),
+            double value = OPPS(move.getMap(), depth - 1, MapUtil.nextPlayer(MapUtil.playerToInt(getMax())),
                     moveCount, totalStates);
 
             if (value > maxValue) {
@@ -58,7 +58,7 @@ public class OpponentPruningParanoidSearch extends AbstractSearch {
         }
 
         char player = MapUtil.intToPlayer(turn);
-        boolean maxTurn = turn == MAX;
+        boolean maxTurn = turn == getMax();
 
         var sortedMoves = MoveSorting.sortMoves(map, player);
 
