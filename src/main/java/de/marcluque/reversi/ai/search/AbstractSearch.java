@@ -1,8 +1,5 @@
 package de.marcluque.reversi.ai.search;
 
-import de.marcluque.reversi.map.Map;
-import de.marcluque.reversi.util.MoveTriplet;
-
 import java.util.HashSet;
 import java.util.Set;
 

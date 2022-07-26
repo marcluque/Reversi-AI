@@ -66,7 +66,15 @@ public class Client {
         run();
     }
 
-    private void run() {
+    /**
+     * Note that run is synchronized since it is a non-static method but still sets static fields from AbstractSearch.
+     * To prevent incorrectly updating the fields in a concurrent scenario we make the method synchronized.
+     * Also see
+     * <a href="https://rules.sonarsource.com/java/tag/multi-threading/RSPEC-2696"
+     * "Instance methods should not write to "static" fields
+     * </a>
+     */
+    private synchronized void run() {
         ByteBuffer byteBuffer;
         int type;
         int length;
@@ -140,7 +148,7 @@ public class Client {
 
                     // Disqualification of a player
                     case 7:
-                        int disqualifiedPlayer = byteBuffer.get();
+                        char disqualifiedPlayer = MapUtil.intToPlayer(byteBuffer.get());
                         if (disqualifiedPlayer == AbstractSearch.getMaxId()) {
                             Logger.error("Client has been disqualified!");
                         } else {
