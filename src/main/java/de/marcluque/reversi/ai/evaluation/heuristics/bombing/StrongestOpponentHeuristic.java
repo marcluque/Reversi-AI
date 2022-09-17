@@ -24,17 +24,20 @@ public class StrongestOpponentHeuristic extends AbstractHeuristic implements Heu
     @Override
     public double executeHeuristic(Map map, char player) {
         int playerInt = MapUtil.playerToInt(player);
+        long sum = 0;
 
         // Determine strongest opponent
-        double max = Integer.MIN_VALUE;
+        double maxStoneCount = 0;
         for (int i = 1, numberOfStonesLength = map.getNumberOfStones().length; i < numberOfStonesLength; i++) {
-            if (i != playerInt && map.getNumberOfStones()[i] > max) {
-                max = map.getNumberOfStones()[i];
+            int stoneCount = map.getNumberOfStones()[i];
+            if (i != playerInt) {
+                maxStoneCount = Math.max(maxStoneCount, map.getNumberOfStones()[i]);
             }
+            sum += stoneCount;
         }
 
         // The greater the distance to the strongest opponent, the better
-        return Math.abs(map.getNumberOfStones()[playerInt] - max) / Arrays.stream(map.getNumberOfStones()).sum();
+        return Math.abs(map.getNumberOfStones()[playerInt] - maxStoneCount) / Math.max(sum, 1);
     }
 
     @Override
