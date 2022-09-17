@@ -22,7 +22,7 @@ public class PredecessorHeuristic extends AbstractHeuristic implements Heuristic
     @Override
     public double executeHeuristic(Map map, char player) {
         int playerStones = map.getNumberOfStones()[MapUtil.playerToInt(player)];
-        double minimalStoneDistance = Integer.MAX_VALUE;
+        double minimalStoneDistance = Double.MAX_VALUE;
 
         // Determine minimal stone distance to opponent "before" player (aka predecessor)
         for (int i = 1, numberOfStonesLength = map.getNumberOfStones().length; i < numberOfStonesLength; i++) {
@@ -32,8 +32,13 @@ public class PredecessorHeuristic extends AbstractHeuristic implements Heuristic
             }
         }
 
-        // The greater the distance between the player and its predecessor, the better (aka the higher the value)
-        return minimalStoneDistance / playerStones;
+        if (minimalStoneDistance == Double.MAX_VALUE) {
+            // We are the first one. Hence, we have distance 0 to predecessor (ourselves)
+            return 0;
+        } else {
+            // The greater the distance between the player and its predecessor, the better (aka the higher the value)
+            return minimalStoneDistance / playerStones;
+        }
     }
 
     @Override
